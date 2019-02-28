@@ -1,5 +1,8 @@
 package classes
 
+import kotlinx.serialization.*
+
+@Serializable
 open class Lesson(id: Short,
                   subject: Subject,
                   teacher: Teacher,

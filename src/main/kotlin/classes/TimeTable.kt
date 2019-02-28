@@ -2,6 +2,7 @@ package classes
 
 import kotlinx.serialization.*
 
+@Serializable
 abstract class TimeTable(lessons: Set<Lesson>) {
     /**
      * School timetable

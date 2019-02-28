@@ -1,5 +1,8 @@
 package classes
 
+import kotlinx.serialization.*
+
+@Serializable
 open class Teacher constructor(id: Short, name: String, availableSubjects: Set<Subject>) {
     /**
      * School teacher

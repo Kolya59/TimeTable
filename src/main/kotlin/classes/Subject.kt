@@ -1,8 +1,11 @@
 package classes
 
-open class Classroom constructor(id: Short, name: String) {
+import kotlinx.serialization.*
+
+@Serializable
+open class Subject constructor(id: Short, name: String) {
     /**
-     * School classroom
+     * School subject
      */
 
     // Subject id
