@@ -1,15 +1,14 @@
 package classes
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
+/**
+ * Student class
+ * @param[id] Class id
+ * @param[name] Classname
+ */
 @Serializable
-open class StudentClass(id: Short, name: String) {
-    /**
-     * Student class
-     */
-
-    // Class id
+abstract class StudentClass(id: Short, name: String) {
     protected val id: Short = id
-    // Classname
     protected var name: String = name
 }

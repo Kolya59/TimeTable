@@ -2,14 +2,13 @@ package classes
 
 import kotlinx.serialization.*
 
+/**
+ * School classroom
+ * @param[id] Subjects id
+ * @param[name] Name of subject
+ */
 @Serializable
-open class Classroom constructor(id: Short, name: String) {
-    /**
-     * School classroom
-     */
-
-    // Subject id
+abstract class Classroom constructor(id: Short, name: String) {
     protected val id: Short = id
-    // Name of subject
     protected var name: String = name
 }

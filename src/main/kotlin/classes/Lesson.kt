@@ -2,28 +2,23 @@ package classes
 
 import kotlinx.serialization.*
 
+/**
+ * School lesson
+ * @param[id] // Lesson id
+ * @param[subject] Subject name
+ * @param[teacher] Lesson teacher
+ * @param[classroom] Lesson classroom
+ * @param[studentClass] Student class
+ */
 @Serializable
-open class Lesson(id: Short,
-                  subject: Subject,
-                  teacher: Teacher,
-                  classroom: Classroom,
-                  studentClass: StudentClass) {
-    /**
-     * School lesson
-     */
-
-    // Lesson id
+abstract class Lesson(id: Short,
+                      subject: Subject,
+                      teacher: Teacher,
+                      classroom: Classroom,
+                      studentClass: StudentClass) {
     protected var id: Short = id
-
-    // Subject name
     protected var subject: Subject = subject
-
-    // Teacher
     protected var teacher: Teacher = teacher
-
-    // Classroom
     protected var classroom: Classroom = classroom
-
-    // Student class
     protected var studentClass: StudentClass = studentClass
 }
