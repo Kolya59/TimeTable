@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="org.jetbrains.kotlin:kotlin-gradle-plugin-core:1.0.4" type="repository">
+    <properties maven-id="org.jetbrains.kotlin:kotlin-gradle-plugin-core:1.0.4" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-gradle-plugin-core-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-lang-2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-compiler-embeddable-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-annotation-processing-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-runtime-1.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
