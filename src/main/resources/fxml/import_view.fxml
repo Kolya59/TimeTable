@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="142.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.import.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="142.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.import.Controller">
     <children>
         <ChoiceBox fx:id="cbFileFormat" layoutX="236.0" layoutY="63.0" onContextMenuRequested="#onChoiceFileFormat" prefWidth="150.0" />
         <Button fx:id="btCancel" layoutX="322.0" layoutY="111.0" mnemonicParsing="false" onAction="#onCancel" text="Отмена" AnchorPane.bottomAnchor="10.0" />

@@ -20,7 +20,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.main.Controller">
+<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.View">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -44,8 +44,8 @@
                         <MenuItem mnemonicParsing="false" text="По кабинетам" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" onAction="#OnExportMenuClicked" text="Экспорт" />
-                <Menu mnemonicParsing="false" onAction="#OnImportMenuClicked" text="Импорт" />
+                <Menu mnemonicParsing="false" onAction="#onExportMenuClicked" text="Экспорт" />
+                <Menu mnemonicParsing="false" onAction="#onImportMenuClicked" text="Импорт" />
                 <Menu mnemonicParsing="false" text="Печать" />
             </menus>
         </MenuBar>

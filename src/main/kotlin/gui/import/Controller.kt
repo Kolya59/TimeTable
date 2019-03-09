@@ -1,4 +1,4 @@
-package GUI.import
+package gui.import
 
 import javafx.event.ActionEvent
 import javafx.scene.input.ContextMenuEvent
