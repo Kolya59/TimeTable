@@ -1,6 +1,6 @@
 package classes
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 /**
  * School subject
@@ -8,7 +8,7 @@ import kotlinx.serialization.*
  * @param[name] Name of subject
  */
 @Serializable
-abstract class Subject constructor(id: Short, name: String) {
-    protected val id: Short = id
-    protected var name: String = name
+open class Subject constructor(internal var id: Short,
+                               internal var name: String
+) {
 }

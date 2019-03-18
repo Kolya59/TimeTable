@@ -1,6 +1,10 @@
 package classes
 
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import kotlinx.serialization.Serializable
+import tornadofx.getValue
+import tornadofx.setValue
 
 /**
  * Student class
@@ -8,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @param[name] Classname
  */
 @Serializable
-abstract class StudentClass(id: Short, name: String) {
-    protected val id: Short = id
-    protected var name: String = name
+open class StudentClass(internal var id: Short,
+                        internal var name: String
+) {
 }

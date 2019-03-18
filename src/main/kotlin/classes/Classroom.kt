@@ -1,6 +1,11 @@
 package classes
 
-import kotlinx.serialization.*
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
+import kotlinx.serialization.Optional
+import kotlinx.serialization.Serializable
+import tornadofx.getValue
+import tornadofx.setValue
 
 /**
  * School classroom
@@ -8,7 +13,7 @@ import kotlinx.serialization.*
  * @param[name] Name of subject
  */
 @Serializable
-abstract class Classroom constructor(id: Short, name: String) {
-    protected val id: Short = id
-    protected var name: String = name
+open class Classroom constructor(internal var id: Short, // Name of subject
+                                 internal var name: String
+) {
 }
