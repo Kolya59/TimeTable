@@ -1,11 +1,8 @@
 package gui.controls
 
 import classes.Lesson
-import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
-import tornadofx.getValue
-import tornadofx.setValue
 
 /**
  * Timetable cell control

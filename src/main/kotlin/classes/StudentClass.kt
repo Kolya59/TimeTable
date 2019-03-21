@@ -1,10 +1,6 @@
 package classes
 
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
 import kotlinx.serialization.Serializable
-import tornadofx.getValue
-import tornadofx.setValue
 
 /**
  * Student class
