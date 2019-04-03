@@ -27,9 +27,9 @@ dependencies {
     compile ("org.openjfx.javafx-plugin:0.0.7")
     compile ("no.tornado:tornadofx:1.7.18")
     compile ("lib:kotlin-serialization-1.3.20")
-    compile ("lib:javafx.base")
-    compile ("lib:javafx.controls")
-    compile ("lib:javafx.fxml")
+//    compile ("lib:javafx.base")
+//    compile ("lib:javafx.controls")
+//    compile ("lib:javafx.fxml")
 }
 
 repositories {
