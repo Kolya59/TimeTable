@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
  * @param[availableSubjects] Subjects this teacher can teach
  */
 @Serializable
-open class Teacher constructor(internal var id: Short,
-                               internal var name: String,
-                               internal var availableSubjects: Set<Subject>
-) {
-}
+data class Teacher constructor(
+    internal var id: Short,
+    internal var name: String,
+    internal var availableSubjects: Set<Subject>
+)

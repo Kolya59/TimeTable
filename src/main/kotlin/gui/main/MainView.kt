@@ -1,8 +1,12 @@
 package gui.main
 
 import classes.Lesson
+import classes.TimeTable
 import gui.controls.timetable
 import gui.controls.timetableCell
+import gui.export.ExportView
+import gui.import.ImportView
+import gui.settings.SettingsView
 import javafx.event.ActionEvent
 import javafx.geometry.Pos
 import javafx.scene.control.ContentDisplay
@@ -13,7 +17,7 @@ class MainView : View("Редактор расписания") {
     private val controller: MainController by inject()
 
     private var lessonsSet: Set<Lesson> = emptySet()
-
+    private var timetable: TimeTable = TimeTable(lessonsSet)
     private var timetableCells: Set<timetableCell> = emptySet()
 
     /**
@@ -123,7 +127,7 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO: Closing view
+     * Closing view
      */
     fun onExitMenuClicked(actionEvent: ActionEvent) {
         this.primaryStage.close()
@@ -154,20 +158,21 @@ class MainController : Controller() {
      * TODO: Opening export menu
      */
     fun onExportMenuClicked(actionEvent: ActionEvent) {
+        find<ExportView>().openModal()
     }
 
     /**
      * TODO: Opening import menu
      */
     fun onImportMenuClicked(actionEvent: ActionEvent) {
-
+        find<ImportView>().openModal()
     }
 
     /**
-     * TODO: Opening settings menu
+     * Opening settings menu
      */
     fun onSettingsMenuClicked(actionEvent: ActionEvent) {
-
+        find<SettingsView>().openModal()
     }
 
 

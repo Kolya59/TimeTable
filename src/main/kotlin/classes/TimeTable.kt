@@ -1,14 +1,10 @@
 package classes
 
-import javafx.beans.property.SimpleObjectProperty
-import kotlinx.serialization.*
-import tornadofx.getValue
-import tornadofx.setValue
+import kotlinx.serialization.Serializable
 
 /**
  * School timetableCell
  * @param[lessons] School lessons set
  */
 @Serializable
-open class TimeTable(internal var lessons: Set<Lesson>) {
-}
+data class TimeTable(internal var lessons: Set<Lesson>)

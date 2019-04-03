@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  * @param[name] Classname
  */
 @Serializable
-open class StudentClass(internal var id: Short,
-                        internal var name: String
-) {
-}
+data class StudentClass(
+    internal var id: Short,
+    internal var name: String
+)

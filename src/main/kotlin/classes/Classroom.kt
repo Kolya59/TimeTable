@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  * @param[name] Name of subject
  */
 @Serializable
-open class Classroom constructor(internal var id: Short, // Name of subject
-                                 internal var name: String
-) {
-}
+data class Classroom constructor(
+    internal var id: Short, // Name of subject
+    internal var name: String
+)

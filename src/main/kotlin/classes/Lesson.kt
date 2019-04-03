@@ -11,11 +11,12 @@ import kotlinx.serialization.Serializable
  * @param[studentClass] Student class
  */
 @Serializable
-open class Lesson(internal var id: Short,
-                  internal var subject: Subject,
-                  internal var teacher: Teacher,
-                  internal var classroom: Classroom,
-                  internal var studentClass: StudentClass
-) {
-}
+data class Lesson(
+    internal var id: Short,
+    internal var subject: Subject,
+    internal var teacher: Teacher,
+    internal var classroom: Classroom,
+    internal var studentClass: StudentClass
+)
+
 
