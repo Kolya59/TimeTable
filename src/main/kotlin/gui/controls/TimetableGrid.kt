@@ -1,5 +1,6 @@
 package gui.controls
 
+import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 
 /**
@@ -11,24 +12,26 @@ class TimetableGrid(var TimetableCells: MutableList<TimetableCell>) : GridPane()
     var verticalHeader : Set<String> = emptySet()
     var state : TimetableState = TimetableState.CLASSIC
     init {
-        super.addColumn(0)
-        super.addColumn(1)
-        super.addColumn(2)
-        super.addColumn(3)
-        super.addColumn(4)
-        super.addColumn(5)
-        super.addColumn(6)
+        addColumn(0, Label("Понедельник"))
+        addColumn(1)
+        addColumn(2)
+        addColumn(3)
+        addColumn(4)
+        addColumn(5)
+        addColumn(6)
 
-        super.addRow(0)
-        super.addRow(1)
-        super.addRow(2)
-        super.addRow(3)
-        super.addRow(4)
-        super.addRow(5)
-        super.addRow(6)
+        addRow(0)
+        addRow(1)
+        addRow(2)
+        addRow(3)
+        addRow(4)
+        addRow(5)
+        addRow(6)
 
         for (cell in TimetableCells)
-            super.getChildren().setAll(cell)
+            add(cell, 0, 0)
+
+        setGridLinesVisible(true)
     }
 
 
