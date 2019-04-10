@@ -1,5 +1,6 @@
 package gui.import
 
+import classes.Lesson
 import classes.TimeTable
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
@@ -11,7 +12,7 @@ import java.io.File
 // TODO Создать интерактивное отображение файла
 class ImportView : View("Меню импорта") {
     private val controller: ImportController by inject()
-    var currentTimetable: TimeTable = TimeTable(emptySet())
+    var currentTimetable: TimeTable = TimeTable(emptyList<Lesson>().toMutableList())
     var currentPath: StringProperty = "Файл не выбран".toProperty()
 
     override val root = vbox {
@@ -30,8 +31,9 @@ class ImportView : View("Меню импорта") {
             button {
                 id = "btImport"
                 action {
-                    controller.onImport(ActionEvent())
-                    close()
+                    currentTimetable = controller.onImport(ActionEvent())
+                    if (!currentTimetable.lessons.isEmpty())
+                        close()
                 }
                 text = "Импортировать"
             }
@@ -66,14 +68,13 @@ class ImportController : Controller() {
     /**
      * Импорт файла
      */
-    fun onImport(actionEvent: ActionEvent) {
-        val flag = view.currentPath.value.matches(Regex(".json"))
+    fun onImport(actionEvent: ActionEvent): TimeTable {
+        val flag = view.currentPath.value.contains(Regex(".json"))
         if (flag) {
             val selectedFile = File(view.currentPath.value)
-            if (!selectedFile.isFile) {
-                view.currentTimetable = Import.ImportTimetable(selectedFile).fromJSON()
-            }
+            return Import.ImportTimetable(selectedFile).fromJSON()
         }
+        return TimeTable(emptyList<Lesson>().toMutableList())
     }
 
     /**

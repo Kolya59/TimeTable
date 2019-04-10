@@ -1,5 +1,3 @@
-package gui.main
-
 import classes.Classroom
 import classes.Lesson
 import classes.Teacher
@@ -35,7 +33,7 @@ class MainView : View("Редактор расписания") {
     /**
      * View statements
      */
-    enum class ViewState {STUDENT_CLASS_VIEW, TEACHER_VIEW, CLASSROOM_VIEW}
+    enum class ViewState { STUDENT_CLASS_VIEW, TEACHER_VIEW, CLASSROOM_VIEW }
 
     override val root = vbox() {
         alignment = Pos.TOP_CENTER
@@ -87,12 +85,12 @@ class MainView : View("Редактор расписания") {
         splitpane {
             anchorpane {
                 vbox(alignment = Pos.CENTER) {
-                    label("Расписание"){
+                    label("Расписание") {
                         alignment = Pos.CENTER
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
                     }
-                    currentTimetableGrid
+//                    currentTimetableGrid
                 }
             }
             anchorpane {
@@ -231,7 +229,7 @@ class MainController : Controller() {
     /**
      * TODO: Changing view state
      */
-    fun changeViewState(viewState : MainView.ViewState) {
+    fun changeViewState(viewState: MainView.ViewState) {
 
     }
 

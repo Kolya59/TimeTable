@@ -1,5 +1,6 @@
 package gui.export
 
+import classes.Lesson
 import classes.TimeTable
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
@@ -13,7 +14,7 @@ import java.util.*
 // TODO Создать интерактивное отображение файла
 class ExportView() : View("Меню экспорта") {
     private val controller: ExportController by inject()
-    var currentTimetable: TimeTable = TimeTable(emptySet())
+    var currentTimetable: TimeTable = TimeTable(emptyList<Lesson>().toMutableList())
     var currentPath: StringProperty = "Файл не выбран".toProperty()
     override val root = vbox {
         hbox {
@@ -51,10 +52,13 @@ class ExportController : Controller() {
      * Выбор пути файла
      */
     fun onChoicePath(actionEvent: ActionEvent) {
-        val selectedDirectory = chooseDirectory(
+        val chosenDirectory = chooseDirectory(
             "Выберите путь для сохранения файла",
             File("/")
         )
+        if (chosenDirectory != null) {
+            view.currentPath.value = chosenDirectory.absolutePath
+        }
     }
 
     /**
@@ -66,8 +70,8 @@ class ExportController : Controller() {
         // TODO Проверка файла на существование
         val selectedDirectory = File(view.currentPath.value)
         if (selectedDirectory.absolutePath != null) {
-            val selectedPath: String = "$selectedDirectory/$fileName.json"
-            Export.ExportTimetable(selectedPath, view.currentTimetable)
+            val selectedPath = "$selectedDirectory/$fileName.json"
+            Export.ExportTimetable(selectedPath, view.currentTimetable).toJSON()
         }
         tornadofx.alert(
             Alert.AlertType.INFORMATION,
