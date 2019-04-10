@@ -5,23 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ebb000a-f5d8-4700-a6b9-8d0e6b56b3d3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/serialization/Export.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/serialization/Import.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Teacher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Teacher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetable.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableGrid.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetableCell.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/style.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
+    <ignored path="$PROJECT_DIR$/testWorkspace/.gradle/" />
+    <ignored path="$PROJECT_DIR$/testWorkspace/build/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -118,16 +134,16 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.5156771">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/Main.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+                <state relative-caret-position="255">
+                  <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
                   <folding>
-                    <element signature="e#0#80#0" expanded="true" />
+                    <element signature="e#0#158#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -136,15 +152,14 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="24" column="7" lean-forward="true" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+                <state relative-caret-position="135">
+                  <caret line="168" column="4" lean-forward="true" selection-start-line="168" selection-start-column="4" selection-end-line="168" selection-end-column="4" />
                   <folding>
-                    <element signature="e#18#263#0" expanded="true" />
+                    <element signature="n#!!doc;n#ViewState#0;n#!!block;n#MainView#0" />
                     <element signature="n#!!doc;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!block;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!doc;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!block;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
-                    <element signature="n#!!doc;n#onViewTeachersMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!block;n#onViewTeachersMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!doc;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!block;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
@@ -152,25 +167,28 @@
                     <element signature="n#!!block;n#onExportMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!doc;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
                     <element signature="n#!!block;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
-                    <element signature="n#!!doc;n#onSettingsMenuClicked#0;n#!!block;n#MainController#0" />
-                    <element signature="n#!!block;n#onSettingsMenuClicked#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!doc;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!block;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!doc;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!block;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!doc;n#changeViewState#0;n#!!block;n#MainController#0" />
+                    <element signature="n#!!block;n#changeViewState#0;n#!!block;n#MainController#0" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="495">
-                  <caret line="33" column="24" selection-start-line="6" selection-end-line="7" />
+                <state relative-caret-position="240">
+                  <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
                   <folding>
-                    <element signature="e#20#70#0" expanded="true" />
+                    <element signature="n#!!doc;n#onChoicePath#0;n#!!block;n#ExportController#0" />
+                    <element signature="n#!!doc;n#onExport#0;n#!!block;n#ExportController#0" />
+                    <element signature="n#!!block;n#onExport#0;n#!!block;n#ExportController#0" />
+                    <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ExportController#0" />
+                    <element signature="n#!!block;n#onCancel#0;n#!!block;n#ExportController#0" />
                   </folding>
                 </state>
               </provider>
@@ -179,20 +197,26 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" selection-start-line="2" selection-end-line="2" />
+                <state relative-caret-position="630">
+                  <caret line="48" selection-start-line="48" selection-end-line="48" />
                   <folding>
-                    <element signature="e#20#70#0" expanded="true" />
+                    <element signature="n#!!doc;n#onChoiceFilePath#0;n#!!block;n#ImportController#0" />
+                    <element signature="n#!!doc;n#onImport#0;n#!!block;n#ImportController#0" />
+                    <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ImportController#0" />
+                    <element signature="n#!!block;n#onCancel#0;n#!!block;n#ImportController#0" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/develop_menu/DeveloperView.kt">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="14" selection-start-line="14" selection-end-line="14" />
+                <state relative-caret-position="150">
+                  <caret line="11" selection-start-line="11" selection-end-line="11" />
+                  <folding>
+                    <element signature="e#22#71#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -201,11 +225,32 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="9" column="55" selection-start-line="9" selection-start-column="55" selection-end-line="9" selection-end-column="55" />
+                <state relative-caret-position="195">
+                  <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="225">
+                  <caret line="15" column="10" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+                  <folding>
+                    <element signature="e#22#109#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableGrid.kt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="165">
+                  <caret line="11" column="48" lean-forward="true" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
                 </state>
               </provider>
             </entry>
@@ -213,17 +258,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+                <state relative-caret-position="330">
+                  <caret line="22" selection-start-line="22" selection-end-line="22" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+                <state relative-caret-position="120">
+                  <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
                 </state>
               </provider>
             </entry>
@@ -231,8 +276,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+                <state relative-caret-position="210">
+                  <caret line="14" selection-start-line="14" selection-end-line="14" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="180">
+                  <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
                 </state>
               </provider>
             </entry>
@@ -246,27 +300,6 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/timetable.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/timetableCell.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
-                  <caret line="19" selection-start-line="19" selection-end-line="19" />
-                  <folding>
-                    <element signature="e#22#109#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-second>
     </splitter>
@@ -276,17 +309,27 @@
       <list>
         <option value="FxmlFile" />
         <option value="Kotlin Enum" />
-        <option value="Kotlin Class" />
         <option value="TornadoFX Code View" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>fx:id</find>
+      <find>import</find>
     </findStrings>
+    <replaceStrings>
+      <replace>export</replace>
+      <replace>Export</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Kolya59 &lt;kolya.nikitas@yandex.ru&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -310,28 +353,35 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/main/View.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/main/mainView.kt" />
         <option value="$PROJECT_DIR$/src/main/resources/MainView.fxml" />
-        <option value="$PROJECT_DIR$/src/main/resources/style.css" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/main/MainController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/develop_menu/DeveloperController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/export/ExportController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/import/ImportController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/gui/develop_menu/DeveloperView.kt" />
         <option value="$PROJECT_DIR$/src/main/resources/importView.fxml" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt" />
-        <option value="$PROJECT_DIR$/settings.gradle.kts" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" />
         <option value="$PROJECT_DIR$/src/main/resources/exportView.fxml" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetable.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetableCell.kt" />
         <option value="$PROJECT_DIR$/build.gradle.kts" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/Main.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/classes/Teacher.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/serialization/Export.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/serialization/Import.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetable.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/timetableCell.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/Timetable.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt" />
+        <option value="$PROJECT_DIR$/src/main/resources/style.css" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/Main.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt" />
+        <option value="$PROJECT_DIR$/testWorkspace/build.gradle.kts" />
+        <option value="$PROJECT_DIR$/settings.gradle.kts" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableGrid.kt" />
       </list>
     </option>
   </component>
@@ -389,7 +439,24 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="timetable" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Timetable" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="gui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="timetable" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Timetable" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+              <item name="controls" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -416,7 +483,7 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27011493" />
-    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
@@ -447,7 +514,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="TornadoFX.MainView">
+  <component name="RunManager" selected="TornadoFX.MainApp">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <method v="2">
@@ -473,45 +540,39 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Timetable [mainClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="mainClasses" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="ExportView" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" temporary="true" run-type="View" live-views="false" live-stylesheets="false" dump-stylesheets="false">
       <option name="MAIN_CLASS_NAME" value="tornadofx.App" />
-      <module name="timetable.main" />
+      <module name="timetable.test" />
+      <option name="PROGRAM_PARAMETERS" value="--live-views —live-stylesheets" />
       <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
       <option name="VIEW_CLASS_NAME" value="gui.export.ExportView" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainApp" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" temporary="true" run-type="App" live-views="false" live-stylesheets="false" dump-stylesheets="false">
+    <configuration name="ImportView" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" temporary="true" run-type="View" live-views="false" live-stylesheets="false" dump-stylesheets="false">
+      <option name="MAIN_CLASS_NAME" value="tornadofx.App" />
+      <module name="timetable.test" />
+      <option name="PROGRAM_PARAMETERS" value="--live-views --live-stylesheets&#9;" />
+      <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
+      <option name="VIEW_CLASS_NAME" value="gui.import.ImportView" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApp" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" run-type="App" live-views="false" live-stylesheets="false" dump-stylesheets="false">
       <option name="MAIN_CLASS_NAME" value="MainApp" />
       <module name="timetable.main" />
+      <option name="PROGRAM_PARAMETERS" value="--live-views --live-stylesheets" />
       <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainView" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" run-type="View" live-views="false" live-stylesheets="false" dump-stylesheets="false">
+    <configuration name="MainView" type="TORNADOFX_RUNCONFIGURATION" factoryName="TornadoFX Configuration Factory" temporary="true" run-type="View" live-views="false" live-stylesheets="false" dump-stylesheets="false">
       <option name="MAIN_CLASS_NAME" value="tornadofx.App" />
-      <module name="timetable.main" />
+      <module name="timetable.test" />
+      <option name="PROGRAM_PARAMETERS" value="--live-views --live-stylesheets&#9;" />
       <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/lib/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
       <option name="VIEW_CLASS_NAME" value="gui.main.MainView" />
       <method v="2">
@@ -519,18 +580,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Gradle.Timetable [mainClasses]" />
       <item itemvalue="Gradle.Timetable [build]" />
-      <item itemvalue="TornadoFX.MainView" />
       <item itemvalue="TornadoFX.MainApp" />
+      <item itemvalue="TornadoFX.MainView" />
+      <item itemvalue="TornadoFX.ImportView" />
       <item itemvalue="TornadoFX.ExportView" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="TornadoFX.ExportView" />
-        <item itemvalue="Gradle.Timetable [build]" />
         <item itemvalue="TornadoFX.MainView" />
-        <item itemvalue="TornadoFX.MainApp" />
+        <item itemvalue="TornadoFX.ExportView" />
+        <item itemvalue="TornadoFX.ImportView" />
+        <item itemvalue="TornadoFX.ImportView" />
+        <item itemvalue="TornadoFX.ExportView" />
       </list>
     </recent_temporary>
   </component>
@@ -565,7 +627,12 @@
       <workItem from="1554116035000" duration="3167000" />
       <workItem from="1554119365696" duration="4042000" />
       <workItem from="1554193729840" duration="852000" />
-      <workItem from="1554278220803" duration="5266000" />
+      <workItem from="1554278220803" duration="10038000" />
+      <workItem from="1554544665323" duration="4846000" />
+      <workItem from="1554658596329" duration="35761000" />
+      <workItem from="1554897069638" duration="62000" />
+      <workItem from="1554897189126" duration="318000" />
+      <workItem from="1554898778983" duration="3316000" />
     </task>
     <task id="LOCAL-00001" summary="Изменен конфигурационный файл gradle, для поддержки сериализации">
       <created>1551356798464</created>
@@ -658,7 +725,14 @@
       <option name="project" value="LOCAL" />
       <updated>1554282942026</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Модификаторых классов сменены с open на data">
+      <created>1554296111549</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1554296111549</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -670,7 +744,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89278000" />
+    <option name="totallyTimeSpent" value="138353000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -684,7 +758,7 @@
     <frame x="-310" y="-1080" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.12087327" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.20181043" />
       <window_info id="Structure" order="1" sideWeight="0.5007072" side_tool="true" weight="0.14378029" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -695,12 +769,12 @@
       <window_info id="Build Variants" order="8" sideWeight="0.5007072" side_tool="true" weight="0.14378029" />
       <window_info id="Captures" order="9" weight="0.32956383" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32928064" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5165069" weight="0.29179332" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5079872" weight="0.2857143" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3272543" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5165069" weight="0.42149928" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5079872" weight="0.3125884" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3272543" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32673267" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.53620875" weight="0.27254307" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.5686901" weight="0.3809524" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
@@ -708,7 +782,7 @@
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.32928064" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.53407884" weight="0.32522798" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.53407884" weight="0.32016212" />
       <window_info anchor="bottom" id="Educational.CheckDetails" order="15" />
       <window_info anchor="bottom" id="Android Profiler" order="16" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="17" weight="0.32956153" />
@@ -724,7 +798,7 @@
       <window_info anchor="right" id="Palette&#9;" order="9" />
       <window_info anchor="right" id="Theme Preview" order="10" />
       <window_info anchor="right" id="Device File Explorer" order="11" side_tool="true" />
-      <window_info anchor="right" x="0" y="0" width="860" height="880" id="Documentation" order="12" weight="0.32960597" />
+      <window_info anchor="right" x="0" y="0" width="860" height="880" id="Documentation" order="12" weight="0.28061768" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.1970181" />
@@ -783,6 +857,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Изменен конфигурационный файл gradle, для поддержки сериализации" />
     <MESSAGE value="Добавлены элементы документации" />
     <MESSAGE value="Добавлена поддержка JavaFX и TornadoFX" />
@@ -791,38 +866,12 @@
     <MESSAGE value="Создана точка запуска приложения" />
     <MESSAGE value="Добавлен элемент управления &quot;Ячейчка рапсисания&quot;" />
     <MESSAGE value="Добавлена обработка событий в меню" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлена обработка событий в меню" />
+    <MESSAGE value="Модификаторых классов сменены с open на data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Модификаторых классов сменены с open на data" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gradlew.bat">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/GUI/ImportView.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/GUI/MainView.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/GUI/ExportView.fxml" />
-    <entry file="file://$PROJECT_DIR$/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Main.kt" />
-    <entry file="file://$PROJECT_DIR$/old.build.gradle.kts" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/groovy/groovy_console.groovy" />
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-serialization/1.3.20/997083ac877677d6cbc9551d75513470fb8e77b0/kotlin-serialization-1.3.20.jar!/org/jetbrains/kotlinx/serialization/compiler/resolve/SerialEntityNames.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/export/classes/ImportEntity.kt" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/styles/main_style.css" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/styles/export_style.css" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/styles/import_style.css" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/styles/develop_menu_style.css" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gradlew">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -903,41 +952,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/FX.kt">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/11.0.2/15eadef01f327a851a6d3af0ac89d56292076b13/javafx-graphics-11.0.2-sources.jar!/javafx/stage/DirectoryChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="236" selection-start-line="236" selection-end-line="236" />
+        <state relative-caret-position="345">
+          <caret line="51" column="26" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle.kts">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/11.0.2/15eadef01f327a851a6d3af0ac89d56292076b13/javafx-graphics-11.0.2-sources.jar!/javafx/stage/FileChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="38" column="12" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
+        <state relative-caret-position="158">
+          <caret line="183" column="22" selection-start-line="183" selection-start-column="22" selection-end-line="183" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle.kts">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/Dialogs.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        <state relative-caret-position="159">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.20/3a9a71152b278d5e36e7346554b4dbb03e565e30/kotlin-stdlib-1.3.20-sources.jar!/kotlin/jvm/internal/Intrinsics.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="101">
+          <caret line="114" selection-start-line="114" selection-end-line="114" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/serialization/Export.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="24" selection-start-line="6" selection-end-line="7" />
+        <state relative-caret-position="847">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
           <folding>
-            <element signature="e#20#70#0" expanded="true" />
+            <element signature="e#23#182#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home!/java.base/java/lang/ClassLoader.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2822">
+          <caret line="226" column="20" selection-start-line="226" selection-start-column="20" selection-end-line="226" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/Menu.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
@@ -948,67 +1011,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/serialization/Import.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="255">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/FX.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="400" selection-start-line="400" selection-end-line="400" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/Component.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="188" selection-start-line="188" selection-end-line="188" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.18/e1f697af9c6c1b9519a452f00c55a32c22f8647/tornadofx-1.7.18-sources.jar!/tornadofx/Controls.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="414" column="54" selection-start-line="414" selection-start-column="54" selection-end-line="414" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/11.0.2/15eadef01f327a851a6d3af0ac89d56292076b13/javafx-graphics-11.0.2-sources.jar!/javafx/scene/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="8879" selection-start-line="8879" selection-end-line="8879" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/11.0.2/1535a8b57f01a712405a739a0d69e09ab99dbb6b/javafx-controls-11.0.2-sources.jar!/javafx/scene/control/Button.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="201" selection-start-line="201" selection-end-line="201" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/11.0.2/c082cdf645f9833408dcd960bf68344c9384f569/javafx-base-11.0.2-sources.jar!/javafx/event/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="197" selection-start-line="197" selection-end-line="197" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/11.0.2/15eadef01f327a851a6d3af0ac89d56292076b13/javafx-graphics-11.0.2-sources.jar!/javafx/scene/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="2588" selection-start-line="2588" selection-end-line="2588" />
           <folding>
-            <element signature="e#20#70#0" expanded="true" />
+            <element signature="e#70689#70690#0" expanded="true" />
+            <element signature="e#70735#70736#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="8" selection-start-line="20" selection-end-line="21" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/Main.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+        <state relative-caret-position="255">
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
           <folding>
-            <element signature="e#0#80#0" expanded="true" />
+            <element signature="e#0#158#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/export/ExportView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+          <folding>
+            <element signature="n#!!doc;n#onChoicePath#0;n#!!block;n#ExportController#0" />
+            <element signature="n#!!doc;n#onExport#0;n#!!block;n#ExportController#0" />
+            <element signature="n#!!block;n#onExport#0;n#!!block;n#ExportController#0" />
+            <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ExportController#0" />
+            <element signature="n#!!block;n#onCancel#0;n#!!block;n#ExportController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/import/ImportView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+          <folding>
+            <element signature="n#!!doc;n#onChoiceFilePath#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!doc;n#onImport#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!block;n#onCancel#0;n#!!block;n#ImportController#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/settings/SettingsView.kt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="24" column="7" lean-forward="true" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+        <state relative-caret-position="150">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
           <folding>
-            <element signature="e#18#263#0" expanded="true" />
-            <element signature="n#!!doc;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onViewTeachersMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onViewTeachersMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onExportMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onExportMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!doc;n#onSettingsMenuClicked#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onSettingsMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="e#22#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/timetable.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/timetableCell.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#22#109#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="120">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -1019,31 +1160,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        <state relative-caret-position="195">
+          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Lesson.kt">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        <state>
+          <caret column="23" lean-forward="true" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/TimeTable.kt">
+    <entry file="file://$PROJECT_DIR$/build.gradle.kts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="34" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testWorkspace/build.gradle.kts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle.kts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="10" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+          <folding>
+            <element signature="e#22#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableGrid.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="48" lean-forward="true" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/main/MainView.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="55" selection-start-line="9" selection-start-column="55" selection-end-line="9" selection-end-column="55" />
+          <caret line="168" column="4" lean-forward="true" selection-start-line="168" selection-start-column="4" selection-end-line="168" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc;n#ViewState#0;n#!!block;n#MainView#0" />
+            <element signature="n#!!doc;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onExitMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onViewStudentClassesMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onViewTeachersMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onViewClassroomsMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onExportMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onExportMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onImportMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!doc;n#changeViewState#0;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#changeViewState#0;n#!!block;n#MainController#0" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  * @param[name] Name of subject
  */
 @Serializable
-open class Subject constructor(internal var id: Short,
-                               internal var name: String
-) {
-}
+data class Subject constructor(
+    internal var id: Short,
+    internal var name: String
+)

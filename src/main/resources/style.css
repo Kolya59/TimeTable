@@ -1,3 +1,120 @@
+/*TODO Создать разные стили*/
+/*General*/
+.button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+.grid {
+    background: black;
+    border-color: black;
+}
+
 .label {
-    color: #000;
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+/*Main*/
+#main_button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#main_grid {
+    background: black;
+    border-color: black;
+}
+
+#main_label {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+/*Timetable*/
+#timetable_button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#timetable_grid {
+    background: black;
+    border-color: black;
+}
+
+#timetable_label {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+/*Export*/
+#export_button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#export_grid {
+    background: black;
+    border-color: black;
+}
+
+#export_label {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+/*Import*/
+#import_button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#import_grid {
+    background: black;
+    border-color: black;
+}
+
+#import_label {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+/*Settings*/
+#setting_button {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#settings_grid {
+    background: black;
+    border-color: black;
+}
+
+#settings_label {
+    background: black;
+    border-color: black;
+    font-size: 12px;
+    font-style: normal;
 }

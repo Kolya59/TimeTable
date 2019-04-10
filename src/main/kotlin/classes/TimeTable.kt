@@ -3,7 +3,7 @@ package classes
 import kotlinx.serialization.Serializable
 
 /**
- * School timetableCell
+ * School TimetableCell
  * @param[lessons] School lessons set
  */
 @Serializable

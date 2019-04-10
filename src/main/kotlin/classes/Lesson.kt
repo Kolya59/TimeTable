@@ -13,10 +13,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Lesson(
     internal var id: Short,
-    internal var subject: Subject,
-    internal var teacher: Teacher,
-    internal var classroom: Classroom,
-    internal var studentClass: StudentClass
+    internal var subject: Subject?,
+    internal var teacher: Teacher?,
+    internal var classroom: Classroom?,
+    internal var studentClass: StudentClass?
 )
 
 

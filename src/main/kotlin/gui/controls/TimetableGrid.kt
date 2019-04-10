@@ -3,10 +3,10 @@ package gui.controls
 import javafx.scene.layout.GridPane
 
 /**
- * Timetable control
- * @param[timetableCells] Lessons in timetable
+ * TimetableGrid control
+ * @param[TimetableCells] Lessons in TimetableGrid
  */
-class timetable(var timetableCells: Set<timetableCell>) : GridPane() {
+class TimetableGrid(var TimetableCells: Set<TimetableCell>) : GridPane() {
     var horizontalHeader : Set<String> = emptySet()
     var verticalHeader : Set<String> = emptySet()
     var state : TimetableState = TimetableState.CLASSIC

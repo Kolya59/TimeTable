@@ -1,24 +1,34 @@
 package gui.main
 
+import classes.Classroom
 import classes.Lesson
+import classes.Teacher
 import classes.TimeTable
-import gui.controls.timetable
-import gui.controls.timetableCell
+import gui.controls.TimetableCell
+import gui.controls.TimetableGrid
 import gui.export.ExportView
 import gui.import.ImportView
-import gui.settings.SettingsView
 import javafx.event.ActionEvent
+import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.control.ContentDisplay
+import javafx.scene.input.MouseEvent
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
 import javafx.scene.text.TextAlignment
 import tornadofx.*
+import java.io.File
 
 class MainView : View("Редактор расписания") {
     private val controller: MainController by inject()
 
     private var lessonsSet: Set<Lesson> = emptySet()
-    private var timetable: TimeTable = TimeTable(lessonsSet)
-    private var timetableCells: Set<timetableCell> = emptySet()
+    var currentTimetable: TimeTable = TimeTable(lessonsSet)
+    private var TimetableCells: Set<TimetableCell> = emptySet()
+
+    var availableLessons: Set<Lesson> = emptySet()
+    var availableTeachers: Set<Teacher> = emptySet()
+    var availableClassrooms: Set<Classroom> = emptySet()
 
     /**
      * View statements
@@ -44,18 +54,31 @@ class MainView : View("Редактор расписания") {
                 }
             }
             menu("Вид") {
-                item("По классам")
-                item("По учителям")
-                item("По кабинетам")
+                item("По классам") {
+                    action { controller.onViewStudentClassesMenuClicked(ActionEvent()) }
+                }
+                item("По учителям") {
+                    action { controller.onViewTeachersMenuClicked(ActionEvent()) }
+                }
+                item("По кабинетам") {
+                    action { controller.onViewClassroomsMenuClicked(ActionEvent()) }
+                }
             }
-            menu("Экспорт"){
-                action { controller.onExportMenuClicked(ActionEvent())}
-            }
-            menu("Ипорт"){
-                action { controller.onImportMenuClicked(ActionEvent())}
+            menu("Работа с файлами") {
+                item("Экспорт") {
+                    action { controller.onExportMenuClicked(ActionEvent()) }
+                }
+                item("Импорт") {
+                    action { controller.onImportMenuClicked(ActionEvent()) }
+                }
             }
             menu("Настройки") {
-                action { controller.onSettingsMenuClicked(ActionEvent())}
+                item("Интерфейс") {
+                    action { controller.onSettingsInterfaceMenuClicked(ActionEvent()) }
+                }
+                item("Генерация") {
+                    action { controller.onSettingsGeneratorMenuClicked(ActionEvent()) }
+                }
             }
 
         }
@@ -67,7 +90,7 @@ class MainView : View("Редактор расписания") {
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
                     }
-                    timetable(timetableCells)
+                    TimetableGrid(TimetableCells)
                 }
             }
             anchorpane {
@@ -80,49 +103,63 @@ class MainView : View("Редактор расписания") {
         hbox(alignment = Pos.TOP_RIGHT) {
             label("Свободных уроков:")
             label("Количество свободных уроков") {
-                id = "lAvaibleLessonsCount"
+                id = "lAvailableLessonsCount"
             }
 
         }
+
+        addEventFilter(MouseEvent.MOUSE_PRESSED, ::startDrag)
+        addEventFilter(MouseEvent.MOUSE_DRAGGED, ::animateDrag)
+        addEventFilter(MouseEvent.MOUSE_EXITED, ::stopDrag)
+        addEventFilter(MouseEvent.MOUSE_RELEASED, ::stopDrag)
+        addEventFilter(MouseEvent.MOUSE_RELEASED, ::drop)
     }
 
-    init {
-        this.title = "Time Table Editor"
+    private fun startDrag(evt: MouseEvent) {
+        controller.onStartDrag(evt)
+    }
 
-        /*// Применение стилей
-        root.lookupAll(".button").forEach { b ->
-            b.setOnMouseClicked {
+    private fun animateDrag(evt: MouseEvent) {
+        controller.onAnimateDrag(evt)
+    }
 
-            }
-        }*/
+    private fun stopDrag(evt: MouseEvent) {
+        controller.onStopDrag(evt)
+    }
 
-
-        /*root.addEventFilter(KeyEvent.KEY_TYPED) {
-
-        }*/
-
+    private fun drop(evt: MouseEvent) {
+        controller.onDrop(evt)
     }
 }
 
 class MainController : Controller() {
+    val view: MainView by inject<MainView>()
+
     /**
-     * TODO: Creating new timetable
+     * TODO: Creating new TimetableGrid
      */
     fun onCreateMenuClicked(actionEvent: ActionEvent) {
 
     }
 
     /**
-     * TODO: Opening timetable and replacing current timetable
+     * TODO: Opening TimetableGrid and replacing current TimetableGrid
      */
     fun onOpenMenuClicked(actionEvent: ActionEvent) {
-
+        val timetableFile = File("current_timetable.cfg")
+        val teachersFile = File("current_teachers.cfg")
+        val classroomsFile = File("current_classrooms.cfg")
+        val studentCLassFile = File("current_student_class.cfg")
     }
 
     /**
-     * TODO: Saving current timetable
+     * TODO: Saving current TimetableGrid
      */
     fun onSaveMenuClicked(actionEvent: ActionEvent) {
+        val timetableFile = File("current_timetable.cfg")
+        val teachersFile = File("current_teachers.cfg")
+        val classroomsFile = File("current_classrooms.cfg")
+        val studentCLassFile = File("current_student_class.cfg")
 
     }
 
@@ -155,31 +192,118 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO: Opening export menu
+     * Opening export menu
      */
     fun onExportMenuClicked(actionEvent: ActionEvent) {
-        find<ExportView>().openModal()
+        val exportView = ExportView()
+        exportView.currentTimetable = view.currentTimetable
+        exportView.openModal()
     }
 
     /**
-     * TODO: Opening import menu
+     * Opening import menu
      */
     fun onImportMenuClicked(actionEvent: ActionEvent) {
-        find<ImportView>().openModal()
+        val importView = ImportView()
+        importView.currentTimetable = view.currentTimetable
+        importView.openModal(
+            owner = this.view.currentWindow,
+            block = true
+        )
     }
 
     /**
-     * Opening settings menu
+     * TODO Opening interface settings menu
      */
-    fun onSettingsMenuClicked(actionEvent: ActionEvent) {
-        find<SettingsView>().openModal()
+    fun onSettingsInterfaceMenuClicked(actionEvent: ActionEvent) {
+
     }
 
+    /**
+     * TODO Opening generator settings menu
+     */
+    fun onSettingsGeneratorMenuClicked(actionEvent: ActionEvent) {
+
+    }
 
     /**
      * TODO: Changing view state
      */
     fun changeViewState(viewState : MainView.ViewState) {
 
+    }
+
+    /**
+     * Start dragging
+     */
+    fun onStartDrag(evt: MouseEvent) {
+
+        toolboxItems
+            .filter {
+                val mousePt: Point2D = it.sceneToLocal(evt.sceneX, evt.sceneY)
+                it.contains(mousePt)
+            }
+            .firstOrNull()
+            .apply {
+                if (this != null) {
+                    draggingColor = this.properties["rectColor"] as Color
+                }
+            }
+
+    }
+
+    /**
+     * Animation of dragging
+     */
+    fun onAnimateDrag(evt: MouseEvent) {
+
+        val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
+        if (workArea.contains(mousePt)) {
+
+            // highlight the onDrop target (hover doesn't work)
+            if (!workArea.hasClass(DraggingStyles.workAreaSelected)) {
+                workArea.addClass(DraggingStyles.workAreaSelected)
+            }
+
+            // animate a rectangle so that the user can follow
+            if (!inflightRect.isVisible) {
+                inflightRect.isVisible = true
+                inflightRect.fill = draggingColor
+            }
+
+            inflightRect.relocate(mousePt.x, mousePt.y)
+        }
+
+    }
+
+    /**
+     * Stop dragging
+     */
+    fun onStopDrag(evt: MouseEvent) {
+        if (workArea.hasClass(DraggingStyles.workAreaSelected)) {
+            workArea.removeClass(DraggingStyles.workAreaSelected)
+        }
+        if (inflightRect.isVisible) {
+            inflightRect.isVisible = false
+        }
+    }
+
+    /**
+     * Drop item
+     */
+    fun onDrop(evt: MouseEvent) {
+
+        val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
+        if (workArea.contains(mousePt)) {
+            if (draggingColor != null) {
+                val newRect = Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT, draggingColor)
+                workArea.add(newRect)
+                newRect.relocate(mousePt.x, mousePt.y)
+
+                inflightRect.toFront() // don't want to move cursor tracking behind added objects
+            }
+        }
+
+        draggingColor = null
     }
 }

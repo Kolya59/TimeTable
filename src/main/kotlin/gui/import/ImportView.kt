@@ -1,83 +1,84 @@
 package gui.import
 
+import classes.TimeTable
+import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
+import javafx.stage.FileChooser
+import serialization.Import
 import tornadofx.*
+import java.io.File
 
+// TODO Создать интерактивное отображение файла
 class ImportView : View("Меню импорта") {
     private val controller: ImportController by inject()
-    override val root = anchorpane {
-        prefHeight = 142.0
-        prefWidth = 400.0
+    var currentTimetable: TimeTable = TimeTable(emptySet())
+    var currentPath: StringProperty = "Файл не выбран".toProperty()
 
-        /*choicebox {
-            id="cbFileFormat"
-            layoutX=236.0
-            layoutY=63.0
-            onContextMenuRequested=controller.onChoiceFileFormat(ActionEvent())
-            prefWidth=150.0
-
-        }*/
-        button {
-            id="btCancel"
-            layoutX=322.0
-            layoutY=111.0
-            action { controller.onCancel(ActionEvent()) }
-            text="Отмена"
+    override val root = vbox {
+        // TODO Выровнять верстку
+        hbox {
+            label {
+                text = "Выберите путь"
+            }
+            button {
+                id = "btFilePath"
+                text = currentPath.value
+                action { controller.onChoiceFilePath(ActionEvent()) }
+            }
         }
-        button {
-            id="btImport"
-            layoutX=176.0
-            layoutY=111.0
-            action { controller.onImport(ActionEvent()) }
-            text="Импортировать"
-        }
-        /*label {
-            layoutX=14.0
-            layoutY=68.0
-            text="Выберите формат для импорта"
-        }*/
-        label {
-            layoutX=14.0
-            layoutY=28.0
-            text="Выберите путь"
-        }
-        textfield {
-            id="tfFilePath"
-            layoutX=117.0
-            layoutY=23.0
-            action {controller.onChoiceFilePath(ActionEvent()) }
-            prefHeight=28.0
-            prefWidth=267.0
+        hbox {
+            button {
+                id = "btImport"
+                action {
+                    controller.onImport(ActionEvent())
+                    close()
+                }
+                text = "Импортировать"
+            }
+            button {
+                id = "btCancel"
+                action {
+                    controller.onCancel(ActionEvent())
+                    close()
+                }
+                text = "Отмена"
+            }
         }
     }
 }
 
 class ImportController : Controller() {
-//    /**
-//     * Выбор формата файла
-//     */
-//    fun onChoiceFileFormat(contextMenuEvent: ContextMenuEvent) {
-//
-//    }
-
+    private val view: ImportView = find()
     /**
      * Выбор пути файла
      */
     fun onChoiceFilePath(actionEvent: ActionEvent) {
-
+        val files = chooseFile(
+            "Выберите файл для импорта",
+            arrayOf(FileChooser.ExtensionFilter("JSON", "*.json")),
+            FileChooserMode.Single
+        )
+        if (!files.isEmpty()) {
+            view.currentPath.value = files[0].absolutePath
+        }
     }
 
     /**
      * Импорт файла
      */
     fun onImport(actionEvent: ActionEvent) {
-
+        val flag = view.currentPath.value.matches(Regex(".json"))
+        if (flag) {
+            val selectedFile = File(view.currentPath.value)
+            if (!selectedFile.isFile) {
+                view.currentTimetable = Import.ImportTimetable(selectedFile).fromJSON()
+            }
+        }
     }
 
     /**
      * Отмена импорта
      */
     fun onCancel(actionEvent: ActionEvent) {
-
     }
 }

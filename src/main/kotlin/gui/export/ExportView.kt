@@ -1,77 +1,84 @@
 package gui.export
 
+import classes.TimeTable
+import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
+import javafx.scene.control.Alert
+import serialization.Export
 import tornadofx.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
-class ExportView : View("Меню экспорта") {
+// TODO Создать интерактивное отображение файла
+class ExportView() : View("Меню экспорта") {
     private val controller: ExportController by inject()
-    override val root = anchorpane {
-        /*choicebox {
-            id="cbFileFormat"
-            layoutX=236.0
-            layoutY=63.0
-            onContextMenuRequested=controller.onChoiceFileFormat(ActionEvent())
-            prefWidth=150.0
-        }*/
-        button {
-            layoutX=322.0
-            layoutY=111.0
-            action { controller.onCancel(ActionEvent()) }
-            text="Отмена"
+    var currentTimetable: TimeTable = TimeTable(emptySet())
+    var currentPath: StringProperty = "Файл не выбран".toProperty()
+    override val root = vbox {
+        hbox {
+            label {
+                text = "Выберите файл"
+            }
+            button {
+                action { controller.onChoicePath(ActionEvent()) }
+                text = currentPath.value
+            }
         }
-        button {
-            layoutX=176.0
-            layoutY=111.0
-            action { controller.onExport(ActionEvent()) }
-            text="Экспортировать"
-        }
-        label {
-            layoutX=14.0
-            layoutY=68.0
-            text="Выберите формат для экспорта"
-        }
-        label {
-            layoutX=14.0
-            layoutY=28.0
-            text="Выберите путь"
-        }
-        textfield {
-            id="tfFilePath"
-            layoutX=117.0
-            layoutY=23.0
-            action { controller.onChoiceFilePath(ActionEvent()) }
-            prefHeight=28.0
-            prefWidth=267.0
+        hbox {
+            button {
+                action {
+                    controller.onExport(ActionEvent())
+                    close()
+                }
+                text = "Экспортировать"
+            }
+            button {
+                action {
+                    controller.onCancel(ActionEvent())
+                    close()
+                }
+                text = "Отмена"
+            }
         }
     }
 }
 
 class ExportController : Controller() {
-//    /**
-//     * Выбор формата файла
-//     */
-//    fun onChoiceFileFormat(contextMenuEvent: ContextMenuEvent) {
-//
-//    }
+    private val view: ExportView = find()
 
     /**
      * Выбор пути файла
      */
-    fun onChoiceFilePath(actionEvent: ActionEvent) {
-
+    fun onChoicePath(actionEvent: ActionEvent) {
+        val selectedDirectory = chooseDirectory(
+            "Выберите путь для сохранения файла",
+            File("/")
+        )
     }
 
     /**
      * Экспорт файла
      */
     fun onExport(actionEvent: ActionEvent) {
-
+        val currentDate = SimpleDateFormat("dd_M_yyyy_hh_mm_ss").format(Date())
+        val fileName: String = currentDate.toString()
+        // TODO Проверка файла на существование
+        val selectedDirectory = File(view.currentPath.value)
+        if (selectedDirectory.absolutePath != null) {
+            val selectedPath: String = "$selectedDirectory/$fileName.json"
+            Export.ExportTimetable(selectedPath, view.currentTimetable)
+        }
+        tornadofx.alert(
+            Alert.AlertType.INFORMATION,
+            "Результат экспорта",
+            "Расписание успешно экспортировано"
+        )
     }
 
     /**
      * Закрытие окна
      */
     fun onCancel(actionEvent: ActionEvent) {
-
     }
 }
