@@ -14,5 +14,6 @@ data class TimeTable(
     internal var lessons: MutableList<Lesson>,
     internal var teachers: MutableList<Teacher>,
     internal var classrooms: MutableList<Classroom>,
-    internal var studentClasses: MutableList<StudentClass>
+    internal var studentClasses: MutableList<StudentClass>,
+    internal var subjects: MutableList<Subject>
 )

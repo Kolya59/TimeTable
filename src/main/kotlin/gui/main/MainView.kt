@@ -1,23 +1,16 @@
 package gui.main
 
-import classes.Classroom
-import classes.Lesson
-import classes.Teacher
-import classes.TimeTable
+import classes.*
 import gui.controls.ItemBox
 import gui.controls.TimetableCell
 import gui.export.ExportView
 import gui.import.ImportView
 import gui.settings.SettingsView
 import javafx.event.ActionEvent
-import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.scene.control.ContentDisplay
-import javafx.scene.control.Label
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.Priority
 import javafx.scene.text.TextAlignment
 import serialization.Import
 import tornadofx.*
@@ -37,6 +30,8 @@ class MainView : View("Редактор расписания") {
     var availableLessons: MutableList<Lesson>
     var availableTeachers: MutableList<Teacher>
     var availableClassrooms: MutableList<Classroom>
+    var availableSubjects: MutableList<Subject>
+    var availableStudentClasses: MutableList<StudentClass>
 
     // Current itembox
     var currentItemBox: ItemBox
@@ -58,10 +53,13 @@ class MainView : View("Редактор расписания") {
         // Создание пустых коллекций
         timetableCells = emptyList<TimetableCell>().toMutableList()
         availableClassrooms = emptyList<Classroom>().toMutableList()
+        availableSubjects = emptyList<Subject>().toMutableList()
         availableLessons = emptyList<Lesson>().toMutableList()
         availableTeachers = emptyList<Teacher>().toMutableList()
+        availableStudentClasses = emptyList<StudentClass>().toMutableList()
 
         // Сортировка содержимого конфига по коллекциям
+        // Загрузка уроков
         for (lesson in currentTimetable.lessons) {
             if (lesson.classroom != null &&
                 lesson.studentClass != null &&
@@ -72,11 +70,29 @@ class MainView : View("Редактор расписания") {
             else
                 availableLessons.add(lesson)
         }
-        // TODO Распределение неполных уроков по группам
+
+        // Загрузка списка школьных предметов
+        for (subject in currentTimetable.subjects) {
+            availableSubjects.add(subject)
+        }
+
+        // Загрузка списка классов
+        for (studentClass in currentTimetable.studentClasses) {
+            availableStudentClasses.add(studentClass)
+        }
+
+        // Загрузка списка учителей
+        for (teacher in currentTimetable.teachers) {
+            availableTeachers.add(teacher)
+        }
+
+        // Загрузка списка кабнетов
+        for (classroom in currentTimetable.classrooms) {
+            availableClassrooms.add(classroom)
+        }
 
         // Создание пула свободных уроков
         currentItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
-
     }
 
     override val root = vbox() {
@@ -138,37 +154,35 @@ class MainView : View("Редактор расписания") {
                     }
                     gridTimeTable = gridpane {
                         // Headers
-                        addColumn(0, Label(""))
-                        addColumn(1, Label("Понедельник"))
-                        addColumn(2, Label("Вторник"))
-                        addColumn(3, Label("Среда"))
-                        addColumn(4, Label("Четверг"))
-                        addColumn(5, Label("Пятница"))
-                        addColumn(6, Label("Суббота"))
-                        addColumn(7, Label("Воскресение"))
+                        addColumn(0, javafx.scene.control.Label(""))
+                        addColumn(1, javafx.scene.control.Label("Понедельник"))
+                        addColumn(2, javafx.scene.control.Label("Вторник"))
+                        addColumn(3, javafx.scene.control.Label("Среда"))
+                        addColumn(4, javafx.scene.control.Label("Четверг"))
+                        addColumn(5, javafx.scene.control.Label("Пятница"))
+                        addColumn(6, javafx.scene.control.Label("Суббота"))
+                        addColumn(7, javafx.scene.control.Label("Воскресение"))
 
                         // Rows
-                        addRow(1, Label("1 урок"))
-                        addRow(2, Label("2 урок"))
+                        addRow(1, javafx.scene.control.Label("1 урок"))
+                        addRow(2, javafx.scene.control.Label("2 урок"))
 
                         // Items
-                        add(Label("Что-то"), 1, 1)
-                        add(Label("Еще что-то"), 2, 1)
+                        add(javafx.scene.control.Label("Что-то"), 1, 1)
+                        add(javafx.scene.control.Label("Еще что-то"), 2, 1)
 
-                        alignment = Pos.CENTER
+                        alignment = javafx.geometry.Pos.CENTER
                         columnConstraints.add(
-                            ColumnConstraints(
+                            javafx.scene.layout.ColumnConstraints(
                                 20.0,
                                 40.0,
                                 60.0,
-                                Priority.ALWAYS,
-                                HPos.CENTER,
+                                javafx.scene.layout.Priority.ALWAYS,
+                                javafx.geometry.HPos.CENTER,
                                 true
                             )
                         )
                         isGridLinesVisible = true
-                        spacing = 8.0
-
                     }
                 }
             }
@@ -317,7 +331,7 @@ class MainController : Controller() {
     /**
      * TODO Start dragging
      */
-    fun onStartDrag(evt: MouseEvent) {
+    fun onStartDrag(mouseEvent: MouseEvent) {
         /*toolboxItems
             .filter {
                 val mousePt: Point2D = it.sceneToLocal(evt.sceneX, evt.sceneY)
@@ -334,7 +348,7 @@ class MainController : Controller() {
     /**
      * TODO Animation of dragging
      */
-    fun onAnimateDrag(evt: MouseEvent) {
+    fun onAnimateDrag(mouseEvent: MouseEvent) {
         /* val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
          if (workArea.contains(mousePt)) {
 
@@ -356,7 +370,7 @@ class MainController : Controller() {
     /**
      * TODO Stop dragging
      */
-    fun onStopDrag(evt: MouseEvent) {
+    fun onStopDrag(mouseEvent: MouseEvent) {
         /*if (workArea.hasClass(DraggingStyles.workAreaSelected)) {
             workArea.removeClass(DraggingStyles.workAreaSelected)
         }
@@ -368,7 +382,7 @@ class MainController : Controller() {
     /**
      * TODO Drop item
      */
-    fun onDrop(evt: MouseEvent) {
+    fun onDrop(mouseEvent: MouseEvent) {
         /*val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
         if (workArea.contains(mousePt)) {
             if (draggingColor != null) {

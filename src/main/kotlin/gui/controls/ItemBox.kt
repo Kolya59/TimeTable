@@ -1,17 +1,17 @@
 package gui.controls
 
 import classes.Classroom
-import classes.Lesson
+import classes.Subject
 import classes.Teacher
 import javafx.scene.control.ListView
 
 open class ItemBox(
-    var availableLessons: MutableList<Lesson>,
+    var availableSubjects: MutableList<Subject>,
     var availableTeachers: MutableList<Teacher>,
     var availableClassroom: MutableList<Classroom>
 ) : ListView<TimetableCell>() {
     init {
-        for (lesson in availableLessons) {
+        for (lesson in availableSubjects) {
             items.add(TimetableCell(lesson))
         }
     }
