@@ -1,6 +1,6 @@
 package gui.export
 
-import classes.*
+import classes.TimeTable
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
 import javafx.scene.control.Alert
@@ -11,19 +11,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO Создать интерактивное отображение файла
-class ExportView() : View("Меню экспорта") {
+class ExportView : View("Меню экспорта") {
     private val controller: ExportController by inject()
-    var currentTimetable: TimeTable = TimeTable(
-        emptyList<Lesson>().toMutableList(),
-        emptyList<Teacher>().toMutableList(),
-        emptyList<Classroom>().toMutableList(),
-        emptyList<StudentClass>().toMutableList()
-    )
-    var currentPath: StringProperty = "Дирректория не выбрана".toProperty()
+    var currentTimetable: TimeTable = params["currentTimetable"] as TimeTable
+    var currentPath: StringProperty = "Директория не выбрана".toProperty()
+
     override val root = vbox {
         hbox {
             label {
-                text = "Выберите дирректорию"
+                text = "Выберите директорию"
             }
             button {
                 action { controller.onChoicePath(ActionEvent()) }
@@ -50,7 +46,7 @@ class ExportView() : View("Меню экспорта") {
 }
 
 class ExportController : Controller() {
-    private val view: ExportView = find()
+    private val view: ExportView by inject()
 
     /**
      * Выбор пути файла

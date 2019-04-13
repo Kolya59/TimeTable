@@ -52,7 +52,9 @@ class MainView : View("Редактор расписания") {
     init {
         // Загрузка данных из конфига
         currentTimetable =
-            controller.loadFromConfig("/Users/kolya59/Yandex.Disk.localized/Универ/Курсовая/Timetable/src/main/resources/config.json")
+            controller.loadFromConfig(
+                "/Users/kolya59/Yandex.Disk.localized/Универ/Курсовая/Timetable/src/main/resources/config.json"
+            )
         // Создание пустых коллекций
         timetableCells = emptyList<TimetableCell>().toMutableList()
         availableClassrooms = emptyList<Classroom>().toMutableList()
@@ -271,9 +273,8 @@ class MainController : Controller() {
      * Opening export menu
      */
     fun onExportMenuClicked(actionEvent: ActionEvent) {
-        val exportView = ExportView()
-        exportView.currentTimetable = view.currentTimetable
-        exportView.openModal()
+        val map = mapOf("currentTimetable" to view.currentTimetable)
+        find<ExportView>(map).openWindow()
     }
 
     /**
