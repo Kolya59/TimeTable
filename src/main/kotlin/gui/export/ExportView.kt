@@ -1,7 +1,6 @@
 package gui.export
 
-import classes.Lesson
-import classes.TimeTable
+import classes.*
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
 import javafx.scene.control.Alert
@@ -14,12 +13,17 @@ import java.util.*
 // TODO Создать интерактивное отображение файла
 class ExportView() : View("Меню экспорта") {
     private val controller: ExportController by inject()
-    var currentTimetable: TimeTable = TimeTable(emptyList<Lesson>().toMutableList())
-    var currentPath: StringProperty = "Файл не выбран".toProperty()
+    var currentTimetable: TimeTable = TimeTable(
+        emptyList<Lesson>().toMutableList(),
+        emptyList<Teacher>().toMutableList(),
+        emptyList<Classroom>().toMutableList(),
+        emptyList<StudentClass>().toMutableList()
+    )
+    var currentPath: StringProperty = "Дирректория не выбрана".toProperty()
     override val root = vbox {
         hbox {
             label {
-                text = "Выберите файл"
+                text = "Выберите дирректорию"
             }
             button {
                 action { controller.onChoicePath(ActionEvent()) }
@@ -56,7 +60,7 @@ class ExportController : Controller() {
             "Выберите путь для сохранения файла",
             File("/")
         )
-        if (chosenDirectory != null) {
+        if (chosenDirectory != null && chosenDirectory.exists()) {
             view.currentPath.value = chosenDirectory.absolutePath
         }
     }

@@ -1,9 +1,6 @@
 package serialization
 
-import classes.Classroom
-import classes.StudentClass
-import classes.Teacher
-import classes.TimeTable
+import classes.*
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -21,8 +18,18 @@ open class Import() {
          * @return Imported TimetableGrid
          */
         fun fromJSON(): TimeTable {
-            val jsonString: String = file.readText(Charsets.UTF_8)
-            return Json.unquoted.parse(TimeTable.serializer(), jsonString)
+            return try {
+                val jsonString: String = file.readText(Charsets.UTF_8)
+                Json.unquoted.parse(TimeTable.serializer(), jsonString)
+            } catch (e: Exception) {
+                TimeTable(
+                    emptyList<Lesson>().toMutableList(),
+                    emptyList<Teacher>().toMutableList(),
+                    emptyList<Classroom>().toMutableList(),
+                    emptyList<StudentClass>().toMutableList()
+                )
+            }
+
         }
     }
 

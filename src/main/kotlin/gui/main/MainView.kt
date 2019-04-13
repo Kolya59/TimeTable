@@ -6,36 +6,76 @@ import classes.Teacher
 import classes.TimeTable
 import gui.controls.ItemBox
 import gui.controls.TimetableCell
-import gui.controls.TimetableGrid
 import gui.export.ExportView
 import gui.import.ImportView
+import gui.settings.SettingsView
 import javafx.event.ActionEvent
+import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.scene.control.ContentDisplay
+import javafx.scene.control.Label
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.ColumnConstraints
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.Priority
 import javafx.scene.text.TextAlignment
+import serialization.Import
 import tornadofx.*
 import java.io.File
 
 class MainView : View("Редактор расписания") {
+    // Controller
     private val controller: MainController by inject()
 
-    private var lessonsList: MutableList<Lesson> = emptyList<Lesson>().toMutableList()
-    var currentTimetable: TimeTable = TimeTable(lessonsList)
-    private var TimetableCells: MutableList<TimetableCell> = emptyList<TimetableCell>().toMutableList()
+    // Current timetable
+    var currentTimetable: TimeTable
 
-    // TODO: Загрузка из конфига
-    var availableLessons: MutableList<Lesson> = emptyList<Lesson>().toMutableList()
-    var availableTeachers: MutableList<Teacher> = emptyList<Teacher>().toMutableList()
-    var availableClassrooms: MutableList<Classroom> = emptyList<Classroom>().toMutableList()
+    // List of timetable cells
+    private var timetableCells: MutableList<TimetableCell>
 
-    var currentTimetableGrid: TimetableGrid = TimetableGrid(TimetableCells)
-    var currentItemBox: ItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
+    // Lists of timetable content
+    var availableLessons: MutableList<Lesson>
+    var availableTeachers: MutableList<Teacher>
+    var availableClassrooms: MutableList<Classroom>
+
+    // Current itembox
+    var currentItemBox: ItemBox
+
+    // Current timetable grid
+    var gridTimeTable: GridPane = GridPane()
 
     /**
      * View statements
      */
     enum class ViewState {STUDENT_CLASS_VIEW, TEACHER_VIEW, CLASSROOM_VIEW}
+
+    init {
+        // Загрузка данных из конфига
+        currentTimetable =
+            controller.loadFromConfig("/Users/kolya59/Yandex.Disk.localized/Универ/Курсовая/Timetable/src/main/resources/config.json")
+        // Создание пустых коллекций
+        timetableCells = emptyList<TimetableCell>().toMutableList()
+        availableClassrooms = emptyList<Classroom>().toMutableList()
+        availableLessons = emptyList<Lesson>().toMutableList()
+        availableTeachers = emptyList<Teacher>().toMutableList()
+
+        // Сортировка содержимого конфига по коллекциям
+        for (lesson in currentTimetable.lessons) {
+            if (lesson.classroom != null &&
+                lesson.studentClass != null &&
+                lesson.subject != null &&
+                lesson.teacher != null
+            )
+                timetableCells.add(TimetableCell(lesson))
+            else
+                availableLessons.add(lesson)
+        }
+        // TODO Распределение неполных уроков по группам
+
+        // Создание пула свободных уроков
+        currentItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
+
+    }
 
     override val root = vbox() {
         alignment = Pos.TOP_CENTER
@@ -86,30 +126,61 @@ class MainView : View("Редактор расписания") {
         }
         splitpane {
             anchorpane {
-                vbox(alignment = Pos.CENTER) {
+                vbox {
+                    alignment = Pos.CENTER
+
                     label("Расписание"){
                         alignment = Pos.CENTER
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
                     }
-                    currentTimetableGrid
+                    gridTimeTable = gridpane {
+                        // Headers
+                        addColumn(0, Label(""))
+                        addColumn(1, Label("Понедельник"))
+                        addColumn(2, Label("Вторник"))
+                        addColumn(3, Label("Среда"))
+                        addColumn(4, Label("Четверг"))
+                        addColumn(5, Label("Пятница"))
+                        addColumn(6, Label("Суббота"))
+                        addColumn(7, Label("Воскресение"))
+
+                        // Rows
+                        addRow(1, Label("1 урок"))
+                        addRow(2, Label("2 урок"))
+
+                        // Items
+                        add(Label("Что-то"), 1, 1)
+                        add(Label("Еще что-то"), 2, 1)
+
+                        alignment = Pos.CENTER
+                        columnConstraints.add(
+                            ColumnConstraints(
+                                20.0,
+                                40.0,
+                                60.0,
+                                Priority.ALWAYS,
+                                HPos.CENTER,
+                                true
+                            )
+                        )
+                        isGridLinesVisible = true
+                        spacing = 8.0
+
+                    }
                 }
             }
             anchorpane {
-                vbox(alignment = Pos.CENTER) {
+                vbox {
+                    alignment = Pos.CENTER
+
                     label("Уроки")
-                    currentItemBox
+                    currentItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
                 }
             }
         }
-        hbox(alignment = Pos.TOP_RIGHT) {
-            label("Свободных уроков:")
-            label("Количество свободных уроков") {
-                id = "lAvailableLessonsCount"
-            }
 
-        }
-
+        // Drag and Drop event filters
         addEventFilter(MouseEvent.MOUSE_PRESSED, ::startDrag)
         addEventFilter(MouseEvent.MOUSE_DRAGGED, ::animateDrag)
         addEventFilter(MouseEvent.MOUSE_EXITED, ::stopDrag)
@@ -117,6 +188,8 @@ class MainView : View("Редактор расписания") {
         addEventFilter(MouseEvent.MOUSE_RELEASED, ::drop)
     }
 
+
+    // Drag and Drop
     private fun startDrag(evt: MouseEvent) {
         controller.onStartDrag(evt)
     }
@@ -141,7 +214,8 @@ class MainController : Controller() {
      * TODO: Creating new TimetableGrid
      */
     fun onCreateMenuClicked(actionEvent: ActionEvent) {
-
+        // TODO Экспорт
+        clearAll()
     }
 
     /**
@@ -218,7 +292,11 @@ class MainController : Controller() {
      * TODO Opening interface settings menu
      */
     fun onSettingsInterfaceMenuClicked(actionEvent: ActionEvent) {
-
+        val settingsView = SettingsView()
+        settingsView.openModal(
+            owner = this.view.currentWindow,
+            block = true
+        )
     }
 
     /**
@@ -236,7 +314,7 @@ class MainController : Controller() {
     }
 
     /**
-     * Start dragging
+     * TODO Start dragging
      */
     fun onStartDrag(evt: MouseEvent) {
         /*toolboxItems
@@ -253,7 +331,7 @@ class MainController : Controller() {
     }
 
     /**
-     * Animation of dragging
+     * TODO Animation of dragging
      */
     fun onAnimateDrag(evt: MouseEvent) {
         /* val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
@@ -275,7 +353,7 @@ class MainController : Controller() {
     }
 
     /**
-     * Stop dragging
+     * TODO Stop dragging
      */
     fun onStopDrag(evt: MouseEvent) {
         /*if (workArea.hasClass(DraggingStyles.workAreaSelected)) {
@@ -287,7 +365,7 @@ class MainController : Controller() {
     }
 
     /**
-     * Drop item
+     * TODO Drop item
      */
     fun onDrop(evt: MouseEvent) {
         /*val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
@@ -303,4 +381,18 @@ class MainController : Controller() {
 
         draggingColor = null*/
     }
+
+    /**
+     * TODO Clearing all data from timetable
+     */
+    fun clearAll() {
+
+    }
+
+    /**
+     * Load data from config
+     * @param[pathToConfig] Path to config file
+     * @return TimeTable Imported timetable
+     */
+    fun loadFromConfig(pathToConfig: String): TimeTable = Import.ImportTimetable(File(pathToConfig)).fromJSON()
 }
