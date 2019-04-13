@@ -27,22 +27,22 @@ class MainView : View("Редактор расписания") {
     private var timetableCells: MutableList<TimetableCell>
 
     // Lists of timetable content
-    var availableLessons: MutableList<Lesson>
-    var availableTeachers: MutableList<Teacher>
-    var availableClassrooms: MutableList<Classroom>
-    var availableSubjects: MutableList<Subject>
-    var availableStudentClasses: MutableList<StudentClass>
+    private var availableLessons: MutableList<Lesson>
+    private var availableTeachers: MutableList<Teacher>
+    private var availableClassrooms: MutableList<Classroom>
+    private var availableSubjects: MutableList<Subject>
+    private var availableStudentClasses: MutableList<StudentClass>
 
     // Current itembox
-    var currentItemBox: ItemBox
+    private var currentItemBox: ItemBox
 
     // Current timetable grid
-    var gridTimeTable: GridPane = GridPane()
+    private var gridTimeTable: GridPane = GridPane()
 
     /**
      * View statements
      */
-    enum class ViewState {STUDENT_CLASS_VIEW, TEACHER_VIEW, CLASSROOM_VIEW}
+    enum class ViewState { CLASSROOM_VIEW, STUDENT_CLASS_VIEW, TEACHER_VIEW }
 
     init {
         // Загрузка данных из конфига
@@ -61,14 +61,7 @@ class MainView : View("Редактор расписания") {
         // Сортировка содержимого конфига по коллекциям
         // Загрузка уроков
         for (lesson in currentTimetable.lessons) {
-            if (lesson.classroom != null &&
-                lesson.studentClass != null &&
-                lesson.subject != null &&
-                lesson.teacher != null
-            )
-                timetableCells.add(TimetableCell(lesson))
-            else
-                availableLessons.add(lesson)
+            timetableCells.add(TimetableCell(null, lesson, null, null, null))
         }
 
         // Загрузка списка школьных предметов
@@ -92,7 +85,7 @@ class MainView : View("Редактор расписания") {
         }
 
         // Создание пула свободных уроков
-        currentItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
+        currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
     }
 
     override val root = vbox() {
@@ -191,7 +184,7 @@ class MainView : View("Редактор расписания") {
                     alignment = Pos.CENTER
 
                     label("Уроки")
-                    currentItemBox = ItemBox(availableLessons, availableTeachers, availableClassrooms)
+                    currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
                 }
             }
         }

@@ -26,10 +26,10 @@ open class Import() {
                     emptyList<Lesson>().toMutableList(),
                     emptyList<Teacher>().toMutableList(),
                     emptyList<Classroom>().toMutableList(),
-                    emptyList<StudentClass>().toMutableList()
+                    emptyList<StudentClass>().toMutableList(),
+                    emptyList<Subject>().toMutableList()
                 )
             }
-
         }
     }
 

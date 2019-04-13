@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
  * @param[teachers] List of teachers, which dont teach lessons
  * @param[classrooms] List of classrooms, which dont used
  * @param[studentClasses] List of student classes, which dont study
+ * @param[subjects] List of subjects, which students can study
  */
 @Serializable
 data class TimeTable(

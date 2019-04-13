@@ -15,7 +15,8 @@ class ImportView : View("Меню импорта") {
         emptyList<Lesson>().toMutableList(),
         emptyList<Teacher>().toMutableList(),
         emptyList<Classroom>().toMutableList(),
-        emptyList<StudentClass>().toMutableList()
+        emptyList<StudentClass>().toMutableList(),
+        emptyList<Subject>().toMutableList()
     )
     var currentPath: StringProperty = "Файл не выбран".toProperty()
 
