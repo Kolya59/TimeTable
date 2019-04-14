@@ -5,7 +5,6 @@ import gui.controls.TimetableCell.CellType.*
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
 import tornadofx.add
-import java.io.InvalidClassException
 
 /**
  * TimetableGrid cell control
@@ -14,23 +13,26 @@ import java.io.InvalidClassException
  * @param[lesson] Selected lesson
  * @param[studentClass] Selected student class
  * @param[teacher] Selected teacher
+ * @param[otherInfo] Other info
  */
-class TimetableCell(
-    internal var classroom: Classroom?,
-    internal var lesson: Lesson?,
-    internal var subject: Subject?,
-    internal var studentClass: StudentClass?,
-    internal var teacher: Teacher?
-) : VBox() {
+class TimetableCell() : VBox() {
+    var classroom: Classroom? = null
+    var lesson: Lesson? = null
+    var subject: Subject? = null
+    var studentClass: StudentClass? = null
+    var teacher: Teacher? = null
+    var otherInfo: Any? = null
+
     private var lClassroom: Label? = null
     private var lSubject: Label? = null
     private var lStudentClass: Label? = null
     private var lTeacher: Label? = null
+    private var lOtherInfo: Label? = null
 
     /**
      * Types of cell content
      */
-    enum class CellType { CLASSROOM, LESSON, SUBJECT, STUDENT_CLASS, TEACHER }
+    enum class CellType { CLASSROOM, LESSON, SUBJECT, STUDENT_CLASS, TEACHER, OTHER }
 
     /**
      * Computing type of cell
@@ -38,27 +40,79 @@ class TimetableCell(
      * @param[subject] Selected subject
      * @param[studentClass] Selected student class
      * @param[teacher] Selected teacher
+     * @param[otherInfo] Other info
      */
     fun computeCellType(
         classroom: Classroom?,
         lesson: Lesson?,
         subject: Subject?,
         studentClass: StudentClass?,
-        teacher: Teacher?
+        teacher: Teacher?,
+        otherInfo: Any?
     ): CellType {
         if (classroom != null) return CLASSROOM
         if (lesson != null) return LESSON
         if (subject != null) return SUBJECT
         if (studentClass != null) return STUDENT_CLASS
         if (teacher != null) return TEACHER
+        if (otherInfo != null) return OTHER
         return LESSON
     }
 
-    var cellType: CellType
+    var cellType: CellType = OTHER
 
-    init {
+    // Constructors
+    /**
+     * TimetableGrid cell control
+     * @param[classroom] Selected classroom
+     */
+    constructor(classroom: Classroom) : this() {
+        this.classroom = classroom; fillData()
+    }
+
+    /**
+     * TimetableGrid cell control
+     * @param[subject] Selected subject
+     */
+    constructor(lesson: Lesson) : this() {
+        this.lesson = lesson; fillData()
+    }
+
+    /**
+     * TimetableGrid cell control
+     * @param[lesson] Selected lesson
+     */
+    constructor(subject: Subject) : this() {
+        this.subject = subject; fillData()
+    }
+
+    /**
+     * TimetableGrid cell control
+     * @param[studentClass] Selected student class
+     */
+    constructor(studentClass: StudentClass?) : this() {
+        this.studentClass = studentClass; fillData()
+    }
+
+    /**
+     * TimetableGrid cell control
+     * @param[teacher] Selected teacher
+     */
+    constructor(teacher: Teacher?) : this() {
+        this.teacher = teacher; fillData()
+    }
+
+    /**
+     * TimetableGrid cell control
+     * @param[otherInfo] Other info
+     */
+    constructor(otherInfo: Any) : this() {
+        this.otherInfo = otherInfo; fillData()
+    }
+
+    private fun fillData() {
         // Классификация ячейки
-        cellType = computeCellType(classroom, lesson, subject, studentClass, teacher)
+        cellType = computeCellType(classroom, lesson, subject, studentClass, teacher, otherInfo)
 
         when (cellType) {
             CLASSROOM -> {
@@ -88,6 +142,13 @@ class TimetableCell(
                 lTeacher = Label(teacher?.name)
                 this.add(lTeacher!!)
             }
+            OTHER -> {
+                lOtherInfo = if (otherInfo is Label)
+                    otherInfo as Label
+                else
+                    Label(otherInfo.toString())
+            }
+
         }
     }
 
@@ -98,6 +159,7 @@ class TimetableCell(
             SUBJECT -> return subject
             STUDENT_CLASS -> return studentClass
             TEACHER -> return teacher
+            OTHER -> return otherInfo
             else -> return null
         }
     }
@@ -109,7 +171,11 @@ class TimetableCell(
             is Subject -> subject = value
             is StudentClass -> studentClass = value
             is Teacher -> teacher = value
-            else -> throw InvalidClassException("Class can't be set in timetable cell")
+            else -> otherInfo = value
         }
+    }
+
+    fun labelToTimetableCell(label: Label): TimetableCell {
+        return TimetableCell(label)
     }
 }

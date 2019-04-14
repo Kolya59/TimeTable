@@ -20,16 +20,19 @@ plugins {
 
 dependencies {
     implementation( kotlin("stdlib-jdk8"))
+    // Kotlin
     compile ("org.jetbrains.kotlin:kotlin-stdlib")
     compile ("org.jetbrains.kotlin:kotlin-serialization:1.3.20")
     //compile ("org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin")
     compile ("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0")
+    compile("lib:kotlin-serialization-1.3.20")
+    // Java FX
     compile ("org.openjfx.javafx-plugin:0.0.7")
+    // Tornado FX
     compile ("no.tornado:tornadofx:1.7.18")
-    compile ("lib:kotlin-serialization-1.3.20")
-//    compile ("lib:javafx.base")
-//    compile ("lib:javafx.controls")
-//    compile ("lib:javafx.fxml")
+    // Controls FX
+//    compile ("org.controlsfx:controlsfx:8.0.5")
+//    compile ("no.tornado:tornadofx-controlsfx:0.1")
 }
 
 repositories {

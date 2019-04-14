@@ -25,6 +25,7 @@ open class ItemBox(
     var viewState: ViewState = ViewState.SUBJECTS_VIEW
 
     init {
+        changeViewState(ViewState.CLASSROOM_VIEW)
     }
 
     fun changeViewState(targetViewState: ViewState) {
@@ -39,19 +40,19 @@ open class ItemBox(
 
     private fun fillClassroomInfo() {
         for (classroom in classrooms) {
-            this.items.add(TimetableCell(classroom, null, null, null, null))
+            this.items.add(TimetableCell(classroom))
         }
     }
 
     private fun fillSubjectInfo() {
         for (subject in subjects) {
-            this.items.add(TimetableCell(null, null, subject, null, null))
+            this.items.add(TimetableCell(subject))
         }
     }
 
     private fun fillTeacherInfo() {
         for (teacher in teachers) {
-            this.items.add(TimetableCell(null, null, null, null, teacher))
+            this.items.add(TimetableCell(teacher = teacher))
         }
     }
 

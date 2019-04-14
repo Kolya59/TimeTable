@@ -9,6 +9,7 @@ import gui.settings.SettingsView
 import javafx.event.ActionEvent
 import javafx.geometry.Pos
 import javafx.scene.control.ContentDisplay
+import javafx.scene.control.Label
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.text.TextAlignment
@@ -33,6 +34,8 @@ class MainView : View("Редактор расписания") {
     private var availableSubjects: MutableList<Subject>
     private var availableStudentClasses: MutableList<StudentClass>
 
+    // TODO Settings
+    private var settings = Settings()
     // Current itembox
     private var currentItemBox: ItemBox
 
@@ -61,7 +64,7 @@ class MainView : View("Редактор расписания") {
         // Сортировка содержимого конфига по коллекциям
         // Загрузка уроков
         for (lesson in currentTimetable.lessons) {
-            timetableCells.add(TimetableCell(null, lesson, null, null, null))
+            availableLessons.add(lesson)
         }
 
         // Загрузка списка школьных предметов
@@ -137,6 +140,7 @@ class MainView : View("Редактор расписания") {
         }
         splitpane {
             anchorpane {
+                // TODO Поправить верстку
                 vbox {
                     alignment = Pos.CENTER
 
@@ -145,31 +149,31 @@ class MainView : View("Редактор расписания") {
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
                     }
-                    gridTimeTable = gridpane {
-                        // Headers
-                        addColumn(0, javafx.scene.control.Label(""))
-                        addColumn(1, javafx.scene.control.Label("Понедельник"))
-                        addColumn(2, javafx.scene.control.Label("Вторник"))
-                        addColumn(3, javafx.scene.control.Label("Среда"))
-                        addColumn(4, javafx.scene.control.Label("Четверг"))
-                        addColumn(5, javafx.scene.control.Label("Пятница"))
-                        addColumn(6, javafx.scene.control.Label("Суббота"))
-                        addColumn(7, javafx.scene.control.Label("Воскресение"))
+                    gridpane {
+                        // Columns
+                        addColumn(0, Label("Время"))
+                        for (i in 0 until availableStudentClasses.size) {
+                            addColumn(i + 1, TimetableCell(studentClass = availableStudentClasses[i]))
+                        }
 
                         // Rows
-                        addRow(1, javafx.scene.control.Label("1 урок"))
-                        addRow(2, javafx.scene.control.Label("2 урок"))
+                        for (i in 0 until settings.lessonsTime.size) {
+                            addRow(i + 1, Label(settings.lessonsTime[i]))
+                        }
 
                         // Items
-                        add(javafx.scene.control.Label("Что-то"), 1, 1)
+                        //for (i in 0 until availableLessons.size) {
+                        add(TimetableCell(availableLessons[0]), 1, 1)
+                        //}
+                        add(javafx.scene.control.Label("Что-то"), 3, 1)
                         add(javafx.scene.control.Label("Еще что-то"), 2, 1)
 
-                        alignment = javafx.geometry.Pos.CENTER
+                        alignment = Pos.CENTER
                         columnConstraints.add(
                             javafx.scene.layout.ColumnConstraints(
                                 20.0,
-                                40.0,
                                 60.0,
+                                100.0,
                                 javafx.scene.layout.Priority.ALWAYS,
                                 javafx.geometry.HPos.CENTER,
                                 true
