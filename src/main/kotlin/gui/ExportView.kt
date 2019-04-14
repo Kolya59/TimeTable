@@ -1,4 +1,4 @@
-package gui.export
+package gui
 
 import classes.TimeTable
 import javafx.beans.property.StringProperty

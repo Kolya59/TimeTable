@@ -1,4 +1,4 @@
-package gui.import
+package gui
 
 import classes.*
 import javafx.beans.property.StringProperty

@@ -1,16 +1,13 @@
-package gui.main
+package gui
 
 import classes.*
-import gui.controls.ItemBox
 import gui.controls.TimetableCell
-import gui.export.ExportView
-import gui.import.ImportView
-import gui.settings.SettingsView
 import javafx.event.ActionEvent
 import javafx.geometry.Pos
 import javafx.scene.control.Alert
 import javafx.scene.control.ContentDisplay
 import javafx.scene.control.Label
+import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.text.TextAlignment
@@ -30,21 +27,21 @@ class MainView : View("Редактор расписания") {
     private var timetableCells: MutableList<TimetableCell>
 
     // Lists of timetable content
-    private var availableLessons: MutableList<Lesson>
-    private var availableTeachers: MutableList<Teacher>
-    private var availableClassrooms: MutableList<Classroom>
-    private var availableSubjects: MutableList<Subject>
-    private var availableStudentClasses: MutableList<StudentClass>
+    var availableLessons: MutableList<Lesson>
+    var availableTeachers: MutableList<Teacher>
+    var availableClassrooms: MutableList<Classroom>
+    var availableSubjects: MutableList<Subject>
+    var availableStudentClasses: MutableList<StudentClass>
 
     // TODO Settings
     private var settings = Settings()
-    // Current itembox
-    private var currentItemBox: ItemBox
+    /* // Current itembox
+     private var currentItemBox: ItemBox*/
     // Selected day
     var selectedDay: String
 
     // Current timetable grid
-    private var gridTimeTable: GridPane = GridPane()
+    var gridTimeTable: GridPane = GridPane()
 
     /**
      * View statements
@@ -103,9 +100,6 @@ class MainView : View("Редактор расписания") {
         for (classroom in currentTimetable.classrooms) {
             availableClassrooms.add(classroom)
         }
-
-        // Создание пула свободных уроков
-        currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
     }
 
     override val root = vbox() {
@@ -152,7 +146,6 @@ class MainView : View("Редактор расписания") {
             }
 
         }
-        splitpane {
             anchorpane {
                 // TODO Поправить верстку см 100 стр
                 vbox {
@@ -201,15 +194,15 @@ class MainView : View("Редактор расписания") {
                         isGridLinesVisible = true
                     }
                 }
-            }
-            anchorpane {
-                vbox {
-                    alignment = Pos.CENTER
 
-                    label("Уроки")
-                    currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
-                }
-            }
+                /*anchorpane {
+                    vbox {
+                        alignment = Pos.CENTER
+
+                        label("Уроки")
+                        currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
+                    }
+                }*/
         }
 
         // Drag and Drop event filters
@@ -218,6 +211,9 @@ class MainView : View("Редактор расписания") {
         addEventFilter(MouseEvent.MOUSE_EXITED, ::stopDrag)
         addEventFilter(MouseEvent.MOUSE_RELEASED, ::stopDrag)
         addEventFilter(MouseEvent.MOUSE_RELEASED, ::drop)
+
+        // Clicks
+        addEventFilter(MouseEvent.MOUSE_CLICKED, ::changeCell)
     }
 
 
@@ -236,6 +232,13 @@ class MainView : View("Редактор расписания") {
 
     private fun drop(evt: MouseEvent) {
         controller.onDrop(evt)
+    }
+
+    // Change cell data
+    private fun changeCell(mouseEvent: MouseEvent) {
+        // TODO Double click
+        if (mouseEvent.button == MouseButton.PRIMARY)
+            controller.onClick(mouseEvent)
     }
 }
 
@@ -290,7 +293,10 @@ class MainController : Controller() {
      */
     fun onExportMenuClicked() {
         val map = mapOf("currentTimetable" to view.currentTimetable)
-        find<ExportView>(map).openWindow()
+        find<ExportView>(map).openModal(
+            owner = view.currentWindow,
+            block = true
+        )
     }
 
     /**
@@ -397,6 +403,55 @@ class MainController : Controller() {
         }
 
         draggingColor = null*/
+    }
+
+    /**
+     * Mouse click
+     */
+    fun onClick(mouseEvent: MouseEvent) {
+        val cellCoord = findCell(mouseEvent)
+        //alert(Alert.AlertType.INFORMATION, "", cellCoord.toString())
+
+    }
+
+    /**
+     * Find cell by mouse coord
+     * @param[mouseEvent] Mouse event
+     */
+    fun findCell(mouseEvent: MouseEvent): Pair<Int, Int> {
+        // TODO Сделать адаптивно вычисляемый размер заголовка
+        val headerHeight = 90.0
+        val mousePt = view.gridTimeTable.localToScene(mouseEvent.x, mouseEvent.y - headerHeight)
+        // Поиск ячейки
+        if (view.gridTimeTable.contains(mousePt)) {
+            for (i in 1 until view.gridTimeTable.columnCount) {
+                for (j in 1 until view.gridTimeTable.rowCount) {
+                    if (view.gridTimeTable.getCellBounds(i, j).contains(mousePt))
+                        return Pair(i, j)
+                }
+            }
+        }
+        return Pair(-1, -1)
+    }
+
+    /**
+     * EditCell
+     */
+    fun editCell(cell: TimetableCell) {
+        // TODO Добавить изменяемый урок
+        val parameters = mapOf<String, Any>(
+            "classrooms" to view.availableClassrooms,
+            "lesson" to view.availableLessons,
+            "studentClasses" to view.availableStudentClasses,
+            "teachers" to view.availableTeachers
+        )
+        val cellView = find<EditCellView>(parameters)
+        cellView.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package gui.settings
+package gui
 
 import tornadofx.View
 import tornadofx.borderpane

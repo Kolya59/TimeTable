@@ -1,10 +1,11 @@
+import gui.MainView
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 import tornadofx.reloadStylesheetsOnFocus
 import tornadofx.reloadViewsOnFocus
 
-class MainApp: App(gui.main.MainView:: class) {
+class MainApp : App(MainView::class) {
     init {
         reloadStylesheetsOnFocus()
         reloadViewsOnFocus()
