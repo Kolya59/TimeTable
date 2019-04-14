@@ -140,7 +140,7 @@ class MainView : View("Редактор расписания") {
         }
         splitpane {
             anchorpane {
-                // TODO Поправить верстку
+                // TODO Поправить верстку см 100 стр
                 vbox {
                     alignment = Pos.CENTER
 
@@ -149,7 +149,7 @@ class MainView : View("Редактор расписания") {
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
                     }
-                    gridpane {
+                    gridTimeTable = gridpane {
                         // Columns
                         addColumn(0, Label("Время"))
                         for (i in 0 until availableStudentClasses.size) {

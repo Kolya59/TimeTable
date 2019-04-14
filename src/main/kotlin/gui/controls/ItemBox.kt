@@ -3,6 +3,7 @@ package gui.controls
 import classes.Classroom
 import classes.Subject
 import classes.Teacher
+import javafx.geometry.Orientation
 import javafx.scene.control.ListView
 import java.io.InvalidClassException
 
@@ -25,12 +26,14 @@ open class ItemBox(
     var viewState: ViewState = ViewState.SUBJECTS_VIEW
 
     init {
-        changeViewState(ViewState.CLASSROOM_VIEW)
+        changeViewState(ViewState.SUBJECTS_VIEW)
+        orientation = Orientation.VERTICAL
+        super.setItems(items)
     }
 
     fun changeViewState(targetViewState: ViewState) {
-        this.viewState = targetViewState
-        this.items.clear()
+        viewState = targetViewState
+        items.clear()
         when (targetViewState) {
             ViewState.CLASSROOM_VIEW -> fillClassroomInfo()
             ViewState.SUBJECTS_VIEW -> fillSubjectInfo()
@@ -40,20 +43,23 @@ open class ItemBox(
 
     private fun fillClassroomInfo() {
         for (classroom in classrooms) {
-            this.items.add(TimetableCell(classroom))
+            items.add(TimetableCell(classroom))
         }
+        children.setAll(items)
     }
 
     private fun fillSubjectInfo() {
         for (subject in subjects) {
-            this.items.add(TimetableCell(subject))
+            items.add(TimetableCell(subject))
         }
+        children.setAll(items)
     }
 
     private fun fillTeacherInfo() {
         for (teacher in teachers) {
-            this.items.add(TimetableCell(teacher = teacher))
+            items.add(TimetableCell(teacher = teacher))
         }
+        children.setAll(items)
     }
 
     /**
@@ -67,7 +73,7 @@ open class ItemBox(
             is Teacher -> teachers.add(item)
             else -> throw InvalidClassException("Class can't be added to this item box")
         }
-        changeViewState(this.viewState)
+        changeViewState(viewState)
     }
 
     /**
@@ -81,6 +87,6 @@ open class ItemBox(
             is Teacher -> teachers.remove(item)
             else -> throw InvalidClassException("Class can't be added to this item box")
         }
-        changeViewState(this.viewState)
+        changeViewState(viewState)
     }
 }
