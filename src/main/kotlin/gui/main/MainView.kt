@@ -8,11 +8,13 @@ import gui.import.ImportView
 import gui.settings.SettingsView
 import javafx.event.ActionEvent
 import javafx.geometry.Pos
+import javafx.scene.control.Alert
 import javafx.scene.control.ContentDisplay
 import javafx.scene.control.Label
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.text.TextAlignment
+import serialization.Export
 import serialization.Import
 import tornadofx.*
 import java.io.File
@@ -38,6 +40,8 @@ class MainView : View("Редактор расписания") {
     private var settings = Settings()
     // Current itembox
     private var currentItemBox: ItemBox
+    // Selected day
+    var selectedDay: String
 
     // Current timetable grid
     private var gridTimeTable: GridPane = GridPane()
@@ -48,11 +52,6 @@ class MainView : View("Редактор расписания") {
     enum class ViewState { CLASSROOM_VIEW, STUDENT_CLASS_VIEW, TEACHER_VIEW }
 
     init {
-        // Загрузка данных из конфига
-        currentTimetable =
-            controller.loadFromConfig(
-                "/Users/kolya59/Yandex.Disk.localized/Универ/Курсовая/Timetable/src/main/resources/config.json"
-            )
         // Создание пустых коллекций
         timetableCells = emptyList<TimetableCell>().toMutableList()
         availableClassrooms = emptyList<Classroom>().toMutableList()
@@ -61,6 +60,24 @@ class MainView : View("Редактор расписания") {
         availableTeachers = emptyList<Teacher>().toMutableList()
         availableStudentClasses = emptyList<StudentClass>().toMutableList()
 
+        // Загрузка данных из конфига
+        currentTimetable =
+            try {
+                controller.loadFromConfig(
+                    "currentTimeTable.json"
+                )
+            } catch (e: Exception) {
+                TimeTable(
+                    availableLessons,
+                    availableTeachers,
+                    availableClassrooms,
+                    availableStudentClasses,
+                    availableSubjects
+                )
+            }
+
+        // TODO Проверка на выбор понедельника в списке дней недели
+        selectedDay = "Понедельник"
         // Сортировка содержимого конфига по коллекциям
         // Загрузка уроков
         for (lesson in currentTimetable.lessons) {
@@ -99,9 +116,6 @@ class MainView : View("Редактор расписания") {
                 item("Создать") {
                     action { controller.onCreateMenuClicked(ActionEvent()) }
                 }
-                item("Открыть") {
-                    action { controller.onOpenMenuClicked(ActionEvent()) }
-                }
                 item("Сохранить") {
                     action { controller.onSaveMenuClicked(ActionEvent()) }
                 }
@@ -111,29 +125,29 @@ class MainView : View("Редактор расписания") {
             }
             menu("Вид") {
                 item("По классам") {
-                    action { controller.onViewStudentClassesMenuClicked(ActionEvent()) }
+                    action { controller.onViewStudentClassesMenuClicked() }
                 }
                 item("По учителям") {
-                    action { controller.onViewTeachersMenuClicked(ActionEvent()) }
+                    action { controller.onViewTeachersMenuClicked() }
                 }
                 item("По кабинетам") {
-                    action { controller.onViewClassroomsMenuClicked(ActionEvent()) }
+                    action { controller.onViewClassroomsMenuClicked() }
                 }
             }
             menu("Работа с файлами") {
                 item("Экспорт") {
-                    action { controller.onExportMenuClicked(ActionEvent()) }
+                    action { controller.onExportMenuClicked() }
                 }
                 item("Импорт") {
-                    action { controller.onImportMenuClicked(ActionEvent()) }
+                    action { controller.onImportMenuClicked() }
                 }
             }
             menu("Настройки") {
                 item("Интерфейс") {
-                    action { controller.onSettingsInterfaceMenuClicked(ActionEvent()) }
+                    action { controller.onSettingsInterfaceMenuClicked() }
                 }
                 item("Генерация") {
-                    action { controller.onSettingsGeneratorMenuClicked(ActionEvent()) }
+                    action { controller.onSettingsGeneratorMenuClicked() }
                 }
             }
 
@@ -162,11 +176,16 @@ class MainView : View("Редактор расписания") {
                         }
 
                         // Items
-                        //for (i in 0 until availableLessons.size) {
-                        add(TimetableCell(availableLessons[0]), 1, 1)
-                        //}
-                        add(javafx.scene.control.Label("Что-то"), 3, 1)
-                        add(javafx.scene.control.Label("Еще что-то"), 2, 1)
+                        for (i in 0 until availableLessons.filter { it.day == selectedDay }.size) {
+                            val lesson = availableLessons[i]
+                            add(
+                                TimetableCell(lesson),
+                                availableStudentClasses.indexOf(availableStudentClasses.find {
+                                    it.name == lesson.studentClass?.name
+                                }) + 1,
+                                lesson.number
+                            )
+                        }
 
                         alignment = Pos.CENTER
                         columnConstraints.add(
@@ -221,35 +240,21 @@ class MainView : View("Редактор расписания") {
 }
 
 class MainController : Controller() {
-    val view: MainView by inject<MainView>()
+    val view: MainView by inject()
 
     /**
      * TODO: Creating new TimetableGrid
      */
     fun onCreateMenuClicked(actionEvent: ActionEvent) {
-        // TODO Экспорт
         clearAll()
-    }
-
-    /**
-     * TODO: Opening TimetableGrid and replacing current TimetableGrid
-     */
-    fun onOpenMenuClicked(actionEvent: ActionEvent) {
-        val timetableFile = File("current_timetable.cfg")
-        val teachersFile = File("current_teachers.cfg")
-        val classroomsFile = File("current_classrooms.cfg")
-        val studentCLassFile = File("current_student_class.cfg")
     }
 
     /**
      * TODO: Saving current TimetableGrid
      */
     fun onSaveMenuClicked(actionEvent: ActionEvent) {
-        val timetableFile = File("current_timetable.cfg")
-        val teachersFile = File("current_teachers.cfg")
-        val classroomsFile = File("current_classrooms.cfg")
-        val studentCLassFile = File("current_student_class.cfg")
-
+        Export.ExportTimetable("currentTimeTable.json", view.currentTimetable).toJSON()
+        alert(Alert.AlertType.INFORMATION, "Информация о сохранении", "Расписание успешно сохранено")
     }
 
     /**
@@ -262,28 +267,28 @@ class MainController : Controller() {
     /**
      * Setting view to student class view state
      */
-    fun onViewStudentClassesMenuClicked(actionEvent: ActionEvent) {
+    fun onViewStudentClassesMenuClicked() {
         changeViewState(MainView.ViewState.STUDENT_CLASS_VIEW)
     }
 
     /**
      * Setting view to teachers view state
      */
-    fun onViewTeachersMenuClicked(actionEvent: ActionEvent) {
+    fun onViewTeachersMenuClicked() {
         changeViewState(MainView.ViewState.TEACHER_VIEW)
     }
 
     /**
      * Setting view to classrooms view state
      */
-    fun onViewClassroomsMenuClicked(actionEvent: ActionEvent) {
+    fun onViewClassroomsMenuClicked() {
         changeViewState(MainView.ViewState.CLASSROOM_VIEW)
     }
 
     /**
      * Opening export menu
      */
-    fun onExportMenuClicked(actionEvent: ActionEvent) {
+    fun onExportMenuClicked() {
         val map = mapOf("currentTimetable" to view.currentTimetable)
         find<ExportView>(map).openWindow()
     }
@@ -291,7 +296,7 @@ class MainController : Controller() {
     /**
      * Opening import menu
      */
-    fun onImportMenuClicked(actionEvent: ActionEvent) {
+    fun onImportMenuClicked() {
         val importView = ImportView()
         importView.currentTimetable = view.currentTimetable
         importView.openModal(
@@ -303,7 +308,7 @@ class MainController : Controller() {
     /**
      * TODO Opening interface settings menu
      */
-    fun onSettingsInterfaceMenuClicked(actionEvent: ActionEvent) {
+    fun onSettingsInterfaceMenuClicked() {
         val settingsView = SettingsView()
         settingsView.openModal(
             owner = this.view.currentWindow,
@@ -314,7 +319,7 @@ class MainController : Controller() {
     /**
      * TODO Opening generator settings menu
      */
-    fun onSettingsGeneratorMenuClicked(actionEvent: ActionEvent) {
+    fun onSettingsGeneratorMenuClicked() {
 
     }
 
