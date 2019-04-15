@@ -24,7 +24,7 @@ class MainView : View("Редактор расписания") {
     var currentTimetable: TimeTable
 
     // List of timetable cells
-    private var timetableCells: MutableList<TimetableCell>
+    internal var timetableCells: MutableList<TimetableCell>
 
     // Lists of timetable content
     var availableLessons: MutableList<Lesson>
@@ -34,7 +34,7 @@ class MainView : View("Редактор расписания") {
     var availableStudentClasses: MutableList<StudentClass>
 
     // TODO Settings
-    private var settings = Settings()
+    internal var settings = Settings()
     /* // Current itembox
      private var currentItemBox: ItemBox*/
     // Selected day
@@ -47,6 +47,9 @@ class MainView : View("Редактор расписания") {
      * View statements
      */
     enum class ViewState { CLASSROOM_VIEW, STUDENT_CLASS_VIEW, TEACHER_VIEW }
+
+    // Current timetable state
+    var selectedState: ViewState = ViewState.STUDENT_CLASS_VIEW
 
     init {
         // Создание пустых коллекций
@@ -160,7 +163,9 @@ class MainView : View("Редактор расписания") {
                         // Columns
                         addColumn(0, Label("Время"))
                         for (i in 0 until availableStudentClasses.size) {
-                            addColumn(i + 1, TimetableCell(studentClass = availableStudentClasses[i]))
+                            val timetableCell = TimetableCell(studentClass = availableStudentClasses[i])
+                            timetableCells.add(timetableCell)
+                            addColumn(i + 1, timetableCell)
                         }
 
                         // Rows
@@ -171,8 +176,10 @@ class MainView : View("Редактор расписания") {
                         // Items
                         for (i in 0 until availableLessons.filter { it.day == selectedDay }.size) {
                             val lesson = availableLessons[i]
+                            val timetableCell = TimetableCell(lesson)
+                            timetableCells.add(timetableCell)
                             add(
-                                TimetableCell(lesson),
+                                timetableCell,
                                 availableStudentClasses.indexOf(availableStudentClasses.find {
                                     it.name == lesson.studentClass?.name
                                 }) + 1,
@@ -409,16 +416,38 @@ class MainController : Controller() {
      * Mouse click
      */
     fun onClick(mouseEvent: MouseEvent) {
-        val cellCoord = findCell(mouseEvent)
-        //alert(Alert.AlertType.INFORMATION, "", cellCoord.toString())
+        val selectedCell = findLesson(mouseEvent)
+        if (selectedCell != null)
+            editCell(selectedCell)
+    }
 
+    /**
+     * Find lesson by cell coord
+     */
+    fun findLesson(mouseEvent: MouseEvent): TimetableCell? {
+        val cellCoord = findCellCoord(mouseEvent)
+        return view.timetableCells
+            .filter { it.cellType == TimetableCell.CellType.LESSON }
+            .find {
+                (it.getItem() as Lesson).number == cellCoord.second &&
+                        (it.getItem() as Lesson).day == view.selectedDay && ((
+                        view.selectedState == MainView.ViewState.CLASSROOM_VIEW &&
+                                (it.getItem() as Lesson).classroom == view.availableClassrooms[cellCoord.first - 1]
+                        ) || (
+                        view.selectedState == MainView.ViewState.STUDENT_CLASS_VIEW &&
+                                (it.getItem() as Lesson).studentClass == view.availableStudentClasses[cellCoord.first - 1]
+                        ) || (
+                        view.selectedState == MainView.ViewState.TEACHER_VIEW &&
+                                (it.getItem() as Lesson).teacher == view.availableTeachers[cellCoord.first - 1]
+                        ))
+            }
     }
 
     /**
      * Find cell by mouse coord
      * @param[mouseEvent] Mouse event
      */
-    fun findCell(mouseEvent: MouseEvent): Pair<Int, Int> {
+    fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
         // TODO Сделать адаптивно вычисляемый размер заголовка
         val headerHeight = 90.0
         val mousePt = view.gridTimeTable.localToScene(mouseEvent.x, mouseEvent.y - headerHeight)
@@ -439,19 +468,21 @@ class MainController : Controller() {
      */
     fun editCell(cell: TimetableCell) {
         // TODO Добавить изменяемый урок
-        val parameters = mapOf<String, Any>(
+        val parameters = mapOf(
             "classrooms" to view.availableClassrooms,
-            "lesson" to view.availableLessons,
+            "lesson" to cell.lesson,
             "studentClasses" to view.availableStudentClasses,
+            "subjects" to view.availableSubjects,
             "teachers" to view.availableTeachers
         )
-        val cellView = find<EditCellView>(parameters)
-        cellView.openModal(
+        val cellFragment = find<EditCellFragment>(parameters)
+        cellFragment.openModal(
             owner = view.currentWindow,
             block = true
         )
-
-
+        val editedLesson = view.availableLessons.filter { it.id == cellFragment.lesson!!.id }
+        val editedIndex = view.availableLessons.indexOf(editedLesson[0])
+        view.availableLessons[editedIndex] = cellFragment.lesson!!
     }
 
     /**
