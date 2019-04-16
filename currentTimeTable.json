@@ -1,474 +1,474 @@
 {
-  "lessons": [
+  lessons: [
     {
-      "id": 0,
-      "subject": {
-        "id": 0,
-        "name": "Математика"
+      id: 0,
+      subject: {
+        id: 0,
+        name: Математика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 0,
-        "name": 237
+      classroom: {
+        id: 0,
+        name: 237
       },
-      "studentClass": {
-        "id": 0,
-        "name": "5А"
+      studentClass: {
+        id: 0,
+        name: 5А
       },
-      "number": 1,
-      "day": "Понедельник"
+      number: 1,
+      day: Понедельник
     },
     {
-      "id": 1,
-      "subject": {
-        "id": 0,
-        "name": "Математика"
+      id: 1,
+      subject: {
+        id: 0,
+        name: Математика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 1,
-        "name": 239
+      classroom: {
+        id: 2,
+        name: 240
       },
-      "studentClass": {
-        "id": 1,
-        "name": "6А"
+      studentClass: {
+        id: 1,
+        name: 6А
       },
-      "number": 1,
-      "day": "Понедельник"
+      number: 1,
+      day: Понедельник
     },
     {
-      "id": 2,
-      "subject": {
-        "id": 0,
-        "name": "Математика"
+      id: 2,
+      subject: {
+        id: 0,
+        name: Математика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 2,
-        "name": 240
+      classroom: {
+        id: 2,
+        name: 240
       },
-      "studentClass": {
-        "id": 2,
-        "name": "7А"
+      studentClass: {
+        id: 2,
+        name: 7А
       },
-      "number": 1,
-      "day": "Понедельник"
+      number: 1,
+      day: Понедельник
     },
     {
-      "id": 3,
-      "subject": {
-        "id": 1,
-        "name": "Физика"
+      id: 3,
+      subject: {
+        id: 1,
+        name: Физика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 0,
-        "name": 237
+      classroom: {
+        id: 0,
+        name: 237
       },
-      "studentClass": {
-        "id": 3,
-        "name": "8А"
+      studentClass: {
+        id: 3,
+        name: 8А
       },
-      "number": 1,
-      "day": "Понедельник"
+      number: 1,
+      day: Понедельник
     },
     {
-      "id": 4,
-      "subject": {
-        "id": 1,
-        "name": "Физика"
+      id: 4,
+      subject: {
+        id: 1,
+        name: Физика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 1,
-        "name": 239
+      classroom: {
+        id: 1,
+        name: 239
       },
-      "studentClass": {
-        "id": 0,
-        "name": "5А"
+      studentClass: {
+        id: 0,
+        name: 5А
       },
-      "number": 2,
-      "day": "Понедельник"
+      number: 2,
+      day: Понедельник
     },
     {
-      "id": 5,
-      "subject": {
-        "id": 1,
-        "name": "Физика"
+      id: 5,
+      subject: {
+        id: 1,
+        name: Физика
       },
-      "teacher": {
-        "id": 0,
-        "name": "Иванов Олег Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 0,
+        name: "Иванов Олег Александрович",
+        availableSubjects: [
           {
-            "id": 0,
-            "name": "Математика"
+            id: 0,
+            name: Математика
           },
           {
-            "id": 1,
-            "name": "Физика"
+            id: 1,
+            name: Физика
           }
         ]
       },
-      "classroom": {
-        "id": 2,
-        "name": 240
+      classroom: {
+        id: 2,
+        name: 240
       },
-      "studentClass": {
-        "id": 1,
-        "name": "6А"
+      studentClass: {
+        id: 1,
+        name: 6А
       },
-      "number": 2,
-      "day": "Понедельник"
+      number: 2,
+      day: Понедельник
     },
     {
-      "id": 6,
-      "subject": {
-        "id": 2,
-        "name": "Русский язык"
+      id: 6,
+      subject: {
+        id: 2,
+        name: "Русский язык"
       },
-      "teacher": {
-        "id": 1,
-        "name": "Петрова Лидия Александровна",
-        "availableSubjects": [
+      teacher: {
+        id: 1,
+        name: "Петрова Лидия Александровна",
+        availableSubjects: [
           {
-            "id": 2,
-            "name": "Русский язык"
+            id: 2,
+            name: "Русский язык"
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 0,
-        "name": 237
+      classroom: {
+        id: 0,
+        name: 237
       },
-      "studentClass": {
-        "id": 2,
-        "name": "7А"
+      studentClass: {
+        id: 2,
+        name: 7А
       },
-      "number": 2,
-      "day": "Понедельник"
+      number: 2,
+      day: Понедельник
     },
     {
-      "id": 7,
-      "subject": {
-        "id": 2,
-        "name": "Русский язык"
+      id: 7,
+      subject: {
+        id: 2,
+        name: "Русский язык"
       },
-      "teacher": {
-        "id": 1,
-        "name": "Петрова Лидия Александровна",
-        "availableSubjects": [
+      teacher: {
+        id: 1,
+        name: "Петрова Лидия Александровна",
+        availableSubjects: [
           {
-            "id": 2,
-            "name": "Русский язык"
+            id: 2,
+            name: "Русский язык"
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 1,
-        "name": 239
+      classroom: {
+        id: 1,
+        name: 239
       },
-      "studentClass": {
-        "id": 3,
-        "name": "8А"
+      studentClass: {
+        id: 3,
+        name: 8А
       },
-      "number": 2,
-      "day": "Понедельник"
+      number: 2,
+      day: Понедельник
     },
     {
-      "id": 8,
-      "subject": {
-        "id": 2,
-        "name": "Русский язык"
+      id: 8,
+      subject: {
+        id: 2,
+        name: "Русский язык"
       },
-      "teacher": {
-        "id": 1,
-        "name": "Петрова Лидия Александровна",
-        "availableSubjects": [
+      teacher: {
+        id: 1,
+        name: "Петрова Лидия Александровна",
+        availableSubjects: [
           {
-            "id": 2,
-            "name": "Русский язык"
+            id: 2,
+            name: "Русский язык"
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 2,
-        "name": 240
+      classroom: {
+        id: 2,
+        name: 240
       },
-      "studentClass": {
-        "id": 0,
-        "name": "5А"
+      studentClass: {
+        id: 0,
+        name: 5А
       },
-      "number": 3,
-      "day": "Понедельник"
+      number: 3,
+      day: Понедельник
     },
     {
-      "id": 9,
-      "subject": {
-        "id": 3,
-        "name": "История"
+      id: 9,
+      subject: {
+        id: 3,
+        name: История
       },
-      "teacher": {
-        "id": 2,
-        "name": "Алексеев Генадий Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 2,
+        name: "Алексеев Генадий Александрович",
+        availableSubjects: [
           {
-            "id": 3,
-            "name": "История"
+            id: 3,
+            name: История
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 0,
-        "name": 237
+      classroom: {
+        id: 0,
+        name: 237
       },
-      "studentClass": {
-        "id": 1,
-        "name": "6А"
+      studentClass: {
+        id: 1,
+        name: 6А
       },
-      "number": 3,
-      "day": "Понедельник"
+      number: 3,
+      day: Понедельник
     },
     {
-      "id": 10,
-      "subject": {
-        "id": 3,
-        "name": "История"
+      id: 10,
+      subject: {
+        id: 3,
+        name: История
       },
-      "teacher": {
-        "id": 2,
-        "name": "Алексеев Генадий Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 2,
+        name: "Алексеев Генадий Александрович",
+        availableSubjects: [
           {
-            "id": 3,
-            "name": "История"
+            id: 3,
+            name: История
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 1,
-        "name": 239
+      classroom: {
+        id: 1,
+        name: 239
       },
-      "studentClass": {
-        "id": 2,
-        "name": "7А"
+      studentClass: {
+        id: 2,
+        name: 7А
       },
-      "number": 3,
-      "day": "Понедельник"
+      number: 3,
+      day: Понедельник
     },
     {
-      "id": 11,
-      "subject": {
-        "id": 4,
-        "name": "Литература"
+      id: 11,
+      subject: {
+        id: 4,
+        name: Литература
       },
-      "teacher": {
-        "id": 2,
-        "name": "Алексеев Генадий Александрович",
-        "availableSubjects": [
+      teacher: {
+        id: 2,
+        name: "Алексеев Генадий Александрович",
+        availableSubjects: [
           {
-            "id": 3,
-            "name": "История"
+            id: 3,
+            name: История
           },
           {
-            "id": 4,
-            "name": "Литература"
+            id: 4,
+            name: Литература
           }
         ]
       },
-      "classroom": {
-        "id": 2,
-        "name": 240
+      classroom: {
+        id: 2,
+        name: 240
       },
-      "studentClass": {
-        "id": 3,
-        "name": "8А"
+      studentClass: {
+        id: 3,
+        name: 8А
       },
-      "number": 3,
-      "day": "Понедельник"
+      number: 3,
+      day: Понедельник
     }
   ],
-  "teachers": [
+  teachers: [
     {
-      "id": 0,
-      "name": "Иванов Олег Александрович",
-      "availableSubjects": [
+      id: 0,
+      name: "Иванов Олег Александрович",
+      availableSubjects: [
         {
-          "id": 0,
-          "name": "Математика"
+          id: 0,
+          name: Математика
         },
         {
-          "id": 1,
-          "name": "Физика"
+          id: 1,
+          name: Физика
         }
       ]
     },
     {
-      "id": 1,
-      "name": "Петрова Лидия Александровна",
-      "availableSubjects": [
+      id: 1,
+      name: "Петрова Лидия Александровна",
+      availableSubjects: [
         {
-          "id": 2,
-          "name": "Русский язык"
+          id: 2,
+          name: "Русский язык"
         },
         {
-          "id": 4,
-          "name": "Литература"
+          id: 4,
+          name: Литература
         }
       ]
     },
     {
-      "id": 2,
-      "name": "Алексеев Генадий Александрович",
-      "availableSubjects": [
+      id: 2,
+      name: "Алексеев Генадий Александрович",
+      availableSubjects: [
         {
-          "id": 3,
-          "name": "История"
+          id: 3,
+          name: История
         },
         {
-          "id": 4,
-          "name": "Литература"
+          id: 4,
+          name: Литература
         }
       ]
     }
   ],
-  "classrooms": [
+  classrooms: [
     {
-      "id": 0,
-      "name": 237
+      id: 0,
+      name: 237
     },
     {
-      "id": 1,
-      "name": 239
+      id: 1,
+      name: 239
     },
     {
-      "id": 2,
-      "name": 240
+      id: 2,
+      name: 240
     }
   ],
-  "studentClasses": [
+  studentClasses: [
     {
-      "id": 0,
-      "name": "5А"
+      id: 0,
+      name: 5А
     },
     {
-      "id": 1,
-      "name": "6А"
+      id: 1,
+      name: 6А
     },
     {
-      "id": 2,
-      "name": "7А"
+      id: 2,
+      name: 7А
     },
     {
-      "id": 3,
-      "name": "8А"
+      id: 3,
+      name: 8А
     }
   ],
-  "subjects": [
+  subjects: [
     {
-      "id": 0,
-      "name": "Математика"
+      id: 0,
+      name: Математика
     },
     {
-      "id": 1,
-      "name": "Физика"
+      id: 1,
+      name: Физика
     },
     {
-      "id": 2,
-      "name": "Русский язык"
+      id: 2,
+      name: "Русский язык"
     },
     {
-      "id": 3,
-      "name": "История"
+      id: 3,
+      name: История
     },
     {
-      "id": 4,
-      "name": "Литература"
+      id: 4,
+      name: Литература
     }
   ]
 }

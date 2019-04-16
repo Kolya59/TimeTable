@@ -3,6 +3,7 @@
     <words>
       <w>coord</w>
       <w>itembox</w>
+      <w>reinit</w>
     </words>
   </dictionary>
 </component>

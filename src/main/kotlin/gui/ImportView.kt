@@ -9,6 +9,7 @@ import tornadofx.*
 import java.io.File
 
 // TODO Создать интерактивное отображение файла
+// TODO Исправить корректность импорта
 class ImportView : View("Меню импорта") {
     private val controller: ImportController by inject()
     var currentTimetable: TimeTable = TimeTable(

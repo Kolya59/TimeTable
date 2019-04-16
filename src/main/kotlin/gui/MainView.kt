@@ -3,45 +3,57 @@ package gui
 import classes.*
 import gui.controls.TimetableCell
 import javafx.event.ActionEvent
+import javafx.geometry.Insets
+import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.control.Alert
 import javafx.scene.control.ContentDisplay
 import javafx.scene.control.Label
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.GridPane
+import javafx.scene.layout.*
+import javafx.scene.paint.Color
 import javafx.scene.text.TextAlignment
 import serialization.Export
 import serialization.Import
 import tornadofx.*
 import java.io.File
+import kotlin.collections.MutableList
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.find
+import kotlin.collections.indexOf
+import kotlin.collections.mapOf
+import kotlin.collections.toMutableList
+import kotlin.collections.firstOrNull as firstOrNull1
 
 class MainView : View("Редактор расписания") {
     // Controller
     private val controller: MainController by inject()
 
     // Current timetable
-    var currentTimetable: TimeTable
+    lateinit var currentTimetable: TimeTable
 
     // List of timetable cells
-    internal var timetableCells: MutableList<TimetableCell>
+    lateinit var timetableCells: MutableList<TimetableCell>
 
     // Lists of timetable content
-    var availableLessons: MutableList<Lesson>
-    var availableTeachers: MutableList<Teacher>
-    var availableClassrooms: MutableList<Classroom>
-    var availableSubjects: MutableList<Subject>
-    var availableStudentClasses: MutableList<StudentClass>
+    lateinit var availableLessons: MutableList<Lesson>
+    lateinit var availableTeachers: MutableList<Teacher>
+    lateinit var availableClassrooms: MutableList<Classroom>
+    lateinit var availableSubjects: MutableList<Subject>
+    lateinit var availableStudentClasses: MutableList<StudentClass>
+
+    var inFlightTimeTableCell: TimetableCell = TimetableCell()
 
     // TODO Settings
     internal var settings = Settings()
-    /* // Current itembox
-     private var currentItemBox: ItemBox*/
+
     // Selected day
-    var selectedDay: String
+    lateinit var selectedDay: String
 
     // Current timetable grid
-    var gridTimeTable: GridPane = GridPane()
+    var gridTimeTable: GridPane = gridpane()
 
     /**
      * View statements
@@ -51,7 +63,15 @@ class MainView : View("Редактор расписания") {
     // Current timetable state
     var selectedState: ViewState = ViewState.STUDENT_CLASS_VIEW
 
+    override val root = VBox()
+
     init {
+        loadData(true)
+        setupColections()
+        setupInterface()
+    }
+
+    fun loadData(reinitFlag: Boolean) {
         // Создание пустых коллекций
         timetableCells = emptyList<TimetableCell>().toMutableList()
         availableClassrooms = emptyList<Classroom>().toMutableList()
@@ -63,9 +83,13 @@ class MainView : View("Редактор расписания") {
         // Загрузка данных из конфига
         currentTimetable =
             try {
-                controller.loadFromConfig(
-                    "currentTimeTable.json"
-                )
+                if (reinitFlag)
+                    controller.loadFromConfig(
+                        "currentTimeTable.json"
+                    )
+                else {
+                    currentTimetable
+                }
             } catch (e: Exception) {
                 TimeTable(
                     availableLessons,
@@ -75,7 +99,9 @@ class MainView : View("Редактор расписания") {
                     availableSubjects
                 )
             }
+    }
 
+    fun setupColections() {
         // TODO Проверка на выбор понедельника в списке дней недели
         selectedDay = "Понедельник"
         // Сортировка содержимого конфига по коллекциям
@@ -105,56 +131,57 @@ class MainView : View("Редактор расписания") {
         }
     }
 
-    override val root = vbox() {
-        alignment = Pos.TOP_CENTER
+    fun setupInterface() {
+        with(root) {
+            alignment = Pos.TOP_CENTER
 
-        menubar {
-            menu("Файл") {
-                item("Создать") {
-                    action { controller.onCreateMenuClicked(ActionEvent()) }
+            menubar {
+                menu("Файл") {
+                    item("Создать") {
+                        action { controller.onCreateMenuClicked(ActionEvent()) }
+                    }
+                    item("Сохранить") {
+                        action { controller.onSaveMenuClicked(ActionEvent()) }
+                    }
+                    item("Выход") {
+                        action { controller.onExitMenuClicked(ActionEvent()) }
+                    }
                 }
-                item("Сохранить") {
-                    action { controller.onSaveMenuClicked(ActionEvent()) }
+                menu("Вид") {
+                    item("По классам") {
+                        action { controller.onViewStudentClassesMenuClicked() }
+                    }
+                    item("По учителям") {
+                        action { controller.onViewTeachersMenuClicked() }
+                    }
+                    item("По кабинетам") {
+                        action { controller.onViewClassroomsMenuClicked() }
+                    }
                 }
-                item("Выход") {
-                    action { controller.onExitMenuClicked(ActionEvent()) }
+                menu("Работа с файлами") {
+                    item("Экспорт") {
+                        action { controller.onExportMenuClicked() }
+                    }
+                    item("Импорт") {
+                        action { controller.onImportMenuClicked() }
+                    }
                 }
-            }
-            menu("Вид") {
-                item("По классам") {
-                    action { controller.onViewStudentClassesMenuClicked() }
+                menu("Настройки") {
+                    item("Интерфейс") {
+                        action { controller.onSettingsInterfaceMenuClicked() }
+                    }
+                    item("Генерация") {
+                        action { controller.onSettingsGeneratorMenuClicked() }
+                    }
                 }
-                item("По учителям") {
-                    action { controller.onViewTeachersMenuClicked() }
-                }
-                item("По кабинетам") {
-                    action { controller.onViewClassroomsMenuClicked() }
-                }
-            }
-            menu("Работа с файлами") {
-                item("Экспорт") {
-                    action { controller.onExportMenuClicked() }
-                }
-                item("Импорт") {
-                    action { controller.onImportMenuClicked() }
-                }
-            }
-            menu("Настройки") {
-                item("Интерфейс") {
-                    action { controller.onSettingsInterfaceMenuClicked() }
-                }
-                item("Генерация") {
-                    action { controller.onSettingsGeneratorMenuClicked() }
-                }
-            }
 
-        }
+            }
             anchorpane {
                 // TODO Поправить верстку см 100 стр
                 vbox {
                     alignment = Pos.CENTER
 
-                    label("Расписание"){
+                    label("Расписание") {
                         alignment = Pos.CENTER
                         contentDisplay = ContentDisplay.CENTER
                         textAlignment = TextAlignment.CENTER
@@ -187,13 +214,12 @@ class MainView : View("Редактор расписания") {
                             )
                         }
 
-                        alignment = Pos.CENTER
                         columnConstraints.add(
-                            javafx.scene.layout.ColumnConstraints(
+                            ColumnConstraints(
                                 20.0,
                                 60.0,
                                 100.0,
-                                javafx.scene.layout.Priority.ALWAYS,
+                                Priority.ALWAYS,
                                 javafx.geometry.HPos.CENTER,
                                 true
                             )
@@ -201,28 +227,19 @@ class MainView : View("Редактор расписания") {
                         isGridLinesVisible = true
                     }
                 }
+            }
 
-                /*anchorpane {
-                    vbox {
-                        alignment = Pos.CENTER
+            // Drag and Drop event filters
+            addEventFilter(MouseEvent.MOUSE_PRESSED, ::startDrag)
+            addEventFilter(MouseEvent.MOUSE_DRAGGED, ::animateDrag)
+            addEventFilter(MouseEvent.MOUSE_EXITED, ::stopDrag)
+            addEventFilter(MouseEvent.MOUSE_RELEASED, ::stopDrag)
+            addEventFilter(MouseEvent.MOUSE_RELEASED, ::drop)
 
-                        label("Уроки")
-                        currentItemBox = ItemBox(availableClassrooms, availableSubjects, availableTeachers)
-                    }
-                }*/
+            // Clicks
+            addEventFilter(MouseEvent.MOUSE_CLICKED, ::changeCell)
         }
-
-        // Drag and Drop event filters
-        addEventFilter(MouseEvent.MOUSE_PRESSED, ::startDrag)
-        addEventFilter(MouseEvent.MOUSE_DRAGGED, ::animateDrag)
-        addEventFilter(MouseEvent.MOUSE_EXITED, ::stopDrag)
-        addEventFilter(MouseEvent.MOUSE_RELEASED, ::stopDrag)
-        addEventFilter(MouseEvent.MOUSE_RELEASED, ::drop)
-
-        // Clicks
-        addEventFilter(MouseEvent.MOUSE_CLICKED, ::changeCell)
     }
-
 
     // Drag and Drop
     private fun startDrag(evt: MouseEvent) {
@@ -243,8 +260,7 @@ class MainView : View("Редактор расписания") {
 
     // Change cell data
     private fun changeCell(mouseEvent: MouseEvent) {
-        // TODO Double click
-        if (mouseEvent.button == MouseButton.PRIMARY)
+        if (mouseEvent.button == MouseButton.SECONDARY)
             controller.onClick(mouseEvent)
     }
 }
@@ -337,82 +353,6 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO: Changing view state
-     */
-    fun changeViewState(viewState : MainView.ViewState) {
-
-    }
-
-    /**
-     * TODO Start dragging
-     */
-    fun onStartDrag(mouseEvent: MouseEvent) {
-        /*toolboxItems
-            .filter {
-                val mousePt: Point2D = it.sceneToLocal(evt.sceneX, evt.sceneY)
-                it.contains(mousePt)
-            }
-            .firstOrNull()
-            .apply {
-                if (this != null) {
-                    draggingColor = this.properties["rectColor"] as Color
-                }
-            }*/
-    }
-
-    /**
-     * TODO Animation of dragging
-     */
-    fun onAnimateDrag(mouseEvent: MouseEvent) {
-        /* val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
-         if (workArea.contains(mousePt)) {
-
-             // highlight the onDrop target (hover doesn't work)
-             if (!workArea.hasClass(DraggingStyles.workAreaSelected)) {
-                 workArea.addClass(DraggingStyles.workAreaSelected)
-             }
-
-             // animate a rectangle so that the user can follow
-             if (!inflightRect.isVisible) {
-                 inflightRect.isVisible = true
-                 inflightRect.fill = draggingColor
-             }
-
-             inflightRect.relocate(mousePt.x, mousePt.y)
-         }*/
-    }
-
-    /**
-     * TODO Stop dragging
-     */
-    fun onStopDrag(mouseEvent: MouseEvent) {
-        /*if (workArea.hasClass(DraggingStyles.workAreaSelected)) {
-            workArea.removeClass(DraggingStyles.workAreaSelected)
-        }
-        if (inflightRect.isVisible) {
-            inflightRect.isVisible = false
-        }*/
-    }
-
-    /**
-     * TODO Drop item
-     */
-    fun onDrop(mouseEvent: MouseEvent) {
-        /*val mousePt = workArea.sceneToLocal(evt.sceneX, evt.sceneY)
-        if (workArea.contains(mousePt)) {
-            if (draggingColor != null) {
-                val newRect = Rectangle(RECTANGLE_WIDTH, RECTANGLE_HEIGHT, draggingColor)
-                workArea.add(newRect)
-                newRect.relocate(mousePt.x, mousePt.y)
-
-                inflightRect.toFront() // don't want to move cursor tracking behind added objects
-            }
-        }
-
-        draggingColor = null*/
-    }
-
-    /**
      * Mouse click
      */
     fun onClick(mouseEvent: MouseEvent) {
@@ -426,6 +366,8 @@ class MainController : Controller() {
      */
     fun findLesson(mouseEvent: MouseEvent): TimetableCell? {
         val cellCoord = findCellCoord(mouseEvent)
+        // DEBUG
+//        alert(Alert.AlertType.INFORMATION, "Cell Coord", cellCoord.toString())
         return view.timetableCells
             .filter { it.cellType == TimetableCell.CellType.LESSON }
             .find {
@@ -449,8 +391,10 @@ class MainController : Controller() {
      */
     fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
         // TODO Сделать адаптивно вычисляемый размер заголовка
-        val headerHeight = 90.0
-        val mousePt = view.gridTimeTable.localToScene(mouseEvent.x, mouseEvent.y - headerHeight)
+        val headerHeight = 50.0
+        val mousePt = Point2D(mouseEvent.x, mouseEvent.y - headerHeight)
+        // DEBUG
+//        alert(Alert.AlertType.INFORMATION, "Cell Coord", mousePt.toString())
         // Поиск ячейки
         if (view.gridTimeTable.contains(mousePt)) {
             for (i in 1 until view.gridTimeTable.columnCount) {
@@ -467,7 +411,6 @@ class MainController : Controller() {
      * EditCell
      */
     fun editCell(cell: TimetableCell) {
-        // TODO Добавить изменяемый урок
         val parameters = mapOf(
             "classrooms" to view.availableClassrooms,
             "lesson" to cell.lesson,
@@ -480,16 +423,140 @@ class MainController : Controller() {
             owner = view.currentWindow,
             block = true
         )
-        val editedLesson = view.availableLessons.filter { it.id == cellFragment.lesson!!.id }
-        val editedIndex = view.availableLessons.indexOf(editedLesson[0])
-        view.availableLessons[editedIndex] = cellFragment.lesson!!
+        val editedLesson = view.currentTimetable.lessons.firstOrNull1 { it.id == cellFragment.lesson!!.id }
+        if (editedLesson != null) {
+            val editedIndex = view.currentTimetable.lessons.indexOf(editedLesson)
+            view.currentTimetable.lessons[editedIndex] = cellFragment.lesson!!
+            val newLesson = cellFragment.lesson!!
+            val editedCell = cell
+            editedCell.setItem(newLesson)
+            view.gridTimeTable.children.firstOrNull1 {
+                it is TimetableCell &&
+                        it.getItem() != null &&
+                        it.getItem() is Lesson &&
+                        (it.getItem() as Lesson).id == editedLesson.id
+            }!!.replaceWith(editedCell)
+
+        }
+        Export.ExportTimetable("currentTimeTable.json", view.currentTimetable).toJSON()
+    }
+
+    /**
+     * TODO: Changing view state
+     */
+    fun changeViewState(viewState : MainView.ViewState) {
+
+    }
+
+    /**
+     * TODO Start dragging
+     */
+    fun onStartDrag(mouseEvent: MouseEvent) {
+        val selectedCell = findLesson(mouseEvent)
+        if (selectedCell != null) {
+            val selectedTimeTableCell = view.gridTimeTable.children.firstOrNull1 {
+                it is TimetableCell && it.getItem() == selectedCell.getItem()
+            } as? TimetableCell
+            if (selectedTimeTableCell != null) {
+                val bf = BackgroundFill(
+                    Color.GREY,
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY
+                )
+                selectedTimeTableCell.background = Background(bf)
+            }
+        }
+    }
+
+    /**
+     * TODO Animation of dragging
+     */
+    fun onAnimateDrag(mouseEvent: MouseEvent) {
+        val selectedCell = findLesson(mouseEvent)
+        if (selectedCell != null) {
+            /*// highlight the onDrop target (hover doesn't work)
+            if (!workArea.hasClass(DraggingStyles.workAreaSelected)) {
+                workArea.addClass(DraggingStyles.workAreaSelected)
+            }*/
+
+            view.inFlightTimeTableCell = selectedCell
+             // animate a rectangle so that the user can follow
+            if (!view.inFlightTimeTableCell.isVisible) {
+                view.inFlightTimeTableCell.isVisible = true
+                view.inFlightTimeTableCell.fill(
+                    Background(
+                        BackgroundFill(
+                            Color.CHOCOLATE,
+                            CornerRadii.EMPTY,
+                            Insets.EMPTY
+                        )
+                    )
+                )
+             }
+
+            view.inFlightTimeTableCell.relocate(mouseEvent.x, mouseEvent.y)
+        }
+    }
+
+    /**
+     * TODO Stop dragging
+     */
+    fun onStopDrag(mouseEvent: MouseEvent) {
+        // TODO Добавить способ отмены изменений
+        if (view.inFlightTimeTableCell.isVisible) {
+
+        }
+    }
+
+    /**
+     * TODO Drop item
+     */
+    fun onDrop(mouseEvent: MouseEvent) {
+        val selectedCell = findLesson(mouseEvent)
+        if (selectedCell != null) {
+            val selectedTimeTableCell = view.gridTimeTable.children.firstOrNull1 {
+                it is TimetableCell && it.getItem() == selectedCell.getItem()
+            } as? TimetableCell
+            // DEBUG
+//            alert(Alert.AlertType.INFORMATION, "Cell", selectedTimeTableCell?.getItem().toString())
+            if (selectedTimeTableCell != null) {
+                val bf = BackgroundFill(
+                    Color.GREEN,
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY
+                )
+                selectedTimeTableCell.background = Background(bf)
+            }
+        }
+        val sourceCell = view.gridTimeTable.children.firstOrNull1 {
+            it is TimetableCell &&
+                    it.background != null &&
+                    it.background == Background(
+                BackgroundFill(
+                    Color.GREY,
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY
+                )
+            )
+        }
+
+        if (sourceCell != null)
+            (sourceCell as TimetableCell).fill(
+                Background(
+                    BackgroundFill(
+                        Color.WHITE,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                    )
+                )
+            )
     }
 
     /**
      * TODO Clearing all data from timetable
      */
     fun clearAll() {
-
+        view.init()
     }
 
     /**

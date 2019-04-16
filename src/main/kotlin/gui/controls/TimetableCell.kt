@@ -2,8 +2,13 @@ package gui.controls
 
 import classes.*
 import gui.controls.TimetableCell.CellType.*
+import javafx.geometry.Insets
 import javafx.scene.control.Label
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
+import javafx.scene.layout.CornerRadii
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import tornadofx.add
 
 /**
@@ -110,6 +115,16 @@ class TimetableCell() : VBox() {
         this.otherInfo = otherInfo; fillData()
     }
 
+    init {
+        background = Background(
+            BackgroundFill(
+                Color.AQUA,
+                CornerRadii.EMPTY,
+                Insets.EMPTY
+            )
+        )
+    }
+
     private fun fillData() {
         // Классификация ячейки
         cellType = computeCellType(classroom, lesson, subject, studentClass, teacher, otherInfo)
@@ -152,6 +167,10 @@ class TimetableCell() : VBox() {
         }
     }
 
+    fun fill(background: Background) {
+        this.background = background
+    }
+
     fun getItem(): Any? {
         when (cellType) {
             CLASSROOM -> return classroom
@@ -166,16 +185,31 @@ class TimetableCell() : VBox() {
 
     fun setItem(value: Any) {
         when (value) {
-            is Classroom -> classroom = value
-            is Lesson -> lesson = value
-            is Subject -> subject = value
-            is StudentClass -> studentClass = value
-            is Teacher -> teacher = value
-            else -> otherInfo = value
-        }
-    }
+            is Classroom -> {
+                classroom = value
+                lClassroom?.text = value.name
+            }
+            is Lesson -> {
+                lesson = value
+                lClassroom?.text = value.classroom?.name
 
-    fun labelToTimetableCell(label: Label): TimetableCell {
-        return TimetableCell(label)
+            }
+            is Subject -> {
+                subject = value
+                lSubject?.text = value.name
+            }
+            is StudentClass -> {
+                studentClass = value
+                lStudentClass?.text = value.name
+            }
+            is Teacher -> {
+                teacher = value
+                lTeacher?.text = value.name
+            }
+            else -> {
+                otherInfo = value
+                lOtherInfo?.text = value.toString()
+            }
+        }
     }
 }
