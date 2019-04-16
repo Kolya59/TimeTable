@@ -2,13 +2,9 @@ package gui.controls
 
 import classes.*
 import gui.controls.TimetableCell.CellType.*
-import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
-import javafx.scene.layout.CornerRadii
 import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
 import tornadofx.add
 
 /**
@@ -115,16 +111,6 @@ class TimetableCell() : VBox() {
         this.otherInfo = otherInfo; fillData()
     }
 
-    init {
-        background = Background(
-            BackgroundFill(
-                Color.AQUA,
-                CornerRadii.EMPTY,
-                Insets.EMPTY
-            )
-        )
-    }
-
     private fun fillData() {
         // Классификация ячейки
         cellType = computeCellType(classroom, lesson, subject, studentClass, teacher, otherInfo)
@@ -133,6 +119,7 @@ class TimetableCell() : VBox() {
             CLASSROOM -> {
                 lClassroom = Label(classroom?.name)
                 this.add(lClassroom!!)
+                children.set(0,lClassroom)
             }
             LESSON -> {
                 lClassroom = Label(lesson?.classroom?.name)
@@ -144,18 +131,22 @@ class TimetableCell() : VBox() {
                 this.add(lSubject!!)
                 this.add(lStudentClass!!)
                 this.add(lTeacher!!)
+                children.setAll(lClassroom, lSubject, lStudentClass, lTeacher)
             }
             SUBJECT -> {
                 lSubject = Label(subject?.name)
                 this.add(lSubject!!)
+                children.set(0,lSubject)
             }
             STUDENT_CLASS -> {
                 lStudentClass = Label(studentClass?.name)
                 this.add(lStudentClass!!)
+                children.set(0,lStudentClass)
             }
             TEACHER -> {
                 lTeacher = Label(teacher?.name)
                 this.add(lTeacher!!)
+                children.set(0,lTeacher)
             }
             OTHER -> {
                 lOtherInfo = if (otherInfo is Label)
@@ -163,7 +154,6 @@ class TimetableCell() : VBox() {
                 else
                     Label(otherInfo.toString())
             }
-
         }
     }
 
