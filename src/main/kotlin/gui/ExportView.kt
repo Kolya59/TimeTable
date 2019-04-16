@@ -1,4 +1,4 @@
-package gui.export
+package gui
 
 import classes.TimeTable
 import javafx.beans.property.StringProperty
@@ -11,14 +11,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO Создать интерактивное отображение файла
-class ExportView() : View("Меню экспорта") {
+class ExportView : View("Меню экспорта") {
     private val controller: ExportController by inject()
-    var currentTimetable: TimeTable = TimeTable(emptySet())
-    var currentPath: StringProperty = "Файл не выбран".toProperty()
+    var currentTimetable: TimeTable = params["currentTimetable"] as TimeTable
+    var currentPath: StringProperty = "Директория не выбрана".toProperty()
+
     override val root = vbox {
         hbox {
             label {
-                text = "Выберите файл"
+                text = "Выберите директорию"
             }
             button {
                 action { controller.onChoicePath(ActionEvent()) }
@@ -45,16 +46,19 @@ class ExportView() : View("Меню экспорта") {
 }
 
 class ExportController : Controller() {
-    private val view: ExportView = find()
+    private val view: ExportView by inject()
 
     /**
      * Выбор пути файла
      */
     fun onChoicePath(actionEvent: ActionEvent) {
-        val selectedDirectory = chooseDirectory(
+        val chosenDirectory = chooseDirectory(
             "Выберите путь для сохранения файла",
             File("/")
         )
+        if (chosenDirectory != null && chosenDirectory.exists()) {
+            view.currentPath.value = chosenDirectory.absolutePath
+        }
     }
 
     /**
@@ -66,8 +70,8 @@ class ExportController : Controller() {
         // TODO Проверка файла на существование
         val selectedDirectory = File(view.currentPath.value)
         if (selectedDirectory.absolutePath != null) {
-            val selectedPath: String = "$selectedDirectory/$fileName.json"
-            Export.ExportTimetable(selectedPath, view.currentTimetable)
+            val selectedPath = "$selectedDirectory/$fileName.json"
+            Export.ExportTimetable(selectedPath, view.currentTimetable).toJSON()
         }
         tornadofx.alert(
             Alert.AlertType.INFORMATION,

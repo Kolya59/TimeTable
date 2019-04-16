@@ -1,6 +1,6 @@
-package gui.import
+package gui
 
-import classes.TimeTable
+import classes.*
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
 import javafx.stage.FileChooser
@@ -9,9 +9,16 @@ import tornadofx.*
 import java.io.File
 
 // TODO Создать интерактивное отображение файла
+// TODO Исправить корректность импорта
 class ImportView : View("Меню импорта") {
     private val controller: ImportController by inject()
-    var currentTimetable: TimeTable = TimeTable(emptySet())
+    var currentTimetable: TimeTable = TimeTable(
+        emptyList<Lesson>().toMutableList(),
+        emptyList<Teacher>().toMutableList(),
+        emptyList<Classroom>().toMutableList(),
+        emptyList<StudentClass>().toMutableList(),
+        emptyList<Subject>().toMutableList()
+    )
     var currentPath: StringProperty = "Файл не выбран".toProperty()
 
     override val root = vbox {
@@ -30,8 +37,9 @@ class ImportView : View("Меню импорта") {
             button {
                 id = "btImport"
                 action {
-                    controller.onImport(ActionEvent())
-                    close()
+                    currentTimetable = controller.onImport(ActionEvent())
+                    if (!currentTimetable.lessons.isEmpty())
+                        close()
                 }
                 text = "Импортировать"
             }
@@ -66,14 +74,9 @@ class ImportController : Controller() {
     /**
      * Импорт файла
      */
-    fun onImport(actionEvent: ActionEvent) {
-        val flag = view.currentPath.value.matches(Regex(".json"))
-        if (flag) {
-            val selectedFile = File(view.currentPath.value)
-            if (!selectedFile.isFile) {
-                view.currentTimetable = Import.ImportTimetable(selectedFile).fromJSON()
-            }
-        }
+    fun onImport(actionEvent: ActionEvent): TimeTable {
+        val selectedFile = File(view.currentPath.value)
+        return Import.ImportTimetable(selectedFile).fromJSON()
     }
 
     /**

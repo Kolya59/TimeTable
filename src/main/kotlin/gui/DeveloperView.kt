@@ -1,6 +1,8 @@
-package gui.develop_menu
+package gui
 
-import tornadofx.*
+import tornadofx.Controller
+import tornadofx.View
+import tornadofx.borderpane
 
 class DeveloperView : View("Меню разработчика") {
     val controller: DeveloperController by inject()

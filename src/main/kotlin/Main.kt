@@ -1,17 +1,16 @@
+
+import gui.MainView
 import javafx.stage.Stage
 import tornadofx.App
-import tornadofx.importStylesheet
 import tornadofx.reloadStylesheetsOnFocus
-import tornadofx.reloadViewsOnFocus
 
-class MainApp: App(gui.main.MainView:: class) {
+class MainApp : App(MainView::class, TimetableStyleSheet::class) {
     init {
         reloadStylesheetsOnFocus()
-        reloadViewsOnFocus()
+//        reloadViewsOnFocus()
     }
 
     override fun start(stage: Stage) {
-        importStylesheet("/style.css")
         super.start(stage)
         stage.show()
     }
