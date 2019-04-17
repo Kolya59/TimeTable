@@ -2,6 +2,7 @@ package gui
 
 import TimetableStyleSheet
 import classes.*
+import gui.MainView.ViewState
 import gui.controls.TimetableCell
 import javafx.event.ActionEvent
 import javafx.geometry.Insets
@@ -23,8 +24,10 @@ import kotlin.collections.MutableList
 import kotlin.collections.emptyList
 import kotlin.collections.filter
 import kotlin.collections.find
+import kotlin.collections.forEach
 import kotlin.collections.indexOf
 import kotlin.collections.mapOf
+import kotlin.collections.sortedBy
 import kotlin.collections.toMutableList
 import kotlin.collections.firstOrNull as firstOrNull1
 
@@ -429,21 +432,21 @@ class MainController : Controller() {
      * Setting view to student class view state
      */
     fun onViewStudentClassesMenuClicked() {
-        changeViewState(MainView.ViewState.STUDENT_CLASS_VIEW)
+        changeViewState(ViewState.STUDENT_CLASS_VIEW)
     }
 
     /**
      * Setting view to teachers view state
      */
     fun onViewTeachersMenuClicked() {
-        changeViewState(MainView.ViewState.TEACHER_VIEW)
+        changeViewState(ViewState.TEACHER_VIEW)
     }
 
     /**
      * Setting view to classrooms view state
      */
     fun onViewClassroomsMenuClicked() {
-        changeViewState(MainView.ViewState.CLASSROOM_VIEW)
+        changeViewState(ViewState.CLASSROOM_VIEW)
     }
 
     /**
@@ -494,6 +497,10 @@ class MainController : Controller() {
         val selectedCell = findLesson(mouseEvent)
         if (selectedCell != null)
             editCell(selectedCell)
+        else if (findCellCoord(mouseEvent) != Pair(-1, -1)) {
+            val coord = findCellCoord(mouseEvent)
+            createCell(view.selectedDay, coord.first, coord.second)
+        }
     }
 
     /**
@@ -508,13 +515,13 @@ class MainController : Controller() {
             .find {
                 (it.getItem() as Lesson).number == cellCoord.second &&
                         (it.getItem() as Lesson).day == view.selectedDay && ((
-                        view.selectedState == MainView.ViewState.CLASSROOM_VIEW &&
+                        view.selectedState == ViewState.CLASSROOM_VIEW &&
                                 (it.getItem() as Lesson).classroom == view.availableClassrooms[cellCoord.first - 1]
                         ) || (
-                        view.selectedState == MainView.ViewState.STUDENT_CLASS_VIEW &&
+                        view.selectedState == ViewState.STUDENT_CLASS_VIEW &&
                                 (it.getItem() as Lesson).studentClass == view.availableStudentClasses[cellCoord.first - 1]
                         ) || (
-                        view.selectedState == MainView.ViewState.TEACHER_VIEW &&
+                        view.selectedState == ViewState.TEACHER_VIEW &&
                                 (it.getItem() as Lesson).teacher == view.availableTeachers[cellCoord.first - 1]
                         ))
             }
@@ -526,7 +533,7 @@ class MainController : Controller() {
      */
     fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
         // TODO Сделать адаптивно вычисляемый размер заголовка
-        val headerHeight = 50.0
+        val headerHeight = 70.0
         val mousePt = Point2D(mouseEvent.x, mouseEvent.y - headerHeight)
         // DEBUG
 //        alert(Alert.AlertType.INFORMATION, "Cell Coord", mousePt.toString())
@@ -543,7 +550,7 @@ class MainController : Controller() {
     }
 
     /**
-     * EditCell
+     * Edit cell
      */
     fun editCell(cell: TimetableCell) {
         val parameters = mapOf(
@@ -551,18 +558,19 @@ class MainController : Controller() {
             "lesson" to cell.lesson,
             "studentClasses" to view.availableStudentClasses,
             "subjects" to view.availableSubjects,
-            "teachers" to view.availableTeachers
+            "teachers" to view.availableTeachers,
+            "state" to view.selectedState
         )
         val cellFragment = find<EditCellFragment>(parameters)
         cellFragment.openModal(
             owner = view.currentWindow,
             block = true
         )
-        val editedLesson = view.currentTimetable.lessons.firstOrNull1 { it.id == cellFragment.lesson!!.id }
+        val editedLesson = view.currentTimetable.lessons.firstOrNull1 { it.id == cellFragment.lesson.id }
         if (editedLesson != null) {
             val editedIndex = view.currentTimetable.lessons.indexOf(editedLesson)
-            view.currentTimetable.lessons[editedIndex] = cellFragment.lesson!!
-            val newLesson = cellFragment.lesson!!
+            view.currentTimetable.lessons[editedIndex] = cellFragment.lesson
+            val newLesson = cellFragment.lesson
             val editedCell = cell
             editedCell.setItem(newLesson)
             view.gridTimeTable.children.firstOrNull1 {
@@ -577,9 +585,54 @@ class MainController : Controller() {
     }
 
     /**
+     * Create cell
+     */
+    fun createCell(day: String, columnIndex: Int, rowIndex: Int) {
+        val transferParameter: Any
+        when (view.selectedState) {
+            ViewState.STUDENT_CLASS_VIEW -> {
+                transferParameter = view.availableStudentClasses[columnIndex - 1]
+            }
+            ViewState.CLASSROOM_VIEW -> {
+                transferParameter = view.availableClassrooms[columnIndex - 1]
+            }
+            ViewState.TEACHER_VIEW -> {
+                transferParameter = view.availableTeachers[columnIndex - 1]
+            }
+        }
+        val generatedLesson = generateLesson(
+            day, rowIndex, when (view.selectedState) {
+                ViewState.STUDENT_CLASS_VIEW -> transferParameter as StudentClass
+                ViewState.CLASSROOM_VIEW -> transferParameter as Classroom
+                ViewState.TEACHER_VIEW -> transferParameter as Teacher
+            }
+        )
+        val parameters = mapOf(
+            "classrooms" to view.availableClassrooms,
+            "lesson" to generatedLesson,
+            "studentClasses" to view.availableStudentClasses,
+            "subjects" to view.availableSubjects,
+            "teachers" to view.availableTeachers,
+            "state" to view.selectedState
+        )
+        val cellFragment = find<EditCellFragment>(parameters)
+        cellFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (cellFragment.lesson != generatedLesson) {
+            val createdLesson = cellFragment.lesson
+            view.currentTimetable.lessons.add(createdLesson)
+            view.availableLessons.add(createdLesson)
+            clearInterface()
+            view.setupInterface()
+        }
+    }
+
+    /**
      * TODO: Changing view state
      */
-    fun changeViewState(viewState : MainView.ViewState) {
+    fun changeViewState(viewState: ViewState) {
         view.selectedState = viewState
         clearInterface()
         view.setupInterface()
@@ -693,7 +746,35 @@ class MainController : Controller() {
      * TODO Clearing all data from timetable
      */
     fun clearAll() {
+        clearCollections()
+        clearInterface()
+    }
 
+    /**
+     * Generating lesson by some data
+     * @param[args] Input data
+     * @return Generated lesson
+     */
+    fun generateLesson(vararg args: Any): Lesson {
+        var newId = 0
+        view.availableLessons.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newSubject: Subject? = args.firstOrNull1 { it is Subject } as? Subject
+        val newTeacher: Teacher? = args.firstOrNull1 { it is Teacher } as? Teacher
+        val newClassroom: Classroom? = args.firstOrNull1 { it is Classroom } as? Classroom
+        val newStudentClass: StudentClass? = args.firstOrNull1 { it is StudentClass } as? StudentClass
+        val newNumber: Int = args.firstOrNull1 { it is Int } as Int
+        val newDay: String = args.firstOrNull1 { it is String } as String
+
+        return Lesson(
+            newId,
+            newSubject,
+            newTeacher,
+            newClassroom,
+            newStudentClass,
+            newNumber,
+            newDay
+        )
     }
 
     /**
