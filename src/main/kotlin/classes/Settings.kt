@@ -20,7 +20,7 @@ class Settings {
     ).toMutableList()
 
     /**
-     * TODO Время уроков
+     * Время уроков
      */
     var lessonsTime: MutableList<String> = listOf(
         "08:30 - 09-15",

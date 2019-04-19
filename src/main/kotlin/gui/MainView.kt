@@ -23,7 +23,6 @@ import kotlin.collections.MutableList
 import kotlin.collections.emptyList
 import kotlin.collections.filter
 import kotlin.collections.find
-import kotlin.collections.first
 import kotlin.collections.forEach
 import kotlin.collections.indexOf
 import kotlin.collections.mapOf
@@ -49,23 +48,22 @@ class MainView : View("Редактор расписания") {
     lateinit var paneDays: TabPane
 
     // Selected day
-    var selectedDay: String = settings.workingDays.first()
+    var selectedDayIndex: Int = 0
         get() {
-            return try {
-                (paneDays as? TabPane)?.selectionModel?.selectedItem.toString()
+            try {
+                val pred_id = (paneDays as? TabPane)?.selectionModel?.selectedIndex
+                return if (pred_id != null) pred_id else 0
             } catch (e: java.lang.Exception) {
-                settings.workingDays.first().toString()
+                return 0
             }
         }
         set(value) {
-            if (settings.workingDays.contains(value)) {
-                field = value
-                paneDays.selectionModel.select(settings.workingDays.indexOf(value))
-            }
+            field = value
+            paneDays.selectionModel.select(value)
         }
 
     // Current timetable grid
-    var gridTimeTable: GridPane = gridpane()
+    var gridTimeTable: MutableList<GridPane> = emptyList<GridPane>().toMutableList()
 
     /**
      * View statements
@@ -83,7 +81,7 @@ class MainView : View("Редактор расписания") {
         setupInterface()
     }
 
-    fun loadData() {
+    private fun loadData() {
         // Создание пустых коллекций
         timetableCells = emptyList<TimetableCell>().toMutableList()
         // Загрузка данных из конфига
@@ -142,7 +140,6 @@ class MainView : View("Редактор расписания") {
                         action { controller.onSettingsGeneratorMenuClicked() }
                     }*/
                 }
-
             }
             anchorpane {
                 // TODO Поправить верстку см 100 стр
@@ -161,7 +158,7 @@ class MainView : View("Редактор расписания") {
                                     anchorpane {
                                         alignment = Pos.TOP_CENTER
 
-                                        gridTimeTable = gridpane {
+                                        gridTimeTable.add(gridpane {
                                             // Columns
                                             addColumn(0, Label("Время"))
                                             when (selectedState) {
@@ -305,12 +302,13 @@ class MainView : View("Редактор расписания") {
                                                 rightAnchor = 3.0
                                                 leftAnchor = 3.0
                                             }
-                                        }
+                                        })
                                     }
                                 }
                             }
 
-                            selectionModel.select(settings.workingDays.indexOf(selectedDay))
+                            selectionModel.select(selectedDayIndex)
+                            tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
                         }
                     }
                     tab("Данные") {
@@ -336,6 +334,8 @@ class MainView : View("Редактор расписания") {
                             }
                         }
                     }
+
+                    tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
                 }
             }
 
@@ -448,7 +448,7 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO Opening interface settings menu
+     * Opening interface settings menu
      */
     fun onSettingsInterfaceMenuClicked() {
         val settingsView = SettingsView()
@@ -462,20 +462,20 @@ class MainController : Controller() {
     /**
      * TODO Opening generator settings menu
      */
-    fun onSettingsGeneratorMenuClicked() {
-
-    }
+    fun onSettingsGeneratorMenuClicked() {}
 
     /**
      * Mouse click
      */
     fun onClick(mouseEvent: MouseEvent) {
+        if (view.selectedState != ViewState.CLASSROOM_VIEW)
+            return
         val selectedCell = findLesson(mouseEvent)
         if (selectedCell != null)
             editCell(selectedCell)
         else if (findCellCoord(mouseEvent) != Pair(-1, -1)) {
             val coord = findCellCoord(mouseEvent)
-            createCell(view.selectedDay, coord.first, coord.second)
+            createCell(view.settings.workingDays[view.selectedDayIndex], coord.first, coord.second)
         }
     }
 
@@ -487,19 +487,19 @@ class MainController : Controller() {
         // DEBUG
 //        alert(Alert.AlertType.INFORMATION, "Cell Coord", cellCoord.toString())
         return view.timetableCells
-            .filter { it.cellType == TimetableCell.CellType.LESSON }
+            .filter { it.cellType == TimetableCell.CellType.LESSON && view.settings.workingDays.indexOf((it.getItem() as Lesson).day) == view.selectedDayIndex }
             .find {
                 (it.getItem() as Lesson).number == cellCoord.second &&
-                        (it.getItem() as Lesson).day == view.selectedDay && ((
-                        view.selectedState == ViewState.CLASSROOM_VIEW &&
-                                (it.getItem() as Lesson).classroom == view.currentTimetable.classrooms[cellCoord.first - 1]
-                        ) || (
-                        view.selectedState == ViewState.STUDENT_CLASS_VIEW &&
-                                (it.getItem() as Lesson).studentClass == view.currentTimetable.studentClasses[cellCoord.first - 1]
-                        ) || (
-                        view.selectedState == ViewState.TEACHER_VIEW &&
-                                (it.getItem() as Lesson).teacher == view.currentTimetable.teachers[cellCoord.first - 1]
-                        ))
+                        ((
+                                view.selectedState == ViewState.CLASSROOM_VIEW &&
+                                        (it.getItem() as Lesson).classroom == view.currentTimetable.classrooms[cellCoord.first - 1]
+                                ) || (
+                                view.selectedState == ViewState.STUDENT_CLASS_VIEW &&
+                                        (it.getItem() as Lesson).studentClass == view.currentTimetable.studentClasses[cellCoord.first - 1]
+                                ) || (
+                                view.selectedState == ViewState.TEACHER_VIEW &&
+                                        (it.getItem() as Lesson).teacher == view.currentTimetable.teachers[cellCoord.first - 1]
+                                ))
             }
     }
 
@@ -509,19 +509,25 @@ class MainController : Controller() {
      */
     fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
         // TODO Сделать адаптивно вычисляемый размер заголовка
-        val headerHeight = 70.0
+        val headerHeight = 105.0
         val mousePt = Point2D(mouseEvent.x, mouseEvent.y - headerHeight)
+
         // DEBUG
 //        alert(Alert.AlertType.INFORMATION, "Cell Coord", mousePt.toString())
+//        var logError = "$mousePt \n"
         // Поиск ячейки
-        if (view.gridTimeTable.contains(mousePt)) {
-            for (i in 1 until view.gridTimeTable.columnCount) {
-                for (j in 1 until view.gridTimeTable.rowCount) {
-                    if (view.gridTimeTable.getCellBounds(i, j).contains(mousePt))
+        if (view.gridTimeTable[view.selectedDayIndex].contains(mousePt)) {
+            for (i in 1 until view.gridTimeTable[view.selectedDayIndex].columnCount) {
+                for (j in 1 until view.gridTimeTable[view.selectedDayIndex].rowCount) {
+                    val bounds = view.gridTimeTable[view.selectedDayIndex].getCellBounds(i, j)
+                    val containFlag = bounds.contains(mousePt)
+//                    logError += "${bounds.minX}, ${bounds.minY}, ${bounds.maxX}, ${bounds.maxY}, $containFlag \n"
+                    if (containFlag)
                         return Pair(i, j)
                 }
             }
         }
+//        alert(Alert.AlertType.INFORMATION, "", logError)
         return Pair(-1, -1)
     }
 
@@ -549,7 +555,7 @@ class MainController : Controller() {
             val newLesson = cellFragment.lesson
             val editedCell = cell
             editedCell.setItem(newLesson)
-            view.gridTimeTable.children.firstOrNull1 {
+            view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                 it is TimetableCell &&
                         it.getItem() != null &&
                         it.getItem() is Lesson &&
@@ -620,7 +626,7 @@ class MainController : Controller() {
     fun onStartDrag(mouseEvent: MouseEvent) {
         val selectedCell = findLesson(mouseEvent)
         if (selectedCell != null) {
-            val selectedTimeTableCell = view.gridTimeTable.children.firstOrNull1 {
+            val selectedTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                 it is TimetableCell && it.getItem() == selectedCell.getItem()
             } as? TimetableCell
             if (selectedTimeTableCell != null) {
@@ -668,7 +674,6 @@ class MainController : Controller() {
      * TODO Stop dragging
      */
     fun onStopDrag(mouseEvent: MouseEvent) {
-        // TODO Добавить способ отмены изменений
         if (view.inFlightTimeTableCell.isVisible) {
 
         }
@@ -680,7 +685,7 @@ class MainController : Controller() {
     fun onDrop(mouseEvent: MouseEvent) {
         val selectedCell = findLesson(mouseEvent)
         if (selectedCell != null) {
-            val selectedTimeTableCell = view.gridTimeTable.children.firstOrNull1 {
+            val selectedTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                 it is TimetableCell && it.getItem() == selectedCell.getItem()
             } as? TimetableCell
             // DEBUG
@@ -694,7 +699,7 @@ class MainController : Controller() {
                 selectedTimeTableCell.background = Background(bf)
             }
         }
-        val sourceCell = view.gridTimeTable.children.firstOrNull1 {
+        val sourceCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
             it is TimetableCell &&
                     it.background != null &&
                     it.background == Background(
