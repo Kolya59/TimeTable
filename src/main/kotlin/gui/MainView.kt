@@ -3,6 +3,7 @@ package gui
 import TimetableStyleSheet
 import classes.*
 import gui.MainView.ViewState
+import gui.MainView.ViewState.*
 import gui.controls.TimetableCell
 import javafx.geometry.Insets
 import javafx.geometry.Point2D
@@ -25,6 +26,7 @@ import kotlin.collections.filter
 import kotlin.collections.find
 import kotlin.collections.forEach
 import kotlin.collections.indexOf
+import kotlin.collections.last
 import kotlin.collections.mapOf
 import kotlin.collections.sortedBy
 import kotlin.collections.toMutableList
@@ -40,21 +42,22 @@ class MainView : View("Редактор расписания") {
     // List of timetable cells
     lateinit var timetableCells: MutableList<TimetableCell>
 
+    var sourceTimeTableCell: TimetableCell? = TimetableCell()
     var inFlightTimeTableCell: TimetableCell = TimetableCell()
+    var targetTimeTableCell: TimetableCell? = TimetableCell()
 
     // TODO Settings
     internal var settings = Settings()
 
-    lateinit var paneDays: TabPane
+    private lateinit var paneDays: TabPane
 
     // Selected day
     var selectedDayIndex: Int = 0
         get() {
-            try {
-                val pred_id = (paneDays as? TabPane)?.selectionModel?.selectedIndex
-                return if (pred_id != null) pred_id else 0
+            return try {
+                (paneDays as? TabPane)?.selectionModel?.selectedIndex ?: 0
             } catch (e: java.lang.Exception) {
-                return 0
+                0
             }
         }
         set(value) {
@@ -77,7 +80,7 @@ class MainView : View("Редактор расписания") {
 
     init {
         loadData()
-        selectedState = ViewState.STUDENT_CLASS_VIEW
+        selectedState = STUDENT_CLASS_VIEW
         setupInterface()
     }
 
@@ -155,14 +158,12 @@ class MainView : View("Редактор расписания") {
                         paneDays = tabpane {
                             for (day in settings.workingDays) {
                                 tab(day) {
-                                    anchorpane {
-                                        alignment = Pos.TOP_CENTER
-
+                                    borderpane {
                                         gridTimeTable.add(gridpane {
                                             // Columns
                                             addColumn(0, Label("Время"))
                                             when (selectedState) {
-                                                ViewState.STUDENT_CLASS_VIEW -> {
+                                                STUDENT_CLASS_VIEW -> {
                                                     for (i in 0 until currentTimetable.studentClasses.size) {
                                                         val timetableCell =
                                                             TimetableCell(studentClass = currentTimetable.studentClasses[i])
@@ -176,7 +177,7 @@ class MainView : View("Редактор расписания") {
                                                         addClass(TimetableStyleSheet.columnHeader)
                                                     }
                                                 }
-                                                ViewState.CLASSROOM_VIEW -> {
+                                                CLASSROOM_VIEW -> {
                                                     for (i in 0 until currentTimetable.classrooms.size) {
                                                         val timetableCell =
                                                             TimetableCell(classroom = currentTimetable.classrooms[i])
@@ -190,7 +191,7 @@ class MainView : View("Редактор расписания") {
                                                         addClass(TimetableStyleSheet.columnHeader)
                                                     }
                                                 }
-                                                ViewState.TEACHER_VIEW -> {
+                                                TEACHER_VIEW -> {
                                                     for (i in 0 until currentTimetable.teachers.size) {
                                                         val timetableCell =
                                                             TimetableCell(teacher = currentTimetable.teachers[i])
@@ -217,22 +218,22 @@ class MainView : View("Редактор расписания") {
 
                                             // Items
                                             for (i in 0 until currentTimetable.lessons.filter { it.day == day }.size) {
-                                                val lesson = currentTimetable.lessons[i]
+                                                val lesson = currentTimetable.lessons.filter { it.day == day }[i]
                                                 val timetableCell = TimetableCell(lesson)
                                                 timetableCells.add(timetableCell)
                                                 val columnIndex = when (selectedState) {
-                                                    ViewState.STUDENT_CLASS_VIEW -> {
+                                                    STUDENT_CLASS_VIEW -> {
                                                         currentTimetable.studentClasses.indexOf(
                                                             currentTimetable.studentClasses.find {
                                                                 it.name == lesson.studentClass?.name
                                                             }) + 1
                                                     }
-                                                    ViewState.CLASSROOM_VIEW -> {
+                                                    CLASSROOM_VIEW -> {
                                                         currentTimetable.classrooms.indexOf(currentTimetable.classrooms.find {
                                                             it.name == lesson.classroom?.name
                                                         }) + 1
                                                     }
-                                                    ViewState.TEACHER_VIEW -> {
+                                                    TEACHER_VIEW -> {
                                                         currentTimetable.teachers.indexOf(currentTimetable.teachers.find {
                                                             it.name == lesson.teacher?.name
                                                         }) + 1
@@ -247,21 +248,21 @@ class MainView : View("Редактор расписания") {
                                             }
 
                                             when (selectedState) {
-                                                ViewState.CLASSROOM_VIEW -> repeat(children.filter {
+                                                CLASSROOM_VIEW -> repeat(children.filter {
                                                     it is TimetableCell &&
                                                             it.getItem() is StudentClass
                                                 }.size) {
                                                     addClass(TimetableStyleSheet.columnHeader)
                                                 }
 
-                                                ViewState.STUDENT_CLASS_VIEW -> repeat(children.filter {
+                                                STUDENT_CLASS_VIEW -> repeat(children.filter {
                                                     it is TimetableCell &&
                                                             it.getItem() is Classroom
                                                 }.size) {
                                                     addClass(TimetableStyleSheet.columnHeader)
                                                 }
 
-                                                ViewState.TEACHER_VIEW -> repeat(children.filter {
+                                                TEACHER_VIEW -> repeat(children.filter {
                                                     it is TimetableCell &&
                                                             it.getItem() is Teacher
                                                 }.size) {
@@ -296,13 +297,8 @@ class MainView : View("Редактор расписания") {
                                                 hgrow = Priority.ALWAYS
                                             }
                                             isGridLinesVisible = true
-                                            anchorpaneConstraints {
-                                                topAnchor = 10.0
-                                                bottomAnchor = 5.0
-                                                rightAnchor = 3.0
-                                                leftAnchor = 3.0
-                                            }
                                         })
+                                        center = gridTimeTable.last()
                                     }
                                 }
                             }
@@ -313,7 +309,7 @@ class MainView : View("Редактор расписания") {
                     }
                     tab("Данные") {
                         hbox {
-                            // TODO Cellfactory
+                            // TODO CellFactory
                             // TODO Проверка нажатий
                             tableview<Classroom> {
                                 items = currentTimetable.classrooms.observable()
@@ -377,7 +373,7 @@ class MainView : View("Редактор расписания") {
 }
 
 class MainController : Controller() {
-    val view: MainView by inject()
+    private val view: MainView by inject()
 
     /**
      * TODO: Creating new TimetableGrid
@@ -405,21 +401,21 @@ class MainController : Controller() {
      * Setting view to student class view state
      */
     fun onViewStudentClassesMenuClicked() {
-        changeViewState(ViewState.STUDENT_CLASS_VIEW)
+        changeViewState(STUDENT_CLASS_VIEW)
     }
 
     /**
      * Setting view to teachers view state
      */
     fun onViewTeachersMenuClicked() {
-        changeViewState(ViewState.TEACHER_VIEW)
+        changeViewState(TEACHER_VIEW)
     }
 
     /**
      * Setting view to classrooms view state
      */
     fun onViewClassroomsMenuClicked() {
-        changeViewState(ViewState.CLASSROOM_VIEW)
+        changeViewState(CLASSROOM_VIEW)
     }
 
     /**
@@ -462,15 +458,15 @@ class MainController : Controller() {
     /**
      * TODO Opening generator settings menu
      */
-    fun onSettingsGeneratorMenuClicked() {}
+    /*fun onSettingsGeneratorMenuClicked() {}*/
 
     /**
      * Mouse click
      */
     fun onClick(mouseEvent: MouseEvent) {
-        if (view.selectedState != ViewState.CLASSROOM_VIEW)
+        if (view.selectedState != STUDENT_CLASS_VIEW)
             return
-        val selectedCell = findLesson(mouseEvent)
+        val selectedCell = findLessonCell(mouseEvent)
         if (selectedCell != null)
             editCell(selectedCell)
         else if (findCellCoord(mouseEvent) != Pair(-1, -1)) {
@@ -482,7 +478,7 @@ class MainController : Controller() {
     /**
      * Find lesson by cell coord
      */
-    fun findLesson(mouseEvent: MouseEvent): TimetableCell? {
+    private fun findLessonCell(mouseEvent: MouseEvent): TimetableCell? {
         val cellCoord = findCellCoord(mouseEvent)
         // DEBUG
 //        alert(Alert.AlertType.INFORMATION, "Cell Coord", cellCoord.toString())
@@ -491,13 +487,13 @@ class MainController : Controller() {
             .find {
                 (it.getItem() as Lesson).number == cellCoord.second &&
                         ((
-                                view.selectedState == ViewState.CLASSROOM_VIEW &&
+                                view.selectedState == CLASSROOM_VIEW &&
                                         (it.getItem() as Lesson).classroom == view.currentTimetable.classrooms[cellCoord.first - 1]
                                 ) || (
-                                view.selectedState == ViewState.STUDENT_CLASS_VIEW &&
+                                view.selectedState == STUDENT_CLASS_VIEW &&
                                         (it.getItem() as Lesson).studentClass == view.currentTimetable.studentClasses[cellCoord.first - 1]
                                 ) || (
-                                view.selectedState == ViewState.TEACHER_VIEW &&
+                                view.selectedState == TEACHER_VIEW &&
                                         (it.getItem() as Lesson).teacher == view.currentTimetable.teachers[cellCoord.first - 1]
                                 ))
             }
@@ -507,9 +503,9 @@ class MainController : Controller() {
      * Find cell by mouse coord
      * @param[mouseEvent] Mouse event
      */
-    fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
+    private fun findCellCoord(mouseEvent: MouseEvent): Pair<Int, Int> {
         // TODO Сделать адаптивно вычисляемый размер заголовка
-        val headerHeight = 105.0
+        val headerHeight = 95.0
         val mousePt = Point2D(mouseEvent.x, mouseEvent.y - headerHeight)
 
         // DEBUG
@@ -534,14 +530,15 @@ class MainController : Controller() {
     /**
      * Edit cell
      */
-    fun editCell(cell: TimetableCell) {
+    private fun editCell(cell: TimetableCell) {
         val parameters = mapOf(
             "classrooms" to view.currentTimetable.classrooms,
             "lesson" to cell.lesson,
             "studentClasses" to view.currentTimetable.studentClasses,
             "subjects" to view.currentTimetable.subjects,
             "teachers" to view.currentTimetable.teachers,
-            "state" to view.selectedState
+            "state" to view.selectedState,
+            "pinned" to cell.lesson!!.pinned
         )
         val cellFragment = find<EditCellFragment>(parameters)
         cellFragment.openModal(
@@ -553,14 +550,13 @@ class MainController : Controller() {
             val editedIndex = view.currentTimetable.lessons.indexOf(editedLesson)
             view.currentTimetable.lessons[editedIndex] = cellFragment.lesson
             val newLesson = cellFragment.lesson
-            val editedCell = cell
-            editedCell.setItem(newLesson)
+            cell.setItem(newLesson)
             view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                 it is TimetableCell &&
                         it.getItem() != null &&
                         it.getItem() is Lesson &&
                         (it.getItem() as Lesson).id == editedLesson.id
-            }!!.replaceWith(editedCell)
+            }!!.replaceWith(cell)
 
         }
 //        Export.ExportTimetable("currentTimeTable.json", view.currentTimetable).toJSON()
@@ -569,24 +565,24 @@ class MainController : Controller() {
     /**
      * Create cell
      */
-    fun createCell(day: String, columnIndex: Int, rowIndex: Int) {
+    private fun createCell(day: String, columnIndex: Int, rowIndex: Int) {
         val transferParameter: Any
         when (view.selectedState) {
-            ViewState.STUDENT_CLASS_VIEW -> {
+            STUDENT_CLASS_VIEW -> {
                 transferParameter = view.currentTimetable.studentClasses[columnIndex - 1]
             }
-            ViewState.CLASSROOM_VIEW -> {
+            CLASSROOM_VIEW -> {
                 transferParameter = view.currentTimetable.classrooms[columnIndex - 1]
             }
-            ViewState.TEACHER_VIEW -> {
+            TEACHER_VIEW -> {
                 transferParameter = view.currentTimetable.teachers[columnIndex - 1]
             }
         }
         val generatedLesson = generateLesson(
             day, rowIndex, when (view.selectedState) {
-                ViewState.STUDENT_CLASS_VIEW -> transferParameter as StudentClass
-                ViewState.CLASSROOM_VIEW -> transferParameter as Classroom
-                ViewState.TEACHER_VIEW -> transferParameter as Teacher
+                STUDENT_CLASS_VIEW -> transferParameter as StudentClass
+                CLASSROOM_VIEW -> transferParameter as Classroom
+                TEACHER_VIEW -> transferParameter as Teacher
             }
         )
         val parameters = mapOf(
@@ -595,7 +591,8 @@ class MainController : Controller() {
             "studentClasses" to view.currentTimetable.studentClasses,
             "subjects" to view.currentTimetable.subjects,
             "teachers" to view.currentTimetable.teachers,
-            "state" to view.selectedState
+            "state" to view.selectedState,
+            "pinned" to generatedLesson.pinned
         )
         val cellFragment = find<EditCellFragment>(parameters)
         cellFragment.openModal(
@@ -614,7 +611,7 @@ class MainController : Controller() {
     /**
      * TODO: Changing view state
      */
-    fun changeViewState(viewState: ViewState) {
+    private fun changeViewState(viewState: ViewState) {
         view.selectedState = viewState
         clearInterface()
         view.setupInterface()
@@ -624,18 +621,13 @@ class MainController : Controller() {
      * TODO Start dragging
      */
     fun onStartDrag(mouseEvent: MouseEvent) {
-        val selectedCell = findLesson(mouseEvent)
-        if (selectedCell != null) {
+        view.sourceTimeTableCell = findLessonCell(mouseEvent)
+        if (view.sourceTimeTableCell != null) {
             val selectedTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
-                it is TimetableCell && it.getItem() == selectedCell.getItem()
+                it is TimetableCell && it.getItem() == (view.sourceTimeTableCell)!!.getItem()
             } as? TimetableCell
-            if (selectedTimeTableCell != null) {
-                val bf = BackgroundFill(
-                    Color.GREY,
-                    CornerRadii.EMPTY,
-                    Insets.EMPTY
-                )
-                selectedTimeTableCell.background = Background(bf)
+            if (selectedTimeTableCell != null && !selectedTimeTableCell.hasClass(TimetableStyleSheet.sourceCell)) {
+                selectedTimeTableCell.addClass(TimetableStyleSheet.sourceCell)
             }
         }
     }
@@ -644,13 +636,8 @@ class MainController : Controller() {
      * TODO Animation of dragging
      */
     fun onAnimateDrag(mouseEvent: MouseEvent) {
-        val selectedCell = findLesson(mouseEvent)
+        val selectedCell = findLessonCell(mouseEvent)
         if (selectedCell != null) {
-            /*// highlight the onDrop target (hover doesn't work)
-            if (!workArea.hasClass(DraggingStyles.workAreaSelected)) {
-                workArea.addClass(DraggingStyles.workAreaSelected)
-            }*/
-
             view.inFlightTimeTableCell = selectedCell
              // animate a rectangle so that the user can follow
             if (!view.inFlightTimeTableCell.isVisible) {
@@ -675,7 +662,9 @@ class MainController : Controller() {
      */
     fun onStopDrag(mouseEvent: MouseEvent) {
         if (view.inFlightTimeTableCell.isVisible) {
-
+//            val targetCell = findLessonCell(mouseEvent)
+//            if (!targetCell!!.hasClass(TimetableStyleSheet.targetCell))
+//                targetCell.addClass(TimetableStyleSheet.targetCell)
         }
     }
 
@@ -683,50 +672,59 @@ class MainController : Controller() {
      * TODO Drop item
      */
     fun onDrop(mouseEvent: MouseEvent) {
-        val selectedCell = findLesson(mouseEvent)
-        if (selectedCell != null) {
-            val selectedTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
-                it is TimetableCell && it.getItem() == selectedCell.getItem()
-            } as? TimetableCell
-            // DEBUG
+        if (view.inFlightTimeTableCell.isVisible) {
+            view.targetTimeTableCell = findLessonCell(mouseEvent)
+            if (view.targetTimeTableCell != null) {
+                view.targetTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
+                    it is TimetableCell && it.getItem() == (view.targetTimeTableCell)!!.getItem()
+                } as? TimetableCell
+                // DEBUG
 //            alert(Alert.AlertType.INFORMATION, "Cell", selectedTimeTableCell?.getItem().toString())
-            if (selectedTimeTableCell != null) {
-                val bf = BackgroundFill(
-                    Color.GREEN,
-                    CornerRadii.EMPTY,
-                    Insets.EMPTY
-                )
-                selectedTimeTableCell.background = Background(bf)
+//                if (view.targetTimeTableCell != null && view.targetTimeTableCell!!.hasClass(TimetableStyleSheet.targetCell)) {
+//                    view.targetTimeTableCell!!.addClass((TimetableStyleSheet.targetCell))
+//                }
+            }
+            swapCells(view.sourceTimeTableCell, view.targetTimeTableCell)
+//            if (view.sourceTimeTableCell!!.hasClass(TimetableStyleSheet.sourceCell))
+//                view.sourceTimeTableCell!!.removeClass(TimetableStyleSheet.sourceCell)
+//
+//            if (view.targetTimeTableCell!!.hasClass(TimetableStyleSheet.sourceCell))
+//                view.targetTimeTableCell!!.removeClass(TimetableStyleSheet.targetCell)
+//            view.inFlightTimeTableCell.isVisible = false
+            clearInterface()
+            view.setupInterface()
+        }
+    }
+
+    fun swapCells(source: TimetableCell?, target: TimetableCell?) {
+        var tmp: Any?
+        when (view.selectedState) {
+            CLASSROOM_VIEW -> {
+                tmp = ((source as TimetableCell).getItem() as Lesson).classroom
+                (source.getItem() as Lesson).classroom = ((target as TimetableCell).getItem() as Lesson).classroom
+                (target.getItem() as Lesson).classroom = tmp
+            }
+            STUDENT_CLASS_VIEW -> {
+                tmp = ((source as TimetableCell).getItem() as Lesson).studentClass
+                (source.getItem() as Lesson).studentClass = ((target as TimetableCell).getItem() as Lesson).studentClass
+                (target.getItem() as Lesson).studentClass = tmp
+            }
+            TEACHER_VIEW -> {
+                tmp = ((source as TimetableCell).getItem() as Lesson).teacher
+                (source.getItem() as Lesson).teacher = ((target as TimetableCell).getItem() as Lesson).teacher
+                (target.getItem() as Lesson).teacher = tmp
             }
         }
-        val sourceCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
-            it is TimetableCell &&
-                    it.background != null &&
-                    it.background == Background(
-                BackgroundFill(
-                    Color.GREY,
-                    CornerRadii.EMPTY,
-                    Insets.EMPTY
-                )
-            )
-        }
 
-        if (sourceCell != null)
-            (sourceCell as TimetableCell).fill(
-                Background(
-                    BackgroundFill(
-                        Color.WHITE,
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY
-                    )
-                )
-            )
+        tmp = (source.getItem() as Lesson).number
+        (source.getItem() as Lesson).number = ((target as TimetableCell).getItem() as Lesson).number
+        (target.getItem() as Lesson).number = tmp
     }
 
     /**
      * TODO Clearing all data from timetable
      */
-    fun clearAll() {
+    private fun clearAll() {
         clearCollections()
         clearInterface()
     }
@@ -736,7 +734,7 @@ class MainController : Controller() {
      * @param[args] Input data
      * @return Generated lesson
      */
-    fun generateLesson(vararg args: Any): Lesson {
+    private fun generateLesson(vararg args: Any): Lesson {
         var newId = 0
         view.currentTimetable.lessons.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
 
@@ -746,6 +744,7 @@ class MainController : Controller() {
         val newStudentClass: StudentClass? = args.firstOrNull1 { it is StudentClass } as? StudentClass
         val newNumber: Int = args.firstOrNull1 { it is Int } as Int
         val newDay: String = args.firstOrNull1 { it is String } as String
+        val newPinned: Boolean = (args.firstOrNull1 { it is Boolean }) != null
 
         return Lesson(
             newId,
@@ -754,25 +753,23 @@ class MainController : Controller() {
             newClassroom,
             newStudentClass,
             newNumber,
-            newDay
+            newDay,
+            newPinned
         )
     }
 
     /**
-     * Clearing interace
+     * Clearing interface
      */
-    fun clearInterface() {
-        view.root.children.clear()
-    }
+    private fun clearInterface() = view.root.clear()
 
     /**
      * Clearing collections
      */
-    fun clearCollections() {
+    private fun clearCollections() {
         view.currentTimetable.classrooms.clear()
         view.currentTimetable.lessons.clear()
         view.currentTimetable.studentClasses.clear()
-        view.currentTimetable.subjects.clear()
         view.currentTimetable.subjects.clear()
     }
 

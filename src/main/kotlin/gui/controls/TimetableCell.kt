@@ -1,11 +1,14 @@
 package gui.controls
 
+import TimetableStyleSheet
 import classes.*
 import gui.controls.TimetableCell.CellType.*
 import javafx.scene.control.Label
 import javafx.scene.layout.Background
 import javafx.scene.layout.VBox
 import tornadofx.add
+import tornadofx.addClass
+import tornadofx.removeClass
 
 /**
  * TimetableGrid cell control
@@ -76,7 +79,13 @@ class TimetableCell() : VBox() {
      * @param[subject] Selected subject
      */
     constructor(lesson: Lesson) : this() {
-        this.lesson = lesson; fillData()
+        this.lesson = lesson
+        fillData()
+        if (lesson.pinned) {
+            this.addClass(TimetableStyleSheet.pinnedCell)
+        } else {
+            this.removeClass(TimetableStyleSheet.pinnedCell)
+        }
     }
 
     /**
@@ -131,6 +140,7 @@ class TimetableCell() : VBox() {
                 this.add(lSubject!!)
                 this.add(lStudentClass!!)
                 this.add(lTeacher!!)
+
                 children.setAll(lClassroom, lSubject, lStudentClass, lTeacher)
             }
             SUBJECT -> {

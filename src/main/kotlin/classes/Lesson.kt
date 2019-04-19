@@ -20,7 +20,8 @@ data class Lesson(
     internal var classroom: Classroom?,
     internal var studentClass: StudentClass?,
     internal var number: Int,
-    internal var day: String
+    internal var day: String,
+    internal var pinned: Boolean
 )
 
 

@@ -7,6 +7,7 @@ import gui.controls.scStudentClass
 import gui.controls.scSubject
 import gui.controls.scTeacher
 import javafx.event.EventHandler
+import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
 import javafx.scene.control.Label
 import javafx.scene.layout.VBox
@@ -27,12 +28,14 @@ class EditCellFragment : Fragment("Редактрование даннных о�
     var studentClasses: MutableList<StudentClass> = emptyList<StudentClass>().toMutableList()
     var subjects: MutableList<Subject> = emptyList<Subject>().toMutableList()
     var teachers: MutableList<Teacher> = emptyList<Teacher>().toMutableList()
+    var pinnedFlag: Boolean = false
 
     // Controls
     lateinit var cbClassrooms: ComboBox<Classroom>
     lateinit var cbStudentClasses: ComboBox<StudentClass>
     lateinit var cbSubjects: ComboBox<Subject>
     lateinit var cbTeachers: ComboBox<Teacher>
+    lateinit var chbPinned: CheckBox
 
     lateinit var viewState: ViewState
 
@@ -51,6 +54,7 @@ class EditCellFragment : Fragment("Редактрование даннных о�
         studentClasses = (params["studentClasses"] as MutableList<StudentClass>).toMutableList()
         subjects = (params["subjects"] as MutableList<Subject>).toMutableList()
         teachers = (params["teachers"] as MutableList<Teacher>).toMutableList()
+        pinnedFlag = params["pinned"] as Boolean
 
         // Заполнение данных об уроке
         lesson = params["lesson"] as Lesson
@@ -133,6 +137,16 @@ class EditCellFragment : Fragment("Редактрование даннных о�
             }
 
             hbox {
+                label("Закрепить")
+                checkbox {
+                    isSelected = pinnedFlag
+                    action {
+                        pinnedFlag = isSelected
+                    }
+                }
+            }
+
+            hbox {
                 button {
                     text = "Сохранить"
                     action {
@@ -143,7 +157,8 @@ class EditCellFragment : Fragment("Редактрование даннных о�
                             selectedClassroom,
                             selectedStudentClass,
                             lesson.number,
-                            lesson.day
+                            lesson.day,
+                            lesson.pinned
                         )
                         close()
                     }
