@@ -124,6 +124,7 @@ class EditCellFragment : Fragment("Редактрование даннных о�
 
             if (teachers.isNotEmpty() && viewState != ViewState.TEACHER_VIEW) {
                 cbTeachers = combobox {
+                    // TODO Отфильтровать учителей
                     items.addAll(teachers)
                     selectionModel.select(if (lesson.teacher != null) lesson.teacher else teachers.first())
                     converter = scTeacher

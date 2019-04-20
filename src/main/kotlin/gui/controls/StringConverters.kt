@@ -42,6 +42,6 @@ class scTeacher() : StringConverter<Teacher>() {
     }
 
     override fun fromString(string: String?): Teacher {
-        return Teacher(0, string.toString(), emptySet())
+        return Teacher(0, string.toString(), emptySet<Subject>().toMutableSet())
     }
 }

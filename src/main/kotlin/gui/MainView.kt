@@ -11,6 +11,8 @@ import javafx.geometry.Pos
 import javafx.scene.control.Alert
 import javafx.scene.control.Label
 import javafx.scene.control.TabPane
+import javafx.scene.control.TableView
+import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.effect.DropShadow
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseEvent
@@ -21,15 +23,20 @@ import serialization.Import
 import tornadofx.*
 import java.io.File
 import kotlin.collections.MutableList
+import kotlin.collections.contains
 import kotlin.collections.emptyList
+import kotlin.collections.emptySet
 import kotlin.collections.filter
 import kotlin.collections.find
 import kotlin.collections.forEach
 import kotlin.collections.indexOf
 import kotlin.collections.last
 import kotlin.collections.mapOf
+import kotlin.collections.remove
+import kotlin.collections.removeAll
 import kotlin.collections.sortedBy
 import kotlin.collections.toMutableList
+import kotlin.collections.toMutableSet
 import kotlin.collections.firstOrNull as firstOrNull1
 
 class MainView : View("Редактор расписания") {
@@ -46,10 +53,19 @@ class MainView : View("Редактор расписания") {
     var inFlightTimeTableCell: TimetableCell = TimetableCell()
     var targetTimeTableCell: TimetableCell? = TimetableCell()
 
+    lateinit var paneGlobal: TabPane
+    private lateinit var paneDays: TabPane
+
+    var selectedTabFlag = true
+
     // TODO Settings
     internal var settings = Settings()
 
-    private lateinit var paneDays: TabPane
+    var tvClassroom = TableView<Classroom>()
+    var tvStudentClass = TableView<StudentClass>()
+    var tvSubject = TableView<Subject>()
+    var tvTeacher = TableView<Teacher>()
+
 
     // Selected day
     var selectedDayIndex: Int = 0
@@ -146,7 +162,7 @@ class MainView : View("Редактор расписания") {
             }
             anchorpane {
                 // TODO Поправить верстку см 100 стр
-                tabpane {
+                paneGlobal = tabpane {
                     anchorpaneConstraints {
                         topAnchor = 0.0
                         bottomAnchor = 10.0
@@ -309,24 +325,115 @@ class MainView : View("Редактор расписания") {
                     }
                     tab("Данные") {
                         hbox {
-                            // TODO CellFactory
-                            // TODO Проверка нажатий
-                            tableview<Classroom> {
-                                items = currentTimetable.classrooms.observable()
-                                column("Название", Classroom::name)
+                            vbox {
+                                tvClassroom = tableview<Classroom> {
+                                    items = currentTimetable.classrooms.observable()
+                                    column("Кабинет", Classroom::name)
+                                    columnResizePolicy = CONSTRAINED_RESIZE_POLICY
+                                    maxWidth = 80.0
+                                }
+                                vbox {
+                                    button {
+                                        text = "Добавить"
+                                        action {
+                                            controller.onCreateDataClassroom()
+                                        }
+                                    }
+                                    button {
+                                        text = "Изменить"
+                                        action {
+                                            controller.onUpdateDataClassroom()
+                                        }
+                                    }
+                                    button {
+                                        text = "Удалить"
+                                        action {
+                                            controller.onDeleteDataClassroom()
+                                        }
+                                    }
+                                }
                             }
-                            tableview<StudentClass> {
-                                items = currentTimetable.studentClasses.observable()
-                                column("Название", StudentClass::name)
+                            vbox {
+                                tvStudentClass = tableview<StudentClass> {
+                                    items = currentTimetable.studentClasses.observable()
+                                    column("Класс", StudentClass::name)
+                                    columnResizePolicy = CONSTRAINED_RESIZE_POLICY
+                                    maxWidth = 80.0
+                                }
+                                vbox {
+                                    button {
+                                        text = "Добавить"
+                                        action {
+                                            controller.onCreateDataStudentClass()
+                                        }
+                                    }
+                                    button {
+                                        text = "Изменить"
+                                        action {
+                                            controller.onUpdateDataStudentClass()
+                                        }
+                                    }
+                                    button {
+                                        text = "Удалить"
+                                        action {
+                                            controller.onDeleteDataStudentClass()
+                                        }
+                                    }
+                                }
                             }
-                            tableview<Subject> {
-                                items = currentTimetable.subjects.observable()
-                                column("Название", Subject::name)
+                            vbox {
+                                tvSubject = tableview<Subject> {
+                                    items = currentTimetable.subjects.observable()
+                                    column("Предмет", Subject::name)
+                                    columnResizePolicy = CONSTRAINED_RESIZE_POLICY
+                                }
+                                vbox {
+                                    button {
+                                        text = "Добавить"
+                                        action {
+                                            controller.onCreateDataSubject()
+                                        }
+                                    }
+                                    button {
+                                        text = "Изменить"
+                                        action {
+                                            controller.onUpdateDataSubject()
+                                        }
+                                    }
+                                    button {
+                                        text = "Удалить"
+                                        action {
+                                            controller.onDeleteDataSubject()
+                                        }
+                                    }
+                                }
                             }
-                            tableview<Teacher> {
-                                items = currentTimetable.teachers.observable()
-                                column("Название", Teacher::name)
-                                column("Доступные предметы", Teacher::availableSubjects)
+                            vbox {
+                                tvTeacher = tableview<Teacher> {
+                                    items = currentTimetable.teachers.observable()
+                                    column("Название", Teacher::name)
+                                    column("Доступные предметы", Teacher::availableSubjects)
+                                }
+                                vbox {
+                                    button {
+                                        text = "Добавить"
+                                        action {
+                                            controller.onCreateDataTeacher()
+                                        }
+                                    }
+                                    button {
+                                        text = "Изменить"
+                                        action {
+                                            controller.onUpdateDataTeacher()
+                                        }
+                                    }
+                                    button {
+                                        text = "Удалить"
+                                        action {
+                                            controller.onDeleteDataTeacher()
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -464,7 +571,7 @@ class MainController : Controller() {
      * Mouse click
      */
     fun onClick(mouseEvent: MouseEvent) {
-        if (view.selectedState != STUDENT_CLASS_VIEW)
+        if (view.selectedState != STUDENT_CLASS_VIEW || view.paneGlobal.selectionModel.selectedIndex != 0)
             return
         val selectedCell = findLessonCell(mouseEvent)
         if (selectedCell != null)
@@ -473,6 +580,95 @@ class MainController : Controller() {
             val coord = findCellCoord(mouseEvent)
             createCell(view.settings.workingDays[view.selectedDayIndex], coord.first, coord.second)
         }
+    }
+
+    /**
+     * Generating lesson by some data
+     * @param[args] Input data
+     * @return Generated lesson
+     */
+    private fun generateLesson(vararg args: Any): Lesson {
+        var newId = 0
+        view.currentTimetable.lessons.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newSubject: Subject? = args.firstOrNull1 { it is Subject } as? Subject
+        val newTeacher: Teacher? = args.firstOrNull1 { it is Teacher } as? Teacher
+        val newClassroom: Classroom? = args.firstOrNull1 { it is Classroom } as? Classroom
+        val newStudentClass: StudentClass? = args.firstOrNull1 { it is StudentClass } as? StudentClass
+        val newNumber: Int = args.firstOrNull1 { it is Int } as Int
+        val newDay: String = args.firstOrNull1 { it is String } as String
+        val newPinned: Boolean = (args.firstOrNull1 { it is Boolean }) != null
+
+        return Lesson(
+            newId,
+            newSubject,
+            newTeacher,
+            newClassroom,
+            newStudentClass,
+            newNumber,
+            newDay,
+            newPinned
+        )
+    }
+
+    /**
+     * Generating classroom by some data
+     * @param[args] Input data
+     * @return Generated classroom
+     */
+    private fun generateClassroom(vararg args: Any): Classroom {
+        var newId = 0
+        view.currentTimetable.classrooms.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newName: String = args.firstOrNull1 { it is String }.toString()
+
+        return Classroom(newId, newName)
+    }
+
+    /**
+     * Generating student class by some data
+     * @param[args] Input data
+     * @return Generated student class
+     */
+    private fun generateStudentClass(vararg args: Any): StudentClass {
+        var newId = 0
+        view.currentTimetable.studentClasses.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newName: String = args.firstOrNull1 { it is String }.toString()
+
+        return StudentClass(newId, newName)
+    }
+
+    /**
+     * Generating subject by some data
+     * @param[args] Input data
+     * @return Generated subject
+     */
+    private fun generateSubject(vararg args: Any): Subject {
+        var newId = 0
+        view.currentTimetable.subjects.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newName: String = args.firstOrNull1 { it is String }.toString()
+
+        return Subject(newId, newName)
+    }
+
+    /**
+     * Generating teacher by some data
+     * @param[args] Input data
+     * @return Generated teacher
+     */
+    private fun generateTeacher(vararg args: Any): Teacher {
+        var newId = 0
+        view.currentTimetable.lessons.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
+
+        val newName: String = args.firstOrNull1 { it is String }.toString()
+
+        return Teacher(
+            newId,
+            newName,
+            emptySet<Subject>().toMutableSet()
+        )
     }
 
     /**
@@ -636,6 +832,8 @@ class MainController : Controller() {
      * TODO Animation of dragging
      */
     fun onAnimateDrag(mouseEvent: MouseEvent) {
+        if (view.selectedState != STUDENT_CLASS_VIEW || view.paneGlobal.selectionModel.selectedIndex != 0)
+            return
         val selectedCell = findLessonCell(mouseEvent)
         if (selectedCell != null) {
             view.inFlightTimeTableCell = selectedCell
@@ -661,6 +859,8 @@ class MainController : Controller() {
      * TODO Stop dragging
      */
     fun onStopDrag(mouseEvent: MouseEvent) {
+        if (view.selectedState != STUDENT_CLASS_VIEW || view.paneGlobal.selectionModel.selectedIndex != 0)
+            return
         if (view.inFlightTimeTableCell.isVisible) {
 //            val targetCell = findLessonCell(mouseEvent)
 //            if (!targetCell!!.hasClass(TimetableStyleSheet.targetCell))
@@ -672,6 +872,8 @@ class MainController : Controller() {
      * TODO Drop item
      */
     fun onDrop(mouseEvent: MouseEvent) {
+        if (view.selectedState != STUDENT_CLASS_VIEW || view.paneGlobal.selectionModel.selectedIndex != 0)
+            return
         if (view.inFlightTimeTableCell.isVisible) {
             view.targetTimeTableCell = findLessonCell(mouseEvent)
             if (view.targetTimeTableCell != null) {
@@ -696,6 +898,9 @@ class MainController : Controller() {
         }
     }
 
+    /**
+     * Swap two cells
+     */
     fun swapCells(source: TimetableCell?, target: TimetableCell?) {
         var tmp: Any?
         when (view.selectedState) {
@@ -730,35 +935,6 @@ class MainController : Controller() {
     }
 
     /**
-     * Generating lesson by some data
-     * @param[args] Input data
-     * @return Generated lesson
-     */
-    private fun generateLesson(vararg args: Any): Lesson {
-        var newId = 0
-        view.currentTimetable.lessons.sortedBy { it.id }.forEach { if (it.id == newId) newId++ }
-
-        val newSubject: Subject? = args.firstOrNull1 { it is Subject } as? Subject
-        val newTeacher: Teacher? = args.firstOrNull1 { it is Teacher } as? Teacher
-        val newClassroom: Classroom? = args.firstOrNull1 { it is Classroom } as? Classroom
-        val newStudentClass: StudentClass? = args.firstOrNull1 { it is StudentClass } as? StudentClass
-        val newNumber: Int = args.firstOrNull1 { it is Int } as Int
-        val newDay: String = args.firstOrNull1 { it is String } as String
-        val newPinned: Boolean = (args.firstOrNull1 { it is Boolean }) != null
-
-        return Lesson(
-            newId,
-            newSubject,
-            newTeacher,
-            newClassroom,
-            newStudentClass,
-            newNumber,
-            newDay,
-            newPinned
-        )
-    }
-
-    /**
      * Clearing interface
      */
     private fun clearInterface() = view.root.clear()
@@ -779,4 +955,226 @@ class MainController : Controller() {
      * @return TimeTable Imported timetable
      */
     fun loadFromConfig(pathToConfig: String): TimeTable = Import.ImportTimetable(File(pathToConfig)).fromJSON()
+
+    /**
+     * CRUID classrooms
+     */
+    fun onCreateDataClassroom() {
+        val classroom = generateClassroom()
+        val params = mapOf(
+            "item" to classroom,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataFragment = find<CreateDataFragment>(params)
+        createDataFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataFragment.savedItem != null) {
+            view.currentTimetable.classrooms.add(createDataFragment.savedItem as Classroom)
+            clearInterface()
+            view.setupInterface()
+        }
+    }
+
+    fun onUpdateDataClassroom() {
+        val selectedClassroom = view.tvClassroom.selectedItem
+        val params = mapOf(
+            "item" to selectedClassroom,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataFragment = find<CreateDataFragment>(params)
+        createDataFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataFragment.savedItem != null) {
+            view.currentTimetable.classrooms.remove(selectedClassroom)
+            view.currentTimetable.classrooms.add(createDataFragment.savedItem as Classroom)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    fun onDeleteDataClassroom() {
+        if (view.currentTimetable.classrooms.size == 1) {
+            alert(Alert.AlertType.ERROR, "Ошибка удаления", "Нельзя удалить все кабинеты")
+            return
+        }
+        val selectedClassroom = view.tvClassroom.selectedItem
+        if (view.currentTimetable.classrooms.contains(selectedClassroom)) {
+            view.currentTimetable.classrooms.remove(selectedClassroom)
+            view.currentTimetable.lessons.removeAll { it.classroom == selectedClassroom }
+            clearInterface()
+            view.setupInterface()
+            view.tvClassroom.selectionModel.select(view.currentTimetable.classrooms.firstOrNull1())
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    /**
+     * CRUID student classes
+     */
+    fun onCreateDataStudentClass() {
+        val studentClass = generateStudentClass()
+        val params = mapOf(
+            "item" to studentClass,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataView = find<CreateDataFragment>(params)
+        createDataView.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataView.savedItem != null) {
+            view.currentTimetable.studentClasses.add(createDataView.savedItem as StudentClass)
+        }
+    }
+
+    fun onUpdateDataStudentClass() {
+        val selectedStudentClass = view.tvStudentClass.selectedItem
+        val params = mapOf(
+            "item" to selectedStudentClass,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataFragment = find<CreateDataFragment>(params)
+        createDataFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataFragment.savedItem != null) {
+            view.currentTimetable.studentClasses.remove(selectedStudentClass)
+            view.currentTimetable.studentClasses.add(createDataFragment.savedItem as StudentClass)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    fun onDeleteDataStudentClass() {
+        if (view.currentTimetable.studentClasses.size == 1) {
+            alert(Alert.AlertType.ERROR, "Ошибка удаления", "Нельзя удалить все классы")
+            return
+        }
+        val selectedStudentClass = view.tvStudentClass.selectedItem
+        if (view.currentTimetable.studentClasses.contains(selectedStudentClass)) {
+            view.currentTimetable.studentClasses.remove(selectedStudentClass)
+            view.currentTimetable.lessons.removeAll { it.studentClass == selectedStudentClass }
+            clearInterface()
+            view.setupInterface()
+            view.tvStudentClass.selectionModel.select(view.currentTimetable.studentClasses.firstOrNull1())
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    /**
+     * CRUID subjects
+     */
+    fun onCreateDataSubject() {
+        val subject = generateSubject()
+        val params = mapOf(
+            "item" to subject,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataView = find<CreateDataFragment>(params)
+        createDataView.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataView.savedItem != null) {
+            view.currentTimetable.subjects.add(createDataView.savedItem as Subject)
+        }
+    }
+
+    fun onUpdateDataSubject() {
+        val selectedSubject = view.tvSubject.selectedItem
+        val params = mapOf(
+            "item" to selectedSubject,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataFragment = find<CreateDataFragment>(params)
+        createDataFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataFragment.savedItem != null) {
+            view.currentTimetable.subjects.remove(selectedSubject)
+            view.currentTimetable.subjects.add(createDataFragment.savedItem as Subject)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    fun onDeleteDataSubject() {
+        if (view.currentTimetable.subjects.size == 1) {
+            alert(Alert.AlertType.ERROR, "Ошибка удаления", "Нельзя удалить все предметы")
+            return
+        }
+        val selectedSubject = view.tvSubject.selectedItem
+        if (view.currentTimetable.subjects.contains(selectedSubject)) {
+            view.currentTimetable.subjects.remove(selectedSubject)
+            view.currentTimetable.lessons.removeAll { it.subject == selectedSubject }
+            clearInterface()
+            view.setupInterface()
+            view.tvSubject.selectionModel.select(view.currentTimetable.subjects.firstOrNull1())
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    /**
+     * CRUID teachers
+     */
+    fun onCreateDataTeacher() {
+        val classroom = generateClassroom()
+        val params = mapOf(
+            "item" to classroom,
+            "subjects" to view.currentTimetable.subjects
+        )
+        val createDataView = find<CreateDataFragment>(params)
+        createDataView.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataView.savedItem != null) {
+            view.currentTimetable.teachers.add(createDataView.savedItem as Teacher)
+        }
+    }
+
+    fun onUpdateDataTeacher() {
+        val selectedTeacher = view.tvTeacher.selectedItem
+        val params = mapOf(
+            "item" to selectedTeacher,
+            "subjects" to emptyList<Subject>().toMutableList()
+        )
+        val createDataFragment = find<CreateDataFragment>(params)
+        createDataFragment.openModal(
+            owner = view.currentWindow,
+            block = true
+        )
+        if (createDataFragment.savedItem != null) {
+            view.currentTimetable.teachers.remove(selectedTeacher)
+            view.currentTimetable.teachers.add(createDataFragment.savedItem as Teacher)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
+
+    fun onDeleteDataTeacher() {
+        if (view.currentTimetable.teachers.size == 1) {
+            alert(Alert.AlertType.ERROR, "Ошибка удаления", "Нельзя удалить всех учителей")
+            return
+        }
+        val selectedTeacher = view.tvTeacher.selectedItem
+        if (view.currentTimetable.teachers.contains(selectedTeacher)) {
+            view.currentTimetable.teachers.remove(selectedTeacher)
+            view.currentTimetable.lessons.removeAll { it.teacher == selectedTeacher }
+            clearInterface()
+            view.setupInterface()
+            view.tvTeacher.selectionModel.select(view.currentTimetable.teachers.firstOrNull1())
+            view.paneGlobal.selectionModel.select(1)
+        }
+    }
 }

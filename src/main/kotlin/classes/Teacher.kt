@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Teacher constructor(
-    internal var id: Short,
+    internal var id: Int,
     internal var name: String,
-    internal var availableSubjects: Set<Subject>
+    internal var availableSubjects: MutableSet<Subject>
 )

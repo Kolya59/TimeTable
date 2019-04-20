@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Classroom constructor(
-    internal var id: Short,
+    internal var id: Int,
     internal var name: String
 )
