@@ -58,8 +58,6 @@ class MainView : View("Редактор расписания") {
     lateinit var paneGlobal: TabPane
     private lateinit var paneDays: TabPane
 
-    var selectedTabFlag = true
-
     // TODO Settings
     internal var settings = Settings()
 
@@ -328,7 +326,7 @@ class MainView : View("Редактор расписания") {
                     tab("Данные") {
                         hbox {
                             vbox {
-                                tvClassroom = tableview<Classroom> {
+                                tvClassroom = tableview {
                                     items = currentTimetable.classrooms.observable()
                                     column("Кабинет", Classroom::name)
                                     columnResizePolicy = CONSTRAINED_RESIZE_POLICY
@@ -356,7 +354,7 @@ class MainView : View("Редактор расписания") {
                                 }
                             }
                             vbox {
-                                tvStudentClass = tableview<StudentClass> {
+                                tvStudentClass = tableview {
                                     items = currentTimetable.studentClasses.observable()
                                     column("Класс", StudentClass::name)
                                     columnResizePolicy = CONSTRAINED_RESIZE_POLICY
@@ -384,7 +382,7 @@ class MainView : View("Редактор расписания") {
                                 }
                             }
                             vbox {
-                                tvSubject = tableview<Subject> {
+                                tvSubject = tableview {
                                     items = currentTimetable.subjects.observable()
                                     column("Предмет", Subject::name)
                                     columnResizePolicy = CONSTRAINED_RESIZE_POLICY
@@ -411,7 +409,7 @@ class MainView : View("Редактор расписания") {
                                 }
                             }
                             vbox {
-                                tvTeacher = tableview<Teacher> {
+                                tvTeacher = tableview {
                                     items = currentTimetable.teachers.observable()
                                     column("Название", Teacher::name)
                                     column("Доступные предметы", Teacher::availableSubjects)
@@ -905,7 +903,7 @@ class MainController : Controller() {
     /**
      * Swap two cells
      */
-    fun swapCells(source: TimetableCell?, target: TimetableCell?) {
+    private fun swapCells(source: TimetableCell?, target: TimetableCell?) {
         if (source == null) {
             when (view.selectedState) {
                 CLASSROOM_VIEW -> {

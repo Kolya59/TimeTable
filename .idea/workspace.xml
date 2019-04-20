@@ -8,16 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ebb000a-f5d8-4700-a6b9-8d0e6b56b3d3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/gui/CreateDataFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/kolya59.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/kolya59.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/StudentClass.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Subject.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/classes/Teacher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/classes/Teacher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/EditCellFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/EditCellFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/gui/controls/StringConverters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/gui/controls/StringConverters.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -141,8 +133,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="1174" column="26" selection-start-line="1174" selection-start-column="26" selection-end-line="1174" selection-end-column="26" />
+            <state relative-caret-position="214">
+              <caret line="663" lean-forward="true" selection-start-line="663" selection-end-line="663" />
               <folding>
                 <element signature="n#!!doc;n#ViewState#0;n#!!block;n#MainView#0" />
                 <element signature="e#2226#2360#0" />
@@ -150,7 +142,6 @@
                 <element signature="e#4523#6040#2" />
                 <element signature="e#6187#6377#2" />
                 <element signature="e#6417#16986#2" />
-                <element signature="e#15445#17405#2" />
                 <element signature="n#!!block;n#startDrag#0;n#!!block;n#MainView#0" />
                 <element signature="n#!!block;n#animateDrag#0;n#!!block;n#MainView#0" />
                 <element signature="n#!!block;n#stopDrag#0;n#!!block;n#MainView#0" />
@@ -176,7 +167,6 @@
                 <element signature="n#!!block;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onClick#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#onClick#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#generateLesson#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#generateLesson#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#generateClassroom#0;n#!!block;n#MainController#0" />
@@ -186,7 +176,6 @@
                 <element signature="n#!!doc;n#generateSubject#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#generateSubject#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#generateTeacher#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#generateTeacher#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#findLesson#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#findLesson#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#findCellCoord#0;n#!!block;n#MainController#0" />
@@ -198,15 +187,11 @@
                 <element signature="n#!!doc;n#changeViewState#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#changeViewState#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onStartDrag#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#onStartDrag#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onAnimateDrag#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#onAnimateDrag#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onStopDrag#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#onStopDrag#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#onDrop#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#onDrop#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#swapCells#0;n#!!block;n#MainController#0" />
-                <element signature="n#!!block;n#swapCells#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#clearAll#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#clearAll#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!doc;n#clearInterface#0;n#!!block;n#MainController#0" />
@@ -228,6 +213,7 @@
                 <element signature="n#!!doc;n#onCreateDataTeacher#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#onDeleteDataTeacher#0;n#!!block;n#MainController#0" />
                 <element signature="n#!!block;n#onCreateDataTeacher#1;n#!!block;n#MainController#0" />
+                <element signature="n#!!block;n#onDeleteDataClassroom#3;n#!!block;n#MainController#0" />
               </folding>
             </state>
           </provider>
@@ -313,6 +299,7 @@
       <find>6А</find>
       <find>8А</find>
       <find>inFlightTimeTableCell</find>
+      <find>pair</find>
     </findStrings>
     <replaceStrings>
       <replace>export</replace>
@@ -335,7 +322,7 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -618,7 +605,7 @@
       <workItem from="1555398074880" duration="1575000" />
       <workItem from="1555409128312" duration="28649000" />
       <workItem from="1555444291250" duration="12302000" />
-      <workItem from="1555655707360" duration="44238000" />
+      <workItem from="1555655707360" duration="45935000" />
     </task>
     <task id="LOCAL-00001" summary="Изменен конфигурационный файл gradle, для поддержки сериализации">
       <created>1551356798464</created>
@@ -851,7 +838,21 @@
       <option name="project" value="LOCAL" />
       <updated>1555712301490</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Корректный CRUID">
+      <created>1555739247068</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1555739247068</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Корректный Drag-and-Drop">
+      <created>1555740839376</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1555740839376</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -863,7 +864,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="329982000" />
+    <option name="totallyTimeSpent" value="331679000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -901,11 +902,11 @@
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.32928064" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
-      <window_info active="true" anchor="bottom" id="Messages" order="14" sideWeight="0.53407884" visible="true" weight="0.301273" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.53407884" weight="0.301273" />
       <window_info anchor="bottom" id="Educational.CheckDetails" order="15" />
       <window_info anchor="bottom" id="Android Profiler" order="16" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="17" weight="0.32956153" />
-      <window_info anchor="bottom" id="Inspection Results" order="18" weight="0.23606889" />
+      <window_info active="true" anchor="bottom" id="Inspection Results" order="18" visible="true" weight="0.23479491" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24973376" />
@@ -936,8 +937,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Добавлена поддержка JavaFX и TornadoFX" />
-    <MESSAGE value="Добавлена корректная работа JavaFX" />
     <MESSAGE value="Добавлена корректная работа JavaFX, TornadoFX и даже Kotlinx.Serialization" />
     <MESSAGE value="Создана точка запуска приложения" />
     <MESSAGE value="Добавлен элемент управления &quot;Ячейчка рапсисания&quot;" />
@@ -961,7 +960,9 @@
     <MESSAGE value="Убраны лишние коллекции" />
     <MESSAGE value="Добавлены вкладки расписания" />
     <MESSAGE value="Работает Drag-And-Drop, но не с пустыми ячейками" />
-    <option name="LAST_COMMIT_MESSAGE" value="Работает Drag-And-Drop, но не с пустыми ячейками" />
+    <MESSAGE value="Корректный CRUID" />
+    <MESSAGE value="Корректный Drag-and-Drop" />
+    <option name="LAST_COMMIT_MESSAGE" value="Корректный Drag-and-Drop" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1321,28 +1322,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="84" column="12" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="12" />
-          <folding>
-            <element signature="n#!!doc;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#CellType#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#computeCellType#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!block;n#computeCellType#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#1;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#2;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#3;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#4;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!doc;n#TimetableCell#5;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!block;n#fillData#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!block;n#getItem#0;n#!!block;n#TimetableCell#0" />
-            <element signature="n#!!block;n#setItem#0;n#!!block;n#TimetableCell#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/classes/Classroom.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -1392,19 +1371,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/ImportView.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
-          <folding>
-            <element signature="n#!!doc;n#onChoiceFilePath#0;n#!!block;n#ImportController#0" />
-            <element signature="n#!!doc;n#onImport#0;n#!!block;n#ImportController#0" />
-            <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ImportController#0" />
-            <element signature="n#!!block;n#onCancel#0;n#!!block;n#ImportController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/CreateDataFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -1420,10 +1386,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/controls/TimetableCell.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!doc;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#CellType#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#computeCellType#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!block;n#computeCellType#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#1;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#2;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#3;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#4;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!doc;n#TimetableCell#5;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!block;n#fillData#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!block;n#getItem#0;n#!!block;n#TimetableCell#0" />
+            <element signature="n#!!block;n#setItem#0;n#!!block;n#TimetableCell#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/ImportView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
+          <folding>
+            <element signature="n#!!doc;n#onChoiceFilePath#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!doc;n#onImport#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!doc;n#onCancel#0;n#!!block;n#ImportController#0" />
+            <element signature="n#!!block;n#onCancel#0;n#!!block;n#ImportController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/gui/MainView.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="1174" column="26" selection-start-line="1174" selection-start-column="26" selection-end-line="1174" selection-end-column="26" />
+        <state relative-caret-position="214">
+          <caret line="663" lean-forward="true" selection-start-line="663" selection-end-line="663" />
           <folding>
             <element signature="n#!!doc;n#ViewState#0;n#!!block;n#MainView#0" />
             <element signature="e#2226#2360#0" />
@@ -1431,7 +1432,6 @@
             <element signature="e#4523#6040#2" />
             <element signature="e#6187#6377#2" />
             <element signature="e#6417#16986#2" />
-            <element signature="e#15445#17405#2" />
             <element signature="n#!!block;n#startDrag#0;n#!!block;n#MainView#0" />
             <element signature="n#!!block;n#animateDrag#0;n#!!block;n#MainView#0" />
             <element signature="n#!!block;n#stopDrag#0;n#!!block;n#MainView#0" />
@@ -1457,7 +1457,6 @@
             <element signature="n#!!block;n#onSettingsInterfaceMenuClicked#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onSettingsGeneratorMenuClicked#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onClick#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onClick#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#generateLesson#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#generateLesson#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#generateClassroom#0;n#!!block;n#MainController#0" />
@@ -1467,7 +1466,6 @@
             <element signature="n#!!doc;n#generateSubject#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#generateSubject#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#generateTeacher#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#generateTeacher#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#findLesson#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#findLesson#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#findCellCoord#0;n#!!block;n#MainController#0" />
@@ -1479,15 +1477,11 @@
             <element signature="n#!!doc;n#changeViewState#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#changeViewState#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onStartDrag#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onStartDrag#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onAnimateDrag#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#onAnimateDrag#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onStopDrag#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onStopDrag#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#onDrop#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#onDrop#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#swapCells#0;n#!!block;n#MainController#0" />
-            <element signature="n#!!block;n#swapCells#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#clearAll#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#clearAll#0;n#!!block;n#MainController#0" />
             <element signature="n#!!doc;n#clearInterface#0;n#!!block;n#MainController#0" />
@@ -1509,6 +1503,7 @@
             <element signature="n#!!doc;n#onCreateDataTeacher#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#onDeleteDataTeacher#0;n#!!block;n#MainController#0" />
             <element signature="n#!!block;n#onCreateDataTeacher#1;n#!!block;n#MainController#0" />
+            <element signature="n#!!block;n#onDeleteDataClassroom#3;n#!!block;n#MainController#0" />
           </folding>
         </state>
       </provider>
