@@ -50,8 +50,10 @@ class MainView : View("Редактор расписания") {
     lateinit var timetableCells: MutableList<TimetableCell>
 
     var sourceTimeTableCell: TimetableCell? = TimetableCell()
+    var sourceTimeTableCellCoord: Pair<Int, Int> = Pair(0, 0)
     var inFlightTimeTableCell: TimetableCell = TimetableCell()
     var targetTimeTableCell: TimetableCell? = TimetableCell()
+    var targetTimeTableCellCoord: Pair<Int, Int> = Pair(0, 0)
 
     lateinit var paneGlobal: TabPane
     private lateinit var paneDays: TabPane
@@ -465,7 +467,7 @@ class MainView : View("Редактор расписания") {
     }
 
     private fun stopDrag(evt: MouseEvent) {
-        controller.onStopDrag(evt)
+        controller.onStopDrag()
     }
 
     private fun drop(evt: MouseEvent) {
@@ -805,7 +807,7 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO: Changing view state
+     * Changing view state
      */
     private fun changeViewState(viewState: ViewState) {
         view.selectedState = viewState
@@ -818,6 +820,7 @@ class MainController : Controller() {
      */
     fun onStartDrag(mouseEvent: MouseEvent) {
         view.sourceTimeTableCell = findLessonCell(mouseEvent)
+        view.sourceTimeTableCellCoord = findCellCoord(mouseEvent)
         if (view.sourceTimeTableCell != null) {
             val selectedTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                 it is TimetableCell && it.getItem() == (view.sourceTimeTableCell)!!.getItem()
@@ -858,7 +861,7 @@ class MainController : Controller() {
     /**
      * TODO Stop dragging
      */
-    fun onStopDrag(mouseEvent: MouseEvent) {
+    fun onStopDrag() {
         if (view.selectedState != STUDENT_CLASS_VIEW || view.paneGlobal.selectionModel.selectedIndex != 0)
             return
         if (view.inFlightTimeTableCell.isVisible) {
@@ -876,6 +879,7 @@ class MainController : Controller() {
             return
         if (view.inFlightTimeTableCell.isVisible) {
             view.targetTimeTableCell = findLessonCell(mouseEvent)
+            view.targetTimeTableCellCoord = findCellCoord(mouseEvent)
             if (view.targetTimeTableCell != null) {
                 view.targetTimeTableCell = view.gridTimeTable[view.selectedDayIndex].children.firstOrNull1 {
                     it is TimetableCell && it.getItem() == (view.targetTimeTableCell)!!.getItem()
@@ -902,32 +906,72 @@ class MainController : Controller() {
      * Swap two cells
      */
     fun swapCells(source: TimetableCell?, target: TimetableCell?) {
+        if (source == null) {
+            when (view.selectedState) {
+                CLASSROOM_VIEW -> {
+                    (target!!.getItem() as Lesson).classroom =
+                        view.currentTimetable.classrooms[view.sourceTimeTableCellCoord.first - 1]
+                }
+                STUDENT_CLASS_VIEW -> {
+                    (target!!.getItem() as Lesson).studentClass =
+                        view.currentTimetable.studentClasses[view.sourceTimeTableCellCoord.first - 1]
+                }
+                TEACHER_VIEW -> {
+                    (target!!.getItem() as Lesson).teacher =
+                        view.currentTimetable.teachers[view.sourceTimeTableCellCoord.first - 1]
+                }
+            }
+            (target.getItem() as Lesson).number = view.sourceTimeTableCellCoord.second
+
+            return
+        }
+
+        if (target == null) {
+            when (view.selectedState) {
+                CLASSROOM_VIEW -> {
+                    (source.getItem() as Lesson).classroom =
+                        view.currentTimetable.classrooms[view.targetTimeTableCellCoord.first - 1]
+                }
+                STUDENT_CLASS_VIEW -> {
+                    (source.getItem() as Lesson).studentClass =
+                        view.currentTimetable.studentClasses[view.targetTimeTableCellCoord.first - 1]
+                }
+                TEACHER_VIEW -> {
+                    (source.getItem() as Lesson).teacher =
+                        view.currentTimetable.teachers[view.targetTimeTableCellCoord.first - 1]
+                }
+            }
+            (source.getItem() as Lesson).number = view.targetTimeTableCellCoord.second
+
+            return
+        }
+
         var tmp: Any?
         when (view.selectedState) {
             CLASSROOM_VIEW -> {
-                tmp = ((source as TimetableCell).getItem() as Lesson).classroom
-                (source.getItem() as Lesson).classroom = ((target as TimetableCell).getItem() as Lesson).classroom
+                tmp = (source.getItem() as Lesson).classroom
+                (source.getItem() as Lesson).classroom = (target.getItem() as Lesson).classroom
                 (target.getItem() as Lesson).classroom = tmp
             }
             STUDENT_CLASS_VIEW -> {
-                tmp = ((source as TimetableCell).getItem() as Lesson).studentClass
-                (source.getItem() as Lesson).studentClass = ((target as TimetableCell).getItem() as Lesson).studentClass
+                tmp = (source.getItem() as Lesson).studentClass
+                (source.getItem() as Lesson).studentClass = (target.getItem() as Lesson).studentClass
                 (target.getItem() as Lesson).studentClass = tmp
             }
             TEACHER_VIEW -> {
-                tmp = ((source as TimetableCell).getItem() as Lesson).teacher
-                (source.getItem() as Lesson).teacher = ((target as TimetableCell).getItem() as Lesson).teacher
+                tmp = (source.getItem() as Lesson).teacher
+                (source.getItem() as Lesson).teacher = (target.getItem() as Lesson).teacher
                 (target.getItem() as Lesson).teacher = tmp
             }
         }
 
         tmp = (source.getItem() as Lesson).number
-        (source.getItem() as Lesson).number = ((target as TimetableCell).getItem() as Lesson).number
+        (source.getItem() as Lesson).number = (target.getItem() as Lesson).number
         (target.getItem() as Lesson).number = tmp
     }
 
     /**
-     * TODO Clearing all data from timetable
+     * Clearing all data from timetable
      */
     private fun clearAll() {
         clearCollections()
