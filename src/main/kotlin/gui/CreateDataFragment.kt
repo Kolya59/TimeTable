@@ -9,11 +9,11 @@ import tornadofx.*
 class CreateDataFragment : Fragment("Добавить элемент") {
     enum class DataState { CLASSROOM, STUDENT_CLASS, SUBJECT, TEACHER, OTHER }
 
-    var item: Any = params.getValue("item")!!
+    private var item: Any = params.getValue("item")!!
     var savedItem: Any? = null
-    var subjects: MutableList<Subject> = params.getValue("subjects") as MutableList<Subject>
+    private var subjects: MutableList<Subject> = params.getValue("subjects") as MutableList<Subject>
 
-    var state: DataState
+    private var state: DataState
 
     override val root = vbox()
 
@@ -22,7 +22,7 @@ class CreateDataFragment : Fragment("Добавить элемент") {
         setupInterface()
     }
 
-    fun detectState(): DataState {
+    private fun detectState(): DataState {
         return when (item) {
             is Classroom -> DataState.CLASSROOM
             is StudentClass -> DataState.STUDENT_CLASS
@@ -32,7 +32,7 @@ class CreateDataFragment : Fragment("Добавить элемент") {
         }
     }
 
-    fun setupInterface() {
+    private fun setupInterface() {
         with(root) {
             when (state) {
                 DataState.CLASSROOM -> {

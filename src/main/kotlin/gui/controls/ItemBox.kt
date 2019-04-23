@@ -14,16 +14,16 @@ import java.io.InvalidClassException
  * @param[teachers] List which contain free teachers
  */
 open class ItemBox(
-    var classrooms: MutableList<Classroom>,
-    var subjects: MutableList<Subject>,
-    var teachers: MutableList<Teacher>
+    private var classrooms: MutableList<Classroom>,
+    private var subjects: MutableList<Subject>,
+    private var teachers: MutableList<Teacher>
 ) : ListView<TimetableCell>() {
     /**
      * View states
      */
     enum class ViewState { CLASSROOM_VIEW, SUBJECTS_VIEW, TEACHER_VIEW }
 
-    var viewState: ViewState = ViewState.SUBJECTS_VIEW
+    private var viewState: ViewState = ViewState.SUBJECTS_VIEW
 
     init {
         changeViewState(ViewState.SUBJECTS_VIEW)
@@ -31,7 +31,7 @@ open class ItemBox(
         super.setItems(items)
     }
 
-    fun changeViewState(targetViewState: ViewState) {
+    private fun changeViewState(targetViewState: ViewState) {
         viewState = targetViewState
         items.clear()
         when (targetViewState) {

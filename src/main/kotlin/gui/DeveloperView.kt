@@ -11,6 +11,4 @@ class DeveloperView : View("Меню разработчика") {
     }
 }
 
-class DeveloperController : Controller() {
-
-}
+class DeveloperController : Controller()

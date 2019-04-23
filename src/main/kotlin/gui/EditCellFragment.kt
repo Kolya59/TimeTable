@@ -2,10 +2,10 @@ package gui
 
 import classes.*
 import gui.MainView.ViewState
-import gui.controls.scClassroom
-import gui.controls.scStudentClass
-import gui.controls.scSubject
-import gui.controls.scTeacher
+import gui.controls.ScClassroom
+import gui.controls.ScStudentClass
+import gui.controls.ScSubject
+import gui.controls.ScTeacher
 import javafx.event.EventHandler
 import javafx.scene.control.CheckBox
 import javafx.scene.control.ComboBox
@@ -18,26 +18,26 @@ class EditCellFragment : Fragment("Редактрование даннных о�
     lateinit var lesson: Lesson
 
     // Selected fields
-    lateinit var selectedClassroom: Classroom
-    lateinit var selectedStudentClass: StudentClass
-    lateinit var selectedSubject: Subject
-    lateinit var selectedTeacher: Teacher
+    private lateinit var selectedClassroom: Classroom
+    private lateinit var selectedStudentClass: StudentClass
+    private lateinit var selectedSubject: Subject
+    private lateinit var selectedTeacher: Teacher
 
     // Available values
-    var classrooms: MutableList<Classroom> = emptyList<Classroom>().toMutableList()
-    var studentClasses: MutableList<StudentClass> = emptyList<StudentClass>().toMutableList()
-    var subjects: MutableList<Subject> = emptyList<Subject>().toMutableList()
-    var teachers: MutableList<Teacher> = emptyList<Teacher>().toMutableList()
-    var pinnedFlag: Boolean = false
+    private var classrooms: MutableList<Classroom> = emptyList<Classroom>().toMutableList()
+    private var studentClasses: MutableList<StudentClass> = emptyList<StudentClass>().toMutableList()
+    private var subjects: MutableList<Subject> = emptyList<Subject>().toMutableList()
+    private var teachers: MutableList<Teacher> = emptyList<Teacher>().toMutableList()
+    private var pinnedFlag: Boolean = false
 
     // Controls
-    lateinit var cbClassrooms: ComboBox<Classroom>
-    lateinit var cbStudentClasses: ComboBox<StudentClass>
-    lateinit var cbSubjects: ComboBox<Subject>
-    lateinit var cbTeachers: ComboBox<Teacher>
+    private lateinit var cbClassrooms: ComboBox<Classroom>
+    private lateinit var cbStudentClasses: ComboBox<StudentClass>
+    private lateinit var cbSubjects: ComboBox<Subject>
+    private lateinit var cbTeachers: ComboBox<Teacher>
     lateinit var chbPinned: CheckBox
 
-    lateinit var viewState: ViewState
+    private lateinit var viewState: ViewState
 
     override val root = VBox()
 
@@ -46,7 +46,7 @@ class EditCellFragment : Fragment("Редактрование даннных о�
         setupInterface()
     }
 
-    fun setupCollections() {
+    private fun setupCollections() {
         viewState = params["state"] as ViewState
 
         // Заполнение коллекций
@@ -60,13 +60,13 @@ class EditCellFragment : Fragment("Редактрование даннных о�
         lesson = params["lesson"] as Lesson
     }
 
-    fun setupInterface() {
+    private fun setupInterface() {
         with(root) {
             // String converters
-            val scClassroom = scClassroom()
-            val scStudentClass = scStudentClass()
-            val scSubject = scSubject()
-            val scTeacher = scTeacher()
+            val scClassroom = ScClassroom()
+            val scStudentClass = ScStudentClass()
+            val scSubject = ScSubject()
+            val scTeacher = ScTeacher()
 
             when (viewState) {
                 ViewState.STUDENT_CLASS_VIEW -> {
@@ -139,7 +139,7 @@ class EditCellFragment : Fragment("Редактрование даннных о�
 
             hbox {
                 label("Закрепить")
-                checkbox {
+                chbPinned = checkbox {
                     isSelected = pinnedFlag
                     action {
                         pinnedFlag = isSelected
@@ -170,11 +170,5 @@ class EditCellFragment : Fragment("Редактрование даннных о�
                 }
             }
         }
-    }
-
-    fun setupState(state: ViewState) {
-        viewState = state
-        setupCollections()
-        setupInterface()
     }
 }

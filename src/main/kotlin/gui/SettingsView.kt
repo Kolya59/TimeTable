@@ -6,16 +6,15 @@ import tornadofx.*
 
 // TODO Создать меню настроек
 class SettingsView : View("Настройки интерфейса") {
-    val controller: SettingsController by inject()
+    private val controller: SettingsController by inject()
     override val root = VBox()
 
-    private var marginTopBottom: Double
+    private var marginTopBottom: Double = 5.0
     private var marginLeftRight: Double
 //    var currentStyleSheet: Stylesheet
 
     init {
 //        currentStyleSheet = params["stylesheet"] as Stylesheet
-        marginTopBottom = 5.0
         marginLeftRight = 10.0
         setupInterface()
     }
@@ -120,7 +119,7 @@ class SettingsView : View("Настройки интерфейса") {
                 button {
                     text = "Отмена"
                     action {
-                        controller.onCancel();
+                        controller.onCancel()
                     }
                 }
                 vboxConstraints {
@@ -136,7 +135,7 @@ class SettingsView : View("Настройки интерфейса") {
 }
 
 class SettingsController: Controller() {
-    val view: SettingsView by inject()
+    private val view: SettingsView by inject()
 
     fun onFontSizeChange() {
 

@@ -7,12 +7,12 @@ import java.io.File
 /**
  * Non-fields class for import
  */
-open class Import() {
+open class Import {
     /**
      * Import TimetableGrid from file
      * @param[file] Selected file
      */
-    open class ImportTimetable(val file: File) {
+    open class ImportTimetable(private val file: File) {
         /**
          * Import from JSON
          * @return Imported TimetableGrid
@@ -37,7 +37,7 @@ open class Import() {
      * Import Classrooms from file
      * @param[file] Selected file
      */
-    open class ImportClassroom(val file: File) {
+    open class ImportClassroom(private val file: File) {
         /**
          * Import from JSON
          * @return Imported classroom
@@ -52,7 +52,7 @@ open class Import() {
      * Import Student class from file
      * @param[file] Selected file
      */
-    open class ImportStudentClass(val file: File) {
+    open class ImportStudentClass(private val file: File) {
         /**
          * Import from JSON
          * @return Imported student class
@@ -67,7 +67,7 @@ open class Import() {
      * Import Teacher from file
      * @param[file] Selected file
      */
-    open class ImportTeacher(val file: File) {
+    open class ImportTeacher(private val file: File) {
         /**
          * Import from JSON
          * @return Imported teacher

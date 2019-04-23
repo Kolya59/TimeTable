@@ -1,8 +1,9 @@
 package gui
 
-import classes.*
+import classes.TimeTable
 import javafx.beans.property.StringProperty
 import javafx.event.ActionEvent
+import javafx.scene.control.Label
 import javafx.stage.FileChooser
 import serialization.Import
 import tornadofx.*
@@ -12,14 +13,10 @@ import java.io.File
 // TODO Исправить корректность импорта
 class ImportView : View("Меню импорта") {
     private val controller: ImportController by inject()
-    var currentTimetable: TimeTable = TimeTable(
-        emptyList<Lesson>().toMutableList(),
-        emptyList<Teacher>().toMutableList(),
-        emptyList<Classroom>().toMutableList(),
-        emptyList<StudentClass>().toMutableList(),
-        emptyList<Subject>().toMutableList()
-    )
+    lateinit var currentTimetable: TimeTable
     var currentPath: StringProperty = "Файл не выбран".toProperty()
+
+    var lPath = Label()
 
     override val root = vbox {
         // TODO Выровнять верстку
@@ -38,7 +35,7 @@ class ImportView : View("Меню импорта") {
                 id = "btImport"
                 action {
                     currentTimetable = controller.onImport(ActionEvent())
-                    if (!currentTimetable.lessons.isEmpty())
+                    if (currentTimetable.lessons.isNotEmpty())
                         close()
                 }
                 text = "Импортировать"
@@ -66,9 +63,8 @@ class ImportController : Controller() {
             arrayOf(FileChooser.ExtensionFilter("JSON", "*.json")),
             FileChooserMode.Single
         )
-        if (!files.isEmpty()) {
-            view.currentPath.value = files[0].absolutePath
-        }
+        view.currentPath.value = files.firstOrNull()?.absolutePath
+        view.lPath.text = files.firstOrNull()?.absolutePath
     }
 
     /**

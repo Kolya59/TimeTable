@@ -293,6 +293,7 @@ class MainView : View("Редактор расписания") {
                                                 addClass(TimetableStyleSheet.filledCell)
                                             }
 
+
                                             // Drag-and-Drop
                                             inFlightTimeTableCell.visibleProperty().set(false)
                                             inFlightTimeTableCell.opacity = 0.5
@@ -490,7 +491,7 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO: Saving current TimetableGrid
+     * Saving current TimetableGrid
      */
     fun onSaveMenuClicked() {
         Export.ExportTimetable("currentTimeTable.json", view.currentTimetable).toJSON()
@@ -542,12 +543,14 @@ class MainController : Controller() {
      */
     fun onImportMenuClicked() {
         val importView = ImportView()
-        importView.currentTimetable = view.currentTimetable
         importView.openModal(
             owner = this.view.currentWindow,
             block = true,
             resizable = false
         )
+        clearAll()
+        view.currentTimetable = importView.currentTimetable
+        view.setupInterface()
     }
 
     /**
@@ -563,7 +566,7 @@ class MainController : Controller() {
     }
 
     /**
-     * TODO Opening generator settings menu
+     * Opening generator settings menu
      */
     /*fun onSettingsGeneratorMenuClicked() {}*/
 
@@ -622,7 +625,7 @@ class MainController : Controller() {
 
         val newName: String = args.firstOrNull1 { it is String }.toString()
 
-        return Classroom(newId, newName)
+        return Classroom(newId, if (newName != "null") newName else "")
     }
 
     /**
@@ -636,7 +639,7 @@ class MainController : Controller() {
 
         val newName: String = args.firstOrNull1 { it is String }.toString()
 
-        return StudentClass(newId, newName)
+        return StudentClass(newId, if (newName != "null") newName else "")
     }
 
     /**
@@ -650,7 +653,7 @@ class MainController : Controller() {
 
         val newName: String = args.firstOrNull1 { it is String }.toString()
 
-        return Subject(newId, newName)
+        return Subject(newId, if (newName != "null") newName else "")
     }
 
     /**
@@ -666,7 +669,7 @@ class MainController : Controller() {
 
         return Teacher(
             newId,
-            newName,
+            if (newName != "null") newName else "",
             emptySet<Subject>().toMutableSet()
         )
     }
@@ -998,6 +1001,7 @@ class MainController : Controller() {
      */
     fun loadFromConfig(pathToConfig: String): TimeTable = Import.ImportTimetable(File(pathToConfig)).fromJSON()
 
+    // TODO поправить создание объектов
     /**
      * CRUID classrooms
      */
@@ -1012,7 +1016,7 @@ class MainController : Controller() {
             owner = view.currentWindow,
             block = true
         )
-        if (createDataFragment.savedItem != null) {
+        if (createDataFragment.savedItem != null && (createDataFragment.savedItem as Classroom).name != "") {
             view.currentTimetable.classrooms.add(createDataFragment.savedItem as Classroom)
             clearInterface()
             view.setupInterface()

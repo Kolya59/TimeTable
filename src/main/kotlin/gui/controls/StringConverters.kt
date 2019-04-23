@@ -6,7 +6,7 @@ import classes.Subject
 import classes.Teacher
 import javafx.util.StringConverter
 
-class scClassroom() : StringConverter<Classroom>() {
+class ScClassroom : StringConverter<Classroom>() {
     override fun toString(`object`: Classroom?): String {
         return `object`?.name.toString()
     }
@@ -16,7 +16,7 @@ class scClassroom() : StringConverter<Classroom>() {
     }
 }
 
-class scStudentClass() : StringConverter<StudentClass>() {
+class ScStudentClass : StringConverter<StudentClass>() {
     override fun toString(`object`: StudentClass?): String {
         return `object`?.name.toString()
     }
@@ -26,7 +26,7 @@ class scStudentClass() : StringConverter<StudentClass>() {
     }
 }
 
-class scSubject() : StringConverter<Subject>() {
+class ScSubject : StringConverter<Subject>() {
     override fun toString(`object`: Subject?): String {
         return `object`?.name.toString()
     }
@@ -36,7 +36,7 @@ class scSubject() : StringConverter<Subject>() {
     }
 }
 
-class scTeacher() : StringConverter<Teacher>() {
+class ScTeacher : StringConverter<Teacher>() {
     override fun toString(`object`: Teacher?): String {
         return `object`?.name.toString()
     }

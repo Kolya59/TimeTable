@@ -12,20 +12,14 @@ import tornadofx.removeClass
 
 /**
  * TimetableGrid cell control
- * @param[classroom] Selected classroom
- * @param[subject] Selected subject
- * @param[lesson] Selected lesson
- * @param[studentClass] Selected student class
- * @param[teacher] Selected teacher
- * @param[otherInfo] Other info
  */
 class TimetableCell() : VBox() {
     var classroom: Classroom? = null
     var lesson: Lesson? = null
     var subject: Subject? = null
-    var studentClass: StudentClass? = null
+    private var studentClass: StudentClass? = null
     var teacher: Teacher? = null
-    var otherInfo: Any? = null
+    private var otherInfo: Any? = null
 
     private var lClassroom: Label? = null
     private var lSubject: Label? = null
@@ -46,7 +40,7 @@ class TimetableCell() : VBox() {
      * @param[teacher] Selected teacher
      * @param[otherInfo] Other info
      */
-    fun computeCellType(
+    private fun computeCellType(
         classroom: Classroom?,
         lesson: Lesson?,
         subject: Subject?,
@@ -76,7 +70,7 @@ class TimetableCell() : VBox() {
 
     /**
      * TimetableGrid cell control
-     * @param[subject] Selected subject
+     * @param[lesson] Selected lesson
      */
     constructor(lesson: Lesson) : this() {
         this.lesson = lesson
@@ -90,7 +84,7 @@ class TimetableCell() : VBox() {
 
     /**
      * TimetableGrid cell control
-     * @param[lesson] Selected lesson
+     * @param[subject] Selected subject
      */
     constructor(subject: Subject) : this() {
         this.subject = subject; fillData()
@@ -128,7 +122,7 @@ class TimetableCell() : VBox() {
             CLASSROOM -> {
                 lClassroom = Label(classroom?.name)
                 this.add(lClassroom!!)
-                children.set(0,lClassroom)
+                children[0] = lClassroom
             }
             LESSON -> {
                 lClassroom = Label(lesson?.classroom?.name)
@@ -146,17 +140,17 @@ class TimetableCell() : VBox() {
             SUBJECT -> {
                 lSubject = Label(subject?.name)
                 this.add(lSubject!!)
-                children.set(0,lSubject)
+                children[0] = lSubject
             }
             STUDENT_CLASS -> {
                 lStudentClass = Label(studentClass?.name)
                 this.add(lStudentClass!!)
-                children.set(0,lStudentClass)
+                children[0] = lStudentClass
             }
             TEACHER -> {
                 lTeacher = Label(teacher?.name)
                 this.add(lTeacher!!)
-                children.set(0,lTeacher)
+                children[0] = lTeacher
             }
             OTHER -> {
                 lOtherInfo = if (otherInfo is Label)
@@ -172,14 +166,14 @@ class TimetableCell() : VBox() {
     }
 
     fun getItem(): Any? {
-        when (cellType) {
-            CLASSROOM -> return classroom
-            LESSON -> return lesson
-            SUBJECT -> return subject
-            STUDENT_CLASS -> return studentClass
-            TEACHER -> return teacher
-            OTHER -> return otherInfo
-            else -> return null
+        return when (cellType) {
+            CLASSROOM -> classroom
+            LESSON -> lesson
+            SUBJECT -> subject
+            STUDENT_CLASS -> studentClass
+            TEACHER -> teacher
+            OTHER -> otherInfo
+            else -> null
         }
     }
 

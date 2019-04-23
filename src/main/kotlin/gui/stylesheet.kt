@@ -1,9 +1,9 @@
-
+import javafx.scene.paint.Paint
 import tornadofx.Stylesheet
 import tornadofx.cssclass
 import tornadofx.px
 
-class TimetableStyleSheet() : Stylesheet() {
+class TimetableStyleSheet : Stylesheet() {
     companion object {
         // Timetable
         val columnHeader by cssclass()
@@ -42,7 +42,7 @@ class TimetableStyleSheet() : Stylesheet() {
 
         // Ячейки, в которых есть ошибки
         errorCell {
-
+            backgroundColor.add(Paint.valueOf("red"))
         }
 
         // Ячейка, из которой перетаскивают
