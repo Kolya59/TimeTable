@@ -286,11 +286,37 @@ class MainView : View("Редактор расписания") {
                                                 }
                                             }
 
-                                            repeat(children.filter {
+                                            children.filter {
                                                 it is TimetableCell &&
                                                         it.getItem() is Lesson
-                                            }.size) {
-                                                addClass(TimetableStyleSheet.filledCell)
+                                            }.forEach {
+                                                it.addClass(TimetableStyleSheet.filledCell)
+                                            }
+                                            children.filter { it ->
+                                                it is TimetableCell &&
+                                                        it.getItem() is Lesson &&
+                                                        when (selectedState) {
+                                                            CLASSROOM_VIEW -> children.filter { node ->
+                                                                node is TimetableCell &&
+                                                                        node.getItem() is Lesson &&
+                                                                        (it.getItem() as Lesson).number == (node.getItem() as Lesson).number &&
+                                                                        (it.getItem() as Lesson).classroom == (node.getItem() as Lesson).classroom
+                                                            }.size > 1
+                                                            STUDENT_CLASS_VIEW -> children.filter { node ->
+                                                                node is TimetableCell &&
+                                                                        node.getItem() is Lesson &&
+                                                                        (it.getItem() as Lesson).number == (node.getItem() as Lesson).number &&
+                                                                        (it.getItem() as Lesson).studentClass == (node.getItem() as Lesson).studentClass
+                                                            }.size > 1
+                                                            TEACHER_VIEW -> children.filter { node ->
+                                                                node is TimetableCell &&
+                                                                        node.getItem() is Lesson &&
+                                                                        (it.getItem() as Lesson).number == (node.getItem() as Lesson).number &&
+                                                                        (it.getItem() as Lesson).teacher == (node.getItem() as Lesson).teacher
+                                                            }.size > 1
+                                                        }
+                                            }.forEach {
+                                                it.addClass(TimetableStyleSheet.errorCell)
                                             }
 
 
@@ -758,7 +784,8 @@ class MainController : Controller() {
             }!!.replaceWith(cell)
 
         }
-//        Export.ExportTimetable("currentTimeTable.json", view.currentTimetable).toJSON()
+        clearInterface()
+        view.setupInterface()
     }
 
     /**
@@ -1020,6 +1047,7 @@ class MainController : Controller() {
             view.currentTimetable.classrooms.add(createDataFragment.savedItem as Classroom)
             clearInterface()
             view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
         }
     }
 
@@ -1075,6 +1103,9 @@ class MainController : Controller() {
         )
         if (createDataView.savedItem != null) {
             view.currentTimetable.studentClasses.add(createDataView.savedItem as StudentClass)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
         }
     }
 
@@ -1130,6 +1161,9 @@ class MainController : Controller() {
         )
         if (createDataView.savedItem != null) {
             view.currentTimetable.subjects.add(createDataView.savedItem as Subject)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
         }
     }
 
@@ -1185,6 +1219,9 @@ class MainController : Controller() {
         )
         if (createDataView.savedItem != null) {
             view.currentTimetable.teachers.add(createDataView.savedItem as Teacher)
+            clearInterface()
+            view.setupInterface()
+            view.paneGlobal.selectionModel.select(1)
         }
     }
 

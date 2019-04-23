@@ -2,9 +2,9 @@ package gui
 
 import javafx.event.EventHandler
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import tornadofx.*
 
-// TODO Создать меню настроек
 class SettingsView : View("Настройки интерфейса") {
     private val controller: SettingsController by inject()
     override val root = VBox()
@@ -41,6 +41,7 @@ class SettingsView : View("Настройки интерфейса") {
                 left = label("Цвет шрифта заголовков")
                 right = colorpicker {
                     onAction = EventHandler { controller.onHeaderFontColorChange() }
+                    value = Color.BLACK
                 }
 
                 vboxConstraints {
@@ -53,6 +54,7 @@ class SettingsView : View("Настройки интерфейса") {
                 left = label("Цвет шрифта заполненных ячеек")
                 right = colorpicker {
                     onAction = EventHandler { controller.onFilledCellFontColorChange() }
+                    value = Color.BLACK
                 }
 
                 vboxConstraints {
@@ -61,22 +63,12 @@ class SettingsView : View("Настройки интерфейса") {
                 }
             }
 
-            borderpane {
-                left = label("Цвет шрифта пустых ячеек")
-                right = colorpicker {
-                    onAction = EventHandler { controller.onEmptyCellFontColorChange() }
-                }
-
-                vboxConstraints {
-                    marginTopBottom(marginTopBottom)
-                    marginLeftRight(marginLeftRight)
-                }
-            }
 
             borderpane {
                 left = label("Цвет фона заголовков расписания")
                 right = colorpicker {
                     onAction = EventHandler { controller.onBackgroundColorChange() }
+                    value = Color.WHITE
                 }
 
                 vboxConstraints {
@@ -89,6 +81,7 @@ class SettingsView : View("Настройки интерфейса") {
                 left = label("Цвет фона заполенных ячеек")
                 right = colorpicker {
                     onAction = EventHandler { controller.onFilledCellBackgroundColorChange() }
+                    value = Color.WHITE
                 }
 
                 vboxConstraints {
@@ -101,6 +94,7 @@ class SettingsView : View("Настройки интерфейса") {
                 left = label("Цвет фона пустых ячеек")
                 right = colorpicker {
                     onAction = EventHandler { controller.onEmptyCellBackgroundColorChange() }
+                    value = Color.WHITE
                 }
 
                 vboxConstraints {
